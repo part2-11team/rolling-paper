@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './MainPage.style.js';
 import Button from '../../components/Button';
 import Card1 from '../../assets/icon/card-img1.png';
@@ -7,10 +8,10 @@ import Card3 from '../../assets/icon/card-img3.png';
 import Emoji from '../../assets/icon/Emoji.png';
 
 const MainPage = () => {
+  const navigate = useNavigate();
   function handleMovetoListClick(e) {
     e.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('click');
+    navigate('/list');
   }
 
   return (
