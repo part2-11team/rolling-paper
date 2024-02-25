@@ -6,6 +6,7 @@ import {
   CreatedDate,
   TextWrapper,
   ModalButton,
+  Text,
 } from './Modal.style';
 import {
   Image,
@@ -56,7 +57,9 @@ export const Modal = () => {
             </ProfileModalWrapper>
             <CreatedDate>{formattedDate}</CreatedDate>
           </TopWrapper>
-          <TextWrapper>{cardData.content}</TextWrapper>
+          <TextWrapper>
+            <Text>{cardData.content}</Text>
+          </TextWrapper>
           <ModalButton onClick={handleModalButton}>확인</ModalButton>
         </Wrapper>
       )}

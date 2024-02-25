@@ -42,7 +42,28 @@ export const TextWrapper = styled.div`
   line-height: 28px;
   color: #5a5a5a;
   padding-top: 16px;
-  overflow: scroll;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    margin-top: 16px;
+    background: #ffffff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 8px;
+    height: 100px;
+  }
+`;
+
+export const Text = styled.p`
+  display: block;
+  width: 500px;
 `;
 
 export const ModalButton = styled.button`

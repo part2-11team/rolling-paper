@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   border-radius: 16px;
   padding: 28px 24px;
   cursor: pointer;
+  background-color: #ffffff;
 
   @media (max-width: 1248px) {
     width: auto;

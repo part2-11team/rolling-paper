@@ -40,7 +40,10 @@ export const MessageCard = ({ cardData }) => {
   const handleMouseOut = () => {
     handleCurrentHoverCard(-1);
   };
-
+  const handleClickDeleteButton = (e) => {
+    e.stopPropagation();
+    alert('삭제 버튼');
+  };
   return (
     <Wrapper
       onClick={handleCardWrapper}
@@ -66,7 +69,7 @@ export const MessageCard = ({ cardData }) => {
           </ProfileWrapper>
         </FlexWrapper>
         {currentHoverCard === cardData.id && (
-          <DeleteButton>
+          <DeleteButton onClick={handleClickDeleteButton}>
             <DeleteIcon
               src={Deleted}
               alt="delete"

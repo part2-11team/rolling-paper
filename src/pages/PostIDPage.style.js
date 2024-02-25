@@ -10,13 +10,14 @@ const BADGE = {
 export const Header = styled.div`
   width: 100%;
   height: 133px;
-  background-color: blue;
+  background-color: white;
 `;
 
 export const PageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: fit-content;
+  background-color: #ffe2ad;
 `;
 
 export const ModalBackground = styled.div`
@@ -39,7 +40,7 @@ export const MessageWrapper = styled.div`
 
   @media (max-width: 1248px) {
     width: auto;
-    margin: 113px 24px;
+    padding: 113px 24px;
   }
   @media (max-width: 1200px) {
     grid-template-columns: 1fr 1fr;
