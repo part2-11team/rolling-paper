@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -46,10 +46,12 @@ export const TextWrapper = styled.div`
 `;
 
 export const ModalButton = styled.button`
+  box-sizing: border-box;
   position: absolute;
   top: 396px;
   left: 240px;
   width: 120px;
+  height: 40px;
   border-radius: 6px;
   padding: 7px 16px;
   background-color: #9935ff;
@@ -58,4 +60,17 @@ export const ModalButton = styled.button`
   font-size: 16px;
   line-height: 26px;
   text-align: center;
+
+  &:hover {
+    background-color: #861dee;
+  }
+
+  &:pressed {
+    background-color: #6e0ad1;
+  }
+
+  &:focus {
+    border: 2px solid #5603a7;
+    background-color: #6e0ad1;
+  }
 `;

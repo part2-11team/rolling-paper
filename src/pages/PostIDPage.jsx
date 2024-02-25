@@ -24,6 +24,7 @@ const DEFAULT = {
 export default function PostIDPage() {
   //데이터 받아서 context에 저장
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
+  const [currentHoverCard, setCurrentHoverCard] = useState(null);
 
   const handleCurrentCardData = (cardData = null) => {
     if (currentCardData.id) {
@@ -31,6 +32,10 @@ export default function PostIDPage() {
     } else {
       setCurrentCardData(cardData);
     }
+  };
+
+  const handleCurrentHoverCard = (id) => {
+    setCurrentHoverCard(id);
   };
 
   const SAMPLEDATA = [
@@ -52,7 +57,7 @@ export default function PostIDPage() {
       sender: '김하은',
       profileImageURL:
         'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '가족',
+      relationship: '친구',
       content: '열심히 일하는 모습 멋있습니다.',
       font: 'Pretendard',
       createdAt: '2023-11-01T08:05:25.399056Z',
@@ -63,7 +68,7 @@ export default function PostIDPage() {
       sender: '김하은',
       profileImageURL:
         'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '가족',
+      relationship: '동료',
       content: '열심히 일하는 모습 멋있습니다.',
       font: 'Pretendard',
       createdAt: '2023-11-01T08:05:25.399056Z',
@@ -74,7 +79,7 @@ export default function PostIDPage() {
       sender: '김하은',
       profileImageURL:
         'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '가족',
+      relationship: '지인',
       content: '열심히 일하는 모습 멋있습니다.',
       font: 'Pretendard',
       createdAt: '2023-11-01T08:05:25.399056Z',
@@ -106,7 +111,13 @@ export default function PostIDPage() {
   return (
     <PageWrapper>
       <PostIDContext.Provider
-        value={{ SAMPLEDATA, currentCardData, handleCurrentCardData }}
+        value={{
+          SAMPLEDATA,
+          currentCardData,
+          handleCurrentCardData,
+          currentHoverCard,
+          handleCurrentHoverCard,
+        }}
       >
         <Header></Header>
         <MessageWrapper>

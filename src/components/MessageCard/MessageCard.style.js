@@ -12,14 +12,18 @@ export const Wrapper = styled.div`
   @media (max-width: 1248px) {
     width: auto;
   }
+
+  &:hover {
+    border: 1px solid #cccccc;
+  }
 `;
 
 export const TopWrapper = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #eeeeee;
-  gap: 14px;
   padding: 0 0 15px;
+  justify-content: space-between;
 `;
 
 export const Image = styled.img`
@@ -77,4 +81,22 @@ export const CreatedDate = styled.div`
   font-size: 12px;
   line-height: 18px;
   color: #999999;
+`;
+
+export const DeleteButton = styled.button`
+  width: 40px;
+  height: 40px;
+  padding: auto;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+`;
+
+export const DeleteIcon = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  gap: 14px;
 `;
