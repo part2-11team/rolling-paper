@@ -54,8 +54,6 @@ export const ProfileName = styled(ProfileText)`
 
 export const TextWrapper = styled.div`
   margin-top: 15px;
-  width: 336px;
-  height: 84px;
   text-overflow: ellipsis;
   overflow: hidden;
   font-size: 18px;

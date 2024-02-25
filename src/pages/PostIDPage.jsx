@@ -1,13 +1,29 @@
-import React from 'react';
-import { MessageWrapper } from './PostIDPage.style';
+/*eslint-disable */
+import React, { useState } from 'react';
+import {
+  PageWrapper,
+  MessageWrapper,
+  ModalBackground,
+  Header,
+} from './PostIDPage.style';
 import { MessageCard } from '../components/MessageCard/MessageCard';
 import { PostIDContext } from '../context/PostIDContext';
+import { Modal } from '../components/Modal/Modal';
 export default function PostIDPage() {
   //데이터 받아서 context에 저장
+  const [currentCardData, setCurrentCardData] = useState(25);
+
+  const handleCurrentCardData = (cardData = null) => {
+    if (currentCardData) {
+      setCurrentCardData(null);
+    } else {
+      setCurrentCardData(cardData);
+    }
+  };
 
   const SAMPLEDATA = [
     {
-      id: 32,
+      id: 27,
       recipientId: 2,
       sender: '김하은',
       profileImageURL:
@@ -19,7 +35,7 @@ export default function PostIDPage() {
       createdAt: '2023-11-01T08:05:25.399056Z',
     },
     {
-      id: 32,
+      id: 28,
       recipientId: 2,
       sender: '김하은',
       profileImageURL:
@@ -30,7 +46,7 @@ export default function PostIDPage() {
       createdAt: '2023-11-01T08:05:25.399056Z',
     },
     {
-      id: 32,
+      id: 29,
       recipientId: 2,
       sender: '김하은',
       profileImageURL:
@@ -41,7 +57,7 @@ export default function PostIDPage() {
       createdAt: '2023-11-01T08:05:25.399056Z',
     },
     {
-      id: 32,
+      id: 30,
       recipientId: 2,
       sender: '김하은',
       profileImageURL:
@@ -52,7 +68,7 @@ export default function PostIDPage() {
       createdAt: '2023-11-01T08:05:25.399056Z',
     },
     {
-      id: 32,
+      id: 31,
       recipientId: 2,
       sender: '김하은',
       profileImageURL:
@@ -76,10 +92,20 @@ export default function PostIDPage() {
   ];
 
   return (
-    <PostIDContext.Provider value={{ SAMPLEDATA }}>
-      <MessageWrapper>
-        <MessageCard cardData={SAMPLEDATA[0]}></MessageCard>
-      </MessageWrapper>
-    </PostIDContext.Provider>
+    <PageWrapper>
+      <PostIDContext.Provider
+        value={{ SAMPLEDATA, currentCardData, handleCurrentCardData }}
+      >
+        <Header></Header>
+        <MessageWrapper>
+          {SAMPLEDATA.map((cardData) => (
+            <MessageCard cardData={cardData} key={cardData.id}></MessageCard>
+          ))}
+        </MessageWrapper>
+      </PostIDContext.Provider>
+      <ModalBackground $currentCardData={currentCardData}>
+        <Modal></Modal>
+      </ModalBackground>
+    </PageWrapper>
   );
 }

@@ -7,22 +7,45 @@ const BADGE = {
   지인: { color: '#ff8832', background: '#fff0d6' },
 };
 
+export const Header = styled.div`
+  width: 100%;
+  height: 133px;
+  background-color: blue;
+`;
+
+export const PageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: fit-content;
+`;
+
+export const ModalBackground = styled.div`
+  display: ${({ $currentCardData }) => ($currentCardData ? 'block' : 'none')};
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+`;
+
 export const MessageWrapper = styled.div`
   display: grid;
   width: 1200px;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
-  margin: 113px auto;
+  padding: 113px 0;
+  margin: 0 auto;
 
   @media (max-width: 1248px) {
     width: auto;
     margin: 113px 24px;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     grid-template-columns: 1fr 1fr;
   }
 
-  @media (max-width: 360px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
 `;
