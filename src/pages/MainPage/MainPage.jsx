@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './MainPage.style.js';
-import Button from '../../components/Button';
+import Button from '../../components/MainButton';
 import Card1 from '../../assets/icon/card-img1.png';
 import Card2 from '../../assets/icon/card-img2.png';
 import Card3 from '../../assets/icon/card-img3.png';
