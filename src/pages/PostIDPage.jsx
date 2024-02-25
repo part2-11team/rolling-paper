@@ -9,13 +9,25 @@ import {
 import { MessageCard } from '../components/MessageCard/MessageCard';
 import { PostIDContext } from '../context/PostIDContext';
 import { Modal } from '../components/Modal/Modal';
+
+const DEFAULT = {
+  id: null,
+  recipientId: null,
+  sender: null,
+  profileImageURL: null,
+  relationship: null,
+  content: null,
+  font: null,
+  createdAt: null,
+};
+
 export default function PostIDPage() {
   //데이터 받아서 context에 저장
-  const [currentCardData, setCurrentCardData] = useState(25);
+  const [currentCardData, setCurrentCardData] = useState(DEFAULT);
 
   const handleCurrentCardData = (cardData = null) => {
-    if (currentCardData) {
-      setCurrentCardData(null);
+    if (currentCardData.id) {
+      setCurrentCardData(DEFAULT);
     } else {
       setCurrentCardData(cardData);
     }
@@ -102,10 +114,10 @@ export default function PostIDPage() {
             <MessageCard cardData={cardData} key={cardData.id}></MessageCard>
           ))}
         </MessageWrapper>
+        <ModalBackground $currentCardData={currentCardData.id}>
+          <Modal></Modal>
+        </ModalBackground>
       </PostIDContext.Provider>
-      <ModalBackground $currentCardData={currentCardData}>
-        <Modal></Modal>
-      </ModalBackground>
     </PageWrapper>
   );
 }

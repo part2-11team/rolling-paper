@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   TextWrapper,
   TopWrapper,
@@ -11,8 +11,10 @@ import {
   CreatedDate,
 } from './MessageCard.style';
 import { MessageCardBadge } from '../../pages/PostIDPage.style';
+import { PostIDContext } from '../../context/PostIDContext';
 
 export const MessageCard = ({ cardData }) => {
+  const { handleCurrentCardData } = useContext(PostIDContext);
   const createDate = new Date(cardData.createdAt);
   const formattedDate = createDate
     .toLocaleDateString('ko-KR', {
@@ -22,8 +24,11 @@ export const MessageCard = ({ cardData }) => {
     })
     .replace(/\s/g, '')
     .slice(0, -1);
+  const handleCardWrapper = () => {
+    handleCurrentCardData(cardData);
+  };
   return (
-    <Wrapper>
+    <Wrapper onClick={handleCardWrapper}>
       <TopWrapper>
         <Image
           src={cardData.profileImageURL}
