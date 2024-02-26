@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 const BADGE = {
-  가족: { color: '#2ba600', background: '#e4fbdc' },
-  동료: { color: '#9935ff', background: '#f8f0ff' },
-  친구: { color: '#00a2fe', background: '#e2f5ff' },
-  지인: { color: '#ff8832', background: '#fff0d6' },
+  가족: { color: COLORS.GREEN_500, background: COLORS.GREEN_100 },
+  동료: { color: COLORS.PURPLE_600, background: COLORS.PURPLE_100 },
+  친구: { color: COLORS.BLUE_500, background: COLORS.BLUE_100 },
+  지인: { color: COLORS.ORANGE_500, background: COLORS.ORANGE_100 },
 };
 
 export const Badge = styled.div`

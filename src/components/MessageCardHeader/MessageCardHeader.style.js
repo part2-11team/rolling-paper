@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid ${COLORS.GRAY_200};
   padding: 0 0 15px;
   justify-content: space-between;
 `;
@@ -12,7 +13,7 @@ export const Image = styled.img`
   width: 56px;
   height: 56px;
   border-radius: 100px;
-  border: 1px solid #ffffff;
+  border: 1px solid ${COLORS.WHITE};
 `;
 
 export const ProfileWrapper = styled.div`
@@ -32,7 +33,7 @@ export const FlexWrapper = styled.div`
 
 const ProfileText = styled.p`
   font-size: 20px;
-  color: #000000;
+  color: ${COLORS.BLACK};
   line-height: 24px;
 `;
 

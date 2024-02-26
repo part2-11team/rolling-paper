@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -8,14 +9,14 @@ export const Wrapper = styled.div`
   border-radius: 16px;
   padding: 28px 24px;
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: ${COLORS.WHITE};
 
   @media (max-width: 1248px) {
     width: auto;
   }
 
   &:hover {
-    border: 1px solid #cccccc;
+    border: 1px solid ${COLORS.GRAY_300};
   }
 `;
 
@@ -24,7 +25,7 @@ export const TextWrapper = styled.div`
   overflow: hidden;
   font-size: 18px;
   font-weight: 400;
-  color: #4a4a4a;
+  color: ${COLORS.GRAY_600};
   line-height: 28px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -41,14 +42,14 @@ export const CreatedDate = styled.div`
   font-size: 12px;
   line-height: 18px;
   color: #999999;
-  background-color: #ffffff;
+  background-color: ${COLORS.WHITE};
 `;
 
 export const DeleteButton = styled.button`
   width: 40px;
   height: 40px;
   padding: auto;
-  border: 1px solid #cccccc;
+  border: 1px solid ${COLORS.GRAY_300};
   border-radius: 6px;
 `;
 

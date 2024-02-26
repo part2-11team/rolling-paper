@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 export const Wrapper = styled.div`
   position: fixed;
@@ -8,7 +9,7 @@ export const Wrapper = styled.div`
   padding: 40px 39px;
   width: 600px;
   height: 476px;
-  background-color: #ffffff;
+  background-color: ${COLORS.WHITE};
   box-shadow: 0px 2px 12px 0px rgb(0, 0, 0, 0.08);
   border-radius: 16px;
 `;
@@ -17,7 +18,7 @@ export const CreatedDate = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #999999;
+  color: ${COLORS.GRAY_400};
 `;
 
 export const TextWrapper = styled.div`
@@ -37,11 +38,11 @@ export const TextWrapper = styled.div`
 
   &::-webkit-scrollbar-track {
     margin-top: 16px;
-    background: #ffffff;
+    background: ${COLORS.WHITE};
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #cccccc;
+    background-color: ${COLORS.GRAY_300};
     border-radius: 8px;
     height: 100px;
   }
@@ -61,23 +62,23 @@ export const ModalButton = styled.button`
   height: 40px;
   border-radius: 6px;
   padding: 7px 16px;
-  background-color: #9935ff;
-  color: #ffffff;
+  background-color: ${COLORS.PURPLE_600};
+  color: ${COLORS.WHITE};
   font-weight: 400;
   font-size: 16px;
   line-height: 26px;
   text-align: center;
 
   &:hover {
-    background-color: #861dee;
+    background-color: ${COLORS.PURPLE_700};
   }
 
   &:pressed {
-    background-color: #6e0ad1;
+    background-color: ${COLORS.PURPLE_800};
   }
 
   &:focus {
-    border: 2px solid #5603a7;
-    background-color: #6e0ad1;
+    border: 2px solid ${COLORS.PURPLE_900};
+    background-color: ${COLORS.PURPLE_800};
   }
 `;

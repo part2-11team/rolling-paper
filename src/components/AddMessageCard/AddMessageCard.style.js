@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -8,14 +9,14 @@ export const Wrapper = styled.div`
   border-radius: 16px;
   padding: 28px 24px;
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: ${COLORS.WHITE};
 
   @media (max-width: 1248px) {
     width: auto;
   }
 
   &:hover {
-    border: 1px solid #cccccc;
+    border: 1px solid ${COLORS.GRAY_300};
   }
 `;
 
