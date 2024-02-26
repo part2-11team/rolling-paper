@@ -36,11 +36,49 @@ export const PostMessageContentHeader = styled.div`
   letter-spacing: -0.24px;
 `;
 
-export const PostMessageSeletePic = styled.div`
+export const SeletePictureContain = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+`;
+
+export const SeletedPicture = styled.img`
+  display: flex;
+  padding: 24px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 100px;
+  background: #ccc;
+`;
+export const SeletePictureListContain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+`;
+export const SeletePictureListInfo = styled.div`
+  color: #555;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.16px;
+`;
+
+export const SeletePictureList = styled.div`
+  width: 605px;
+  height: 56px;
+`;
+export const SeletePictures = styled.div`
+  display: flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 100px;
+  border: 1px solid #eee;
+  background: #fff;
 `;
 
 export const PostMessageDropdownList = styled.div`
@@ -57,7 +95,7 @@ export const PostMessageDropdownListButton = styled.button`
   gap: 189px;
   border-radius: 8px;
   border: 2px solid #555;
-  color: var(--gray-900, #181818);
+  color: #181818;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -88,11 +126,11 @@ export const DropdownListContentOption = styled.div`
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  color: var(--gray-900, #181818);
+  color: #181818;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 26px; /* 162.5% */
+  line-height: 26px;
   letter-spacing: -0.16px;
   &:hover {
     background-color: #f1f1f1;
@@ -100,12 +138,12 @@ export const DropdownListContentOption = styled.div`
 `;
 
 export const DropdownListContentOptionText = styled.p`
-  color: var(--gray-900, #181818);
+  color: #181818;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 26px; /* 162.5% */
+  line-height: 26px;
   letter-spacing: -0.16px;
   }
 `;
