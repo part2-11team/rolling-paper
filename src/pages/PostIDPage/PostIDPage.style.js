@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { COLORS } from '../style/colorPalette';
+import { COLORS } from '../../style/colorPalette';
 
 export const Header = styled.div`
   width: 100%;

@@ -12,6 +12,13 @@ export const Wrapper = styled.div`
   background-color: ${COLORS.WHITE};
   box-shadow: 0px 2px 12px 0px rgb(0, 0, 0, 0.08);
   border-radius: 16px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    min-width: 330px;
+    left: 0%;
+    transform: translate(0%, -50%);
+  }
 `;
 
 export const CreatedDate = styled.div`
@@ -57,7 +64,8 @@ export const ModalButton = styled.button`
   box-sizing: border-box;
   position: absolute;
   top: 396px;
-  left: 240px;
+  left: 50%;
+  transform: translate(-50%, 0);
   width: 120px;
   height: 40px;
   border-radius: 6px;

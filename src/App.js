@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import GlobalStyle from './style/GlobalStyle';
-import PostIDPage from './pages/PostIDPage';
+import PostIDPage from './pages/PostIDPage/PostIDPage';
 import React from 'react';
-import PaperListPage from './pages/PaperListPage';
+import PaperListPage from './pages/PaperListPage/PaperListPage';
 
 function App() {
   return (
