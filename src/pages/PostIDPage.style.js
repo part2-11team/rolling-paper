@@ -1,16 +1,17 @@
 import { styled } from 'styled-components';
+import { COLORS } from '../style/colorPalette';
 
 export const Header = styled.div`
   width: 100%;
   height: 133px;
-  background-color: white;
+  background-color: ${COLORS.WHITE};
 `;
 
 export const PageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: fit-content;
-  background-color: #ffe2ad;
+  background-color: ${COLORS.ORANGE_200};
 `;
 
 export const ModalBackground = styled.div`
