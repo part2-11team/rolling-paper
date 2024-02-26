@@ -1,24 +1,53 @@
-import React from 'react';
+/* eslint-disable no-console */
+import React, { useState } from 'react';
 import * as S from './PaperListPage.style';
-import { useState } from 'react';
+import useRequest from './useRequest';
 import { Link } from 'react-router-dom';
 import PaperCard from '../../components/PaperCard';
 import ArrowButton from '../../components/ArrowButton';
+import mock from './mock.js';
 
 const PaperListPage = () => {
+  const { data: recentPaper, isLoading: isLoadingRecent } = useRequest({
+    options: {
+      url: 'recipients/',
+      method: 'get',
+    },
+  });
+
+  const { data: popularPaper, isLoading: isLoadingPopular } = useRequest({
+    options: {
+      url: 'recipients/',
+      method: 'get',
+      params: {
+        sort: 'like',
+      },
+    },
+  });
+
+  console.log(popularPaper);
+  console.log(recentPaper);
+
   return (
-    <S.Container>
-      <PaperSection
-        title="인기 롤링 페이퍼 🔥"
-        papers="인기"
-        isLoading="loadingPoppular"
-      />
-      <PaperSection
-        title="최근에 만든 롤링 페이퍼⭐️"
-        papers="최근"
-        isLoading="isLoadingRecent"
-      />
-    </S.Container>
+    <>
+      <S.Container>
+        <PaperSection
+          title="인기 롤링 페이퍼 🔥"
+          papers={mock}
+          isLoading={isLoadingPopular}
+        />
+        <PaperSection
+          title="최근에 만든 롤링 페이퍼⭐️"
+          papers={mock}
+          isLoading={isLoadingRecent}
+        />
+      </S.Container>
+      <S.ButtonContainer>
+        <Link to="/post">
+          <S.StyledButton size="lg">나도 만들어보기</S.StyledButton>
+        </Link>
+      </S.ButtonContainer>
+    </>
   );
 };
 
