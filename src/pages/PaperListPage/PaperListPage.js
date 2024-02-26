@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PaperListPage = () => {
-  return <div>PaperListPage</div>;
+  return <div>PaperList</div>;
 };
 
 export default PaperListPage;
