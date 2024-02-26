@@ -55,7 +55,7 @@ export default function PostIDPage() {
         'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
       relationship: '친구',
       content: '열심히 일하는 모습 멋있습니다.',
-      font: 'Pretendard',
+      font: null,
       createdAt: '2023-11-01T08:05:25.399056Z',
     },
     {
@@ -66,7 +66,7 @@ export default function PostIDPage() {
         'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
       relationship: '동료',
       content: '열심히 일하는 모습 멋있습니다.',
-      font: 'Pretendard',
+      font: 'Noto Sans',
       createdAt: '2023-11-01T08:05:25.399056Z',
     },
     {

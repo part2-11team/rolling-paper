@@ -27,7 +27,7 @@ export const Modal = () => {
             Component={CreatedDateComponent}
           ></MessageCardHeader>
           <TextWrapper>
-            <Text>{cardData.content}</Text>
+            <Text $font={cardData.font}>{cardData.content}</Text>
           </TextWrapper>
           <ModalButton onClick={handleModalButton}>확인</ModalButton>
         </Wrapper>

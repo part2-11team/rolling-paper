@@ -38,6 +38,7 @@ export const CreatedDate = styled.div`
   left: 24px;
   width: 60px;
   height: 18px;
+  font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;

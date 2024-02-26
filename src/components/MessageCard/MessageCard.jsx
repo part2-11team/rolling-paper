@@ -55,7 +55,7 @@ export const MessageCard = ({ cardData }) => {
         cardData={cardData}
         Component={DeleteButtonComponent}
       ></MessageCardHeader>
-      <TextWrapper>{cardData.content}</TextWrapper>
+      <TextWrapper $font={cardData.font}>{cardData.content}</TextWrapper>
       <CreatedDate>{formattedDate}</CreatedDate>
     </Wrapper>
   );

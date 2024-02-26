@@ -58,6 +58,7 @@ export const TextWrapper = styled.div`
 export const Text = styled.p`
   display: block;
   width: 500px;
+  font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
 `;
 
 export const ModalButton = styled.button`
