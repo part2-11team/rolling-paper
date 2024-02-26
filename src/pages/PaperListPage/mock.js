@@ -9,8 +9,52 @@ const mock = {
       backgroundColor: 'green',
       backgroundImageURL: null,
       createdAt: '2023-12-04T01:45:16.017197Z',
-      messageCount: 2,
+      messageCount: 5,
       recentMessages: [
+        {
+          id: 2637,
+          recipientId: 826,
+          sender: 'test user10',
+          profileImageURL:
+            'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
+          relationship: '지인',
+          content: '테스트',
+          font: '나눔명조',
+          createdAt: '2023-12-04T01:45:34.074951Z',
+        },
+        {
+          id: 2637,
+          recipientId: 826,
+          sender: 'test user10',
+          profileImageURL:
+            'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
+          relationship: '지인',
+          content: '테스트',
+          font: '나눔명조',
+          createdAt: '2023-12-04T01:45:34.074951Z',
+        },
+        {
+          id: 2637,
+          recipientId: 826,
+          sender: 'test user10',
+          profileImageURL:
+            'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
+          relationship: '지인',
+          content: '테스트',
+          font: '나눔명조',
+          createdAt: '2023-12-04T01:45:34.074951Z',
+        },
+        {
+          id: 2637,
+          recipientId: 826,
+          sender: 'test user10',
+          profileImageURL:
+            'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
+          relationship: '지인',
+          content: '테스트',
+          font: '나눔명조',
+          createdAt: '2023-12-04T01:45:34.074951Z',
+        },
         {
           id: 2637,
           recipientId: 826,
@@ -24,7 +68,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 28,
+          emoji: '🎀',
+          count: 14,
+        },
+        {
+          id: 31,
+          emoji: '💞',
+          count: 11,
+        },
+        {
+          id: 27,
+          emoji: '⭐️',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -47,7 +107,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '😀',
+          count: 14,
+        },
+        {
+          id: 31,
+          emoji: '🥹',
+          count: 11,
+        },
+        {
+          id: 27,
+          emoji: '😀',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -70,7 +146,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🎀',
+          count: 3,
+        },
+        {
+          id: 31,
+          emoji: '💜',
+          count: 12,
+        },
+        {
+          id: 27,
+          emoji: '🧡',
+          count: 22,
+        },
+      ],
     },
     {
       id: 826,
@@ -78,8 +170,19 @@ const mock = {
       backgroundColor: 'blue',
       backgroundImageURL: null,
       createdAt: '2023-12-04T01:45:16.017197Z',
-      messageCount: 1,
+      messageCount: 2,
       recentMessages: [
+        {
+          id: 2637,
+          recipientId: 826,
+          sender: 'test user10',
+          profileImageURL:
+            'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
+          relationship: '지인',
+          content: '테스트',
+          font: '나눔명조',
+          createdAt: '2023-12-04T01:45:34.074951Z',
+        },
         {
           id: 2637,
           recipientId: 826,
@@ -93,7 +196,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🥹',
+          count: 143,
+        },
+        {
+          id: 31,
+          emoji: '💞',
+          count: 1,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -116,7 +235,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '📝',
+          count: 1,
+        },
+        {
+          id: 31,
+          emoji: '📍',
+          count: 1,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -139,7 +274,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🥹',
+          count: 3,
+        },
+        {
+          id: 31,
+          emoji: '⭐️',
+          count: 10,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -162,7 +313,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🩵',
+          count: 1,
+        },
+        {
+          id: 31,
+          emoji: '📸',
+          count: 10,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 4,
+        },
+      ],
     },
     {
       id: 826,
@@ -185,7 +352,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🥹',
+          count: 143,
+        },
+        {
+          id: 31,
+          emoji: '💞',
+          count: 1,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -208,7 +391,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🥹',
+          count: 143,
+        },
+        {
+          id: 31,
+          emoji: '💞',
+          count: 1,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 14,
+        },
+      ],
     },
     {
       id: 826,
@@ -231,7 +430,23 @@ const mock = {
         },
       ],
       reactionCount: 0,
-      topReactions: [],
+      topReactions: [
+        {
+          id: 27,
+          emoji: '🥹',
+          count: 143,
+        },
+        {
+          id: 31,
+          emoji: '💞',
+          count: 1,
+        },
+        {
+          id: 27,
+          emoji: '❓',
+          count: 14,
+        },
+      ],
     },
   ],
 };
