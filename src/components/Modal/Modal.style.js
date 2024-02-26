@@ -13,20 +13,6 @@ export const Wrapper = styled.div`
   border-radius: 16px;
 `;
 
-export const TopWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #eeeeee;
-  gap: 14px;
-  padding: 0 0 15px;
-`;
-
-export const ProfileModalWrapper = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
 export const CreatedDate = styled.div`
   font-weight: 400;
   font-size: 14px;

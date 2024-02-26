@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Wrapper } from '../MessageCard/MessageCard.style';
-import { AddButtonIcon } from './AddMessageCard.style';
+import {
+  Wrapper,
+  AddButtonIcon,
+  AddButtonWrapper,
+} from './AddMessageCard.style';
 import AddMessageEnabled from '../../assets/icon/AddMessageEnabled.png';
 import AddMessageFocus from '../../assets/icon/AddMessageFocus.png';
 import AddMessageHover from '../../assets/icon/AddMessageHover.png';
@@ -26,7 +29,14 @@ export const AddMessageCard = () => {
       onMouseOut={handleMouseOut}
       onMouseDown={handleMouseDown}
     >
-      <AddButtonIcon $image={image}></AddButtonIcon>
+      <AddButtonWrapper>
+        <AddButtonIcon
+          src={image}
+          alt="추가 버튼"
+          width={56}
+          height={56}
+        ></AddButtonIcon>
+      </AddButtonWrapper>
     </Wrapper>
   );
 };

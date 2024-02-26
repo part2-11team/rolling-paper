@@ -1,21 +1,23 @@
 import React, { useContext } from 'react';
 import {
   TextWrapper,
-  TopWrapper,
+  //TopWrapper,
   Wrapper,
-  Image,
-  ProfileWrapper,
-  ProfileTextHead,
-  ProfileName,
-  ProfileTextWrapper,
+  //Image,
+  //ProfileWrapper,
+  //ProfileTextHead,
+  //ProfileName,
+  //ProfileTextWrapper,
   CreatedDate,
   DeleteButton,
   DeleteIcon,
-  FlexWrapper,
+  //FlexWrapper,
 } from './MessageCard.style';
-import { MessageCardBadge } from '../../pages/PostIDPage.style';
+//import { CardBadage } from '../CardBadage/CardBadage';
 import { PostIDContext } from '../../context/PostIDContext';
 import Deleted from '../../assets/icon/Deleted.png';
+
+import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
 
 export const MessageCard = ({ cardData }) => {
   const { currentHoverCard, handleCurrentCardData, handleCurrentHoverCard } =
@@ -44,41 +46,32 @@ export const MessageCard = ({ cardData }) => {
     e.stopPropagation();
     alert('삭제 버튼');
   };
+
+  const DeleteButtonComponent = () => {
+    if (currentHoverCard === cardData.id) {
+      return (
+        <DeleteButton onClick={handleClickDeleteButton}>
+          <DeleteIcon
+            src={Deleted}
+            alt="delete"
+            width={24}
+            height={24}
+          ></DeleteIcon>
+        </DeleteButton>
+      );
+    }
+    return <></>;
+  };
   return (
     <Wrapper
       onClick={handleCardWrapper}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
-      <TopWrapper>
-        <FlexWrapper>
-          <Image
-            src={cardData.profileImageURL}
-            alt="프로필 이미지"
-            width={56}
-            height={56}
-          ></Image>
-          <ProfileWrapper>
-            <ProfileTextWrapper>
-              <ProfileTextHead>From.</ProfileTextHead>
-              <ProfileName>{cardData.sender}</ProfileName>
-            </ProfileTextWrapper>
-            <MessageCardBadge $type={cardData.relationship}>
-              {cardData.relationship}
-            </MessageCardBadge>
-          </ProfileWrapper>
-        </FlexWrapper>
-        {currentHoverCard === cardData.id && (
-          <DeleteButton onClick={handleClickDeleteButton}>
-            <DeleteIcon
-              src={Deleted}
-              alt="delete"
-              width={24}
-              height={24}
-            ></DeleteIcon>
-          </DeleteButton>
-        )}
-      </TopWrapper>
+      <MessageCardHeader
+        cardData={cardData}
+        Component={DeleteButtonComponent}
+      ></MessageCardHeader>
       <TextWrapper>{cardData.content}</TextWrapper>
       <CreatedDate>{formattedDate}</CreatedDate>
     </Wrapper>
