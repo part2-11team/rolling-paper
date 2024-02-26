@@ -6,6 +6,7 @@ import PatternPurple from '../../assets/icon/pattern_purple.svg';
 import PatternBeige from '../../assets/icon/pattern_beige.svg';
 import PatternBlue from '../../assets/icon/pattern_blue.svg';
 import PatternGreen from '../../assets/icon/pattern_green.svg';
+/* eslint-disable no-console */
 
 const BACKGROUND = {
   purple: { color: 'PURPLE_200', pattern: PatternPurple },
@@ -23,6 +24,8 @@ const PaperCard = ({ data = {}, slideIndex = 0 }) => {
     topReactions,
     recentMessages,
   } = data;
+
+  console.log(data);
 
   const fromImgUrls = [
     recentMessages?.[0]?.profileImageURL,
