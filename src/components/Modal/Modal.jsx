@@ -1,11 +1,5 @@
 import React, { useContext } from 'react';
-import {
-  Wrapper,
-  CreatedDate,
-  TextWrapper,
-  ModalButton,
-  Text,
-} from './Modal.style';
+import * as S from './Modal.style';
 import { MessageCardHeader, PostIDContext, getFormattedDate } from './index';
 
 export const Modal = () => {
@@ -16,21 +10,21 @@ export const Modal = () => {
   };
   const CreatedDateComponent = () => {
     const formattedDate = getFormattedDate(cardData.createdAt);
-    return <CreatedDate>{formattedDate}</CreatedDate>;
+    return <S.CreatedDate>{formattedDate}</S.CreatedDate>;
   };
   return (
     <>
       {cardData.id && (
-        <Wrapper>
+        <S.Wrapper>
           <MessageCardHeader
             cardData={cardData}
             Component={CreatedDateComponent}
           ></MessageCardHeader>
-          <TextWrapper>
-            <Text $font={cardData.font}>{cardData.content}</Text>
-          </TextWrapper>
-          <ModalButton onClick={handleModalButton}>확인</ModalButton>
-        </Wrapper>
+          <S.TextWrapper>
+            <S.Text $font={cardData.font}>{cardData.content}</S.Text>
+          </S.TextWrapper>
+          <S.ModalButton onClick={handleModalButton}>확인</S.ModalButton>
+        </S.Wrapper>
       )}
     </>
   );

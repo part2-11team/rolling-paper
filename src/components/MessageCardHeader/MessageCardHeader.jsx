@@ -1,36 +1,28 @@
 import React from 'react';
-import {
-  Wrapper,
-  FlexWrapper,
-  ProfileWrapper,
-  Image,
-  ProfileTextHead,
-  ProfileName,
-  ProfileTextWrapper,
-} from './MessageCardHeader.style';
+import * as S from './MessageCardHeader.style';
 import { CardBadage } from '../CardBadage/CardBadage';
 
 export const MessageCardHeader = ({ cardData, Component }) => {
   return (
     <>
-      <Wrapper>
-        <FlexWrapper>
-          <Image
+      <S.Wrapper>
+        <S.FlexWrapper>
+          <S.Image
             src={cardData.profileImageURL}
             alt="프로필 이미지"
             width={56}
             height={56}
-          ></Image>
-          <ProfileWrapper>
-            <ProfileTextWrapper>
-              <ProfileTextHead>From.</ProfileTextHead>
-              <ProfileName>{cardData.sender}</ProfileName>
-            </ProfileTextWrapper>
+          ></S.Image>
+          <S.ProfileWrapper>
+            <S.ProfileTextWrapper>
+              <S.ProfileTextHead>From.</S.ProfileTextHead>
+              <S.ProfileName>{cardData.sender}</S.ProfileName>
+            </S.ProfileTextWrapper>
             <CardBadage $type={cardData.relationship}></CardBadage>
-          </ProfileWrapper>
-        </FlexWrapper>
+          </S.ProfileWrapper>
+        </S.FlexWrapper>
         <Component></Component>
-      </Wrapper>
+      </S.Wrapper>
     </>
   );
 };

@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  PageWrapper,
-  MessageWrapper,
-  ModalBackground,
-  Header,
-} from './PostIDPage.style';
+import * as S from './PostIDPage.style';
 import { AddMessageCard, PostIDContext, MessageCard, Modal } from './index';
 
 const DEFAULT = {
@@ -94,7 +89,7 @@ export default function PostIDPage() {
   ];
 
   return (
-    <PageWrapper>
+    <S.PageWrapper>
       <PostIDContext.Provider
         value={{
           currentCardData,
@@ -103,17 +98,17 @@ export default function PostIDPage() {
           handleCurrentHoverCard,
         }}
       >
-        <Header></Header>
-        <MessageWrapper>
+        <S.Header />
+        <S.MessageWrapper>
           <AddMessageCard></AddMessageCard>
           {SAMPLEDATA.map((cardData) => (
             <MessageCard cardData={cardData} key={cardData.id}></MessageCard>
           ))}
-        </MessageWrapper>
-        <ModalBackground $currentCardData={currentCardData.id}>
+        </S.MessageWrapper>
+        <S.ModalBackground $currentCardData={currentCardData.id}>
           <Modal></Modal>
-        </ModalBackground>
+        </S.ModalBackground>
       </PostIDContext.Provider>
-    </PageWrapper>
+    </S.PageWrapper>
   );
 }

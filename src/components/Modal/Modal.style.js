@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 export const Wrapper = styled.div`
   position: fixed;
@@ -22,18 +23,14 @@ export const Wrapper = styled.div`
 `;
 
 export const CreatedDate = styled.div`
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
+  ${FONT_STYLE.REGULAR_14};
   color: ${COLORS.GRAY_400};
 `;
 
 export const TextWrapper = styled.div`
   width: 520px;
   height: 256px;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 28px;
+  ${FONT_STYLE.REGULAR_18};
   color: #5a5a5a;
   padding-top: 16px;
   overflow: auto;
@@ -72,10 +69,8 @@ export const ModalButton = styled.button`
   border-radius: 6px;
   padding: 7px 16px;
   background-color: ${COLORS.PURPLE_600};
+  ${FONT_STYLE.REGULAR_16}
   color: ${COLORS.WHITE};
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 26px;
   text-align: center;
 
   &:hover {

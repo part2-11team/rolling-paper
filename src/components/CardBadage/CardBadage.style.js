@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 const BADGE = {
   가족: { color: COLORS.GREEN_500, background: COLORS.GREEN_100 },
@@ -12,8 +13,7 @@ export const Badge = styled.div`
   width: fit-content;
   border-radius: 4px;
   padding: 0px 8px;
-  font-size: 14px;
-  font-weight: 400;
+  ${FONT_STYLE.REGULAR_14}
   line-hightL 20px;
   color: ${({ $type }) => BADGE[$type].color};
   background-color: ${({ $type }) => BADGE[$type].background};

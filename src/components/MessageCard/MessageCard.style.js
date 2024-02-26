@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -23,10 +24,8 @@ export const Wrapper = styled.div`
 export const TextWrapper = styled.div`
   margin-top: 15px;
   overflow: hidden;
-  font-size: 18px;
-  font-weight: 400;
+  ${FONT_STYLE.REGULAR_18};
   color: ${COLORS.GRAY_600};
-  line-height: 28px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -39,8 +38,7 @@ export const CreatedDate = styled.div`
   width: 60px;
   height: 18px;
   font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
-  font-weight: 400;
-  font-size: 12px;
+  ${FONT_STYLE.REGULAR_12}
   line-height: 18px;
   color: #999999;
   background-color: ${COLORS.WHITE};

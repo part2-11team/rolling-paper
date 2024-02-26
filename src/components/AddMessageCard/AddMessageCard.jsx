@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Wrapper,
-  AddButtonIcon,
-  AddButtonWrapper,
-} from './AddMessageCard.style';
+import * as S from './AddMessageCard.style';
 import {
   AddMessageEnabled,
   AddMessageFocus,
@@ -25,20 +21,20 @@ export const AddMessageCard = () => {
     setImage(AddMessagePressed);
   };
   return (
-    <Wrapper
+    <S.Wrapper
       onFocus={handleFocus}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       onMouseDown={handleMouseDown}
     >
-      <AddButtonWrapper>
-        <AddButtonIcon
+      <S.AddButtonWrapper>
+        <S.AddButtonIcon
           src={image}
           alt="추가 버튼"
           width={56}
           height={56}
-        ></AddButtonIcon>
-      </AddButtonWrapper>
-    </Wrapper>
+        ></S.AddButtonIcon>
+      </S.AddButtonWrapper>
+    </S.Wrapper>
   );
 };

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -31,16 +32,12 @@ export const FlexWrapper = styled.div`
   gap: 14px;
 `;
 
-const ProfileText = styled.p`
-  font-size: 20px;
+export const ProfileTextHead = styled.p`
+  ${FONT_STYLE.REGULAR_20};
   color: ${COLORS.BLACK};
-  line-height: 24px;
 `;
 
-export const ProfileTextHead = styled(ProfileText)`
-  font-weight: 400;
-`;
-
-export const ProfileName = styled(ProfileText)`
-  font-weight: 700;
+export const ProfileName = styled.p`
+  ${FONT_STYLE.BOLD_20};
+  color: ${COLORS.BLACK};
 `;

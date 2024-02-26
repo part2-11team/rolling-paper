@@ -1,15 +1,8 @@
 import React, { useContext } from 'react';
-import {
-  TextWrapper,
-  Wrapper,
-  CreatedDate,
-  DeleteButton,
-  DeleteIcon,
-} from './MessageCard.style';
-
+import * as S from './MessageCard.style';
 import { PostIDContext, getFormattedDate, Deleted } from './index';
-
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
+
 export const MessageCard = ({ cardData }) => {
   const { currentHoverCard, handleCurrentCardData, handleCurrentHoverCard } =
     useContext(PostIDContext);
@@ -33,20 +26,20 @@ export const MessageCard = ({ cardData }) => {
   const DeleteButtonComponent = () => {
     if (currentHoverCard === cardData.id) {
       return (
-        <DeleteButton onClick={handleClickDeleteButton}>
-          <DeleteIcon
+        <S.DeleteButton onClick={handleClickDeleteButton}>
+          <S.DeleteIcon
             src={Deleted}
             alt="delete"
             width={24}
             height={24}
-          ></DeleteIcon>
-        </DeleteButton>
+          ></S.DeleteIcon>
+        </S.DeleteButton>
       );
     }
     return <></>;
   };
   return (
-    <Wrapper
+    <S.Wrapper
       onClick={handleCardWrapper}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
@@ -55,8 +48,8 @@ export const MessageCard = ({ cardData }) => {
         cardData={cardData}
         Component={DeleteButtonComponent}
       ></MessageCardHeader>
-      <TextWrapper $font={cardData.font}>{cardData.content}</TextWrapper>
-      <CreatedDate>{formattedDate}</CreatedDate>
-    </Wrapper>
+      <S.TextWrapper $font={cardData.font}>{cardData.content}</S.TextWrapper>
+      <S.CreatedDate>{formattedDate}</S.CreatedDate>
+    </S.Wrapper>
   );
 };

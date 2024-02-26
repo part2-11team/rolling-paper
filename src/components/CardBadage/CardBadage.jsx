@@ -1,6 +1,6 @@
 import React from 'react';
-import { Badge } from './CardBadage.style';
+import * as S from './CardBadage.style';
 
 export const CardBadage = ({ $type }) => {
-  return <Badge $type={$type}>{$type}</Badge>;
+  return <S.Badge $type={$type}>{$type}</S.Badge>;
 };
