@@ -1,36 +1,20 @@
 import React, { useContext } from 'react';
 import {
   TextWrapper,
-  //TopWrapper,
   Wrapper,
-  //Image,
-  //ProfileWrapper,
-  //ProfileTextHead,
-  //ProfileName,
-  //ProfileTextWrapper,
   CreatedDate,
   DeleteButton,
   DeleteIcon,
-  //FlexWrapper,
 } from './MessageCard.style';
-//import { CardBadage } from '../CardBadage/CardBadage';
 import { PostIDContext } from '../../context/PostIDContext';
+import { getFormattedDate } from '../../assets/utils/getFormattedDate';
 import Deleted from '../../assets/icon/Deleted.png';
 
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
-
 export const MessageCard = ({ cardData }) => {
   const { currentHoverCard, handleCurrentCardData, handleCurrentHoverCard } =
     useContext(PostIDContext);
-  const createDate = new Date(cardData.createdAt);
-  const formattedDate = createDate
-    .toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-    .replace(/\s/g, '')
-    .slice(0, -1);
+  const formattedDate = getFormattedDate(cardData.createdAt);
   const handleCardWrapper = () => {
     handleCurrentCardData(cardData);
   };

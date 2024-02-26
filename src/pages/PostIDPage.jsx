@@ -102,7 +102,6 @@ export default function PostIDPage() {
     <PageWrapper>
       <PostIDContext.Provider
         value={{
-          SAMPLEDATA,
           currentCardData,
           handleCurrentCardData,
           currentHoverCard,
