@@ -8,6 +8,11 @@ import {
   PostMessageDropdownListContent,
   PostMessageInput,
   DropdownListContentOption,
+  SelectPictureContain,
+  SelectedPicture,
+  SelectPictureListContain,
+  SelectPictureListInfo,
+  SelectPictureList,
 } from './PostMessagePage.style';
 
 export const PostMessagePage = () => {
@@ -57,6 +62,15 @@ export const PostMessagePage = () => {
         </PostMessageContent>
         <PostMessageContent>
           <PostMessageContentHeader>프로필 이미지</PostMessageContentHeader>
+          <SelectPictureContain>
+            <SelectedPicture />
+            <SelectPictureListContain>
+              <SelectPictureListInfo>
+                프로필 이미지를 선택해주세요!
+              </SelectPictureListInfo>
+              <SelectPictureList></SelectPictureList>
+            </SelectPictureListContain>
+          </SelectPictureContain>
         </PostMessageContent>
         <PostMessageContent>
           <PostMessageContentHeader>상대와의 관계</PostMessageContentHeader>

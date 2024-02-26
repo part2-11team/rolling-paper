@@ -36,27 +36,27 @@ export const PostMessageContentHeader = styled.div`
   letter-spacing: -0.24px;
 `;
 
-export const SeletePictureContain = styled.div`
+export const SelectPictureContain = styled.div`
   display: flex;
   align-items: center;
   gap: 32px;
 `;
 
-export const SeletedPicture = styled.img`
+export const SelectedPicture = styled.img`
   display: flex;
-  padding: 24px;
   align-items: flex-start;
-  gap: 10px;
+  width: 80px;
+  height: 80px;
   border-radius: 100px;
   background: #ccc;
 `;
-export const SeletePictureListContain = styled.div`
+export const SelectPictureListContain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
 `;
-export const SeletePictureListInfo = styled.div`
+export const SelectPictureListInfo = styled.div`
   color: #555;
   font-family: Pretendard;
   font-size: 16px;
@@ -66,11 +66,11 @@ export const SeletePictureListInfo = styled.div`
   letter-spacing: -0.16px;
 `;
 
-export const SeletePictureList = styled.div`
+export const SelectPictureList = styled.div`
   width: 605px;
   height: 56px;
 `;
-export const SeletePictures = styled.div`
+export const SelectPictures = styled.div`
   display: flex;
   width: 56px;
   height: 56px;
