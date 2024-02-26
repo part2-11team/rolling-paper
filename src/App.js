@@ -1,12 +1,22 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainPage from './pages/MainPage';
 import GlobalStyle from './style/GlobalStyle';
 import PostIDPage from './pages/PostIDPage';
 import React from 'react';
+import PaperListPage from './pages/PaperListPage';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <PostIDPage></PostIDPage>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<MainPage />}></Route>
+          <Route path="/list" element={<PaperListPage />}></Route>
+          <Route path="/postID" element={<PostIDPage />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
