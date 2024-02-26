@@ -25,8 +25,6 @@ const PaperCard = ({ data = {}, slideIndex = 0 }) => {
     recentMessages,
   } = data;
 
-  console.log(data);
-
   const fromImgUrls = [
     recentMessages?.[0]?.profileImageURL,
     recentMessages?.[1]?.profileImageURL,
