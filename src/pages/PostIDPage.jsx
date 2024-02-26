@@ -1,4 +1,3 @@
-/*eslint-disable */
 import React, { useState } from 'react';
 import {
   PageWrapper,
@@ -6,10 +5,7 @@ import {
   ModalBackground,
   Header,
 } from './PostIDPage.style';
-import { MessageCard } from '../components/MessageCard/MessageCard';
-import { PostIDContext } from '../context/PostIDContext';
-import { Modal } from '../components/Modal/Modal';
-import { AddMessageCard } from '../components/AddMessageCard/AddMessageCard';
+import { AddMessageCard, PostIDContext, MessageCard, Modal } from './index';
 
 const DEFAULT = {
   id: null,
@@ -23,7 +19,6 @@ const DEFAULT = {
 };
 
 export default function PostIDPage() {
-  //데이터 받아서 context에 저장
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [currentHoverCard, setCurrentHoverCard] = useState(null);
 

@@ -4,10 +4,12 @@ import {
   AddButtonIcon,
   AddButtonWrapper,
 } from './AddMessageCard.style';
-import AddMessageEnabled from '../../assets/icon/AddMessageEnabled.png';
-import AddMessageFocus from '../../assets/icon/AddMessageFocus.png';
-import AddMessageHover from '../../assets/icon/AddMessageHover.png';
-import AddMessagePressed from '../../assets/icon/AddMessagePressed.png';
+import {
+  AddMessageEnabled,
+  AddMessageFocus,
+  AddMessageHover,
+  AddMessagePressed,
+} from './index';
 export const AddMessageCard = () => {
   const [image, setImage] = useState(AddMessageEnabled);
   const handleMouseOver = () => {

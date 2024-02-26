@@ -6,9 +6,8 @@ import {
   DeleteButton,
   DeleteIcon,
 } from './MessageCard.style';
-import { PostIDContext } from '../../context/PostIDContext';
-import { getFormattedDate } from '../../assets/utils/getFormattedDate';
-import Deleted from '../../assets/icon/Deleted.png';
+
+import { PostIDContext, getFormattedDate, Deleted } from './index';
 
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
 export const MessageCard = ({ cardData }) => {

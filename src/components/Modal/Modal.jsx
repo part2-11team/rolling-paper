@@ -6,18 +6,16 @@ import {
   ModalButton,
   Text,
 } from './Modal.style';
-import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
-import { PostIDContext } from '../../context/PostIDContext';
-import { getFormattedDate } from '../../assets/utils/getFormattedDate';
+import { MessageCardHeader, PostIDContext, getFormattedDate } from './index';
 
 export const Modal = () => {
   const { currentCardData: cardData, handleCurrentCardData } =
     useContext(PostIDContext);
-  const formattedDate = getFormattedDate(cardData.createdAt);
   const handleModalButton = () => {
     handleCurrentCardData();
   };
   const CreatedDateComponent = () => {
+    const formattedDate = getFormattedDate(cardData.createdAt);
     return <CreatedDate>{formattedDate}</CreatedDate>;
   };
   return (
