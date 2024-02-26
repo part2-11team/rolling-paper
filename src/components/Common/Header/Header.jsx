@@ -1,6 +1,6 @@
 ﻿import React from 'react';
-import logo from '../../../assets/icon/logo.svg';
 import HeaderButton from './HeaderButton/HeaderButton';
+import LogoButton from './LogoButton/LogoButton';
 import * as Style from './Header.style.js';
 
 const Header = ({ page }) => {
@@ -8,11 +8,8 @@ const Header = ({ page }) => {
     return (
       <Style.HeaderWrapper>
         <Style.HeaderContent>
-          <Style.LogoDiv>
-            <Style.LogoImage src={logo} alt="logo" />
-            <Style.LogoText>rolling</Style.LogoText>
-          </Style.LogoDiv>
-          <HeaderButton />
+          <LogoButton to="/" />
+          <HeaderButton to="/post" />
         </Style.HeaderContent>
       </Style.HeaderWrapper>
     );
