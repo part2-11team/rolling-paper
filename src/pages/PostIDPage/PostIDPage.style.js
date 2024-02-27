@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 export const Header = styled.div`
   width: 100%;
@@ -46,4 +47,15 @@ export const MessageWrapper = styled.div`
     max-width: 495px;
     min-width: 360px;
   }
+`;
+
+export const ErrorWrapper = styled.div`
+  text-align: center;
+`;
+
+export const ErrorTitle = styled.p`
+  ${FONT_STYLE.BOLD_28};
+`;
+export const ErrorContent = styled.p`
+  ${FONT_STYLE.REGULAR_15};
 `;
