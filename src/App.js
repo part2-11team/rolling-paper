@@ -14,7 +14,9 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/list" element={<PaperListPage />}></Route>
-          <Route path="/postID" element={<PostIDPage />}></Route>
+          <Route path="/post">
+            <Route path=":userID" element={<PostIDPage />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

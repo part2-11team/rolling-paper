@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './PostIDPage.style';
 import { AddMessageCard, PostIDContext, MessageCard, Modal } from './index';
 import axios from 'axios';
 import uuid from 'react-uuid';
+import { useParams } from 'react-router-dom';
 
-/* eslint-disable */
 const DEFAULT = {
   id: null,
   recipientId: null,
@@ -19,6 +19,7 @@ const DEFAULT = {
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 
+/* eslint-disable */
 export default function PostIDPage() {
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [currentHoverCard, setCurrentHoverCard] = useState(null);
@@ -27,6 +28,8 @@ export default function PostIDPage() {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const target = useRef(null);
+  const { userID } = useParams();
+  const [dataError, setDataError] = useState(null);
   const options = {
     threshold: 0.5,
   };
@@ -43,12 +46,12 @@ export default function PostIDPage() {
     setCurrentHoverCard(id);
   };
 
-  const handleScroll = useCallback((entry) => {
+  const handleScroll = (entry) => {
     if (entry[0].isIntersecting) {
-      setOffset((prevOffset) => prevOffset + PAGE_LOADING);
       setLoading(true);
+      setOffset((prevOffset) => prevOffset + PAGE_LOADING);
     }
-  });
+  };
 
   const getCardData = async (limit = null, offset = null) => {
     let queryURL = '';
@@ -65,25 +68,23 @@ export default function PostIDPage() {
     }
     try {
       const response = await axios.get(
-        'https://rolling-api.vercel.app/4-11/recipients/2719/messages/' +
+        `https://rolling-api.vercel.app/4-11/recipients/${userID}/messages/` +
           queryURL,
       );
       const data = response.data.results;
       setMessageCardData((prev) => [...prev, ...data]);
     } catch (error) {
       /* eslint-disable-next-line */
-      console.error(error);
+      setDataError(error);
     }
   };
 
   useEffect(() => {
     if (loading) {
       if (initialLoading) {
-        getCardData(11, 0);
+        getCardData(INITIAL_PAGE_LOADING, 0);
         setInitialLoading(false);
-        console.log(offset);
       } else {
-        console.log(offset);
         getCardData(PAGE_LOADING, offset);
       }
     }
@@ -100,27 +101,33 @@ export default function PostIDPage() {
   }, []);
 
   return (
-    <S.PageWrapper>
-      <PostIDContext.Provider
-        value={{
-          currentCardData,
-          handleCurrentCardData,
-          currentHoverCard,
-          handleCurrentHoverCard,
-        }}
-      >
-        <S.Header />
-        <S.MessageWrapper>
-          <AddMessageCard></AddMessageCard>
-          {messageCardData.map((cardData) => (
-            <MessageCard cardData={cardData} key={uuid()}></MessageCard>
-          ))}
-        </S.MessageWrapper>
-        <S.ModalBackground $currentCardData={currentCardData.id}>
-          <Modal></Modal>
-        </S.ModalBackground>
-      </PostIDContext.Provider>
-      <div ref={target}></div>
-    </S.PageWrapper>
+    <>
+      {dataError ? (
+        <div>데이터 오류</div>
+      ) : (
+        <S.PageWrapper>
+          <PostIDContext.Provider
+            value={{
+              currentCardData,
+              handleCurrentCardData,
+              currentHoverCard,
+              handleCurrentHoverCard,
+            }}
+          >
+            <S.Header />
+            <S.MessageWrapper>
+              <AddMessageCard></AddMessageCard>
+              {messageCardData.map((cardData) => (
+                <MessageCard cardData={cardData} key={uuid()}></MessageCard>
+              ))}
+            </S.MessageWrapper>
+            <S.ModalBackground $currentCardData={currentCardData.id}>
+              <Modal></Modal>
+            </S.ModalBackground>
+          </PostIDContext.Provider>
+          <div ref={target}></div>
+        </S.PageWrapper>
+      )}
+    </>
   );
 }
