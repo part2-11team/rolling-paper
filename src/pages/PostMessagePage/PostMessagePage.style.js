@@ -92,6 +92,7 @@ export const SelectPictureList = styled.div`
   align-items: flex-start;
   width: 605px;
   height: 56px;
+  gap: 4px;
 `;
 export const SelectPictures = styled.div`
   display: flex;
@@ -214,4 +215,14 @@ export const SubmitButton = styled.button`
     border: #5603a7;
     background: #6e0ad1;
   }
+`;
+
+export const DropdownIcon = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translate(0, -50%);
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 `;
