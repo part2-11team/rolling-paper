@@ -50,6 +50,9 @@ export const MessageWrapper = styled.div`
 `;
 
 export const ErrorWrapper = styled.div`
+  padding: 15% 0;
+  width: 100vw;
+  height: 100vh;
   text-align: center;
 `;
 
@@ -57,5 +60,6 @@ export const ErrorTitle = styled.p`
   ${FONT_STYLE.BOLD_28};
 `;
 export const ErrorContent = styled.p`
+  margin-top: 15px;
   ${FONT_STYLE.REGULAR_15};
 `;

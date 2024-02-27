@@ -89,26 +89,27 @@ export default function PostIDPage() {
         handleCurrentHoverCard,
       }}
     >
-      <S.Header />
       {dataError ? (
         <S.ErrorWrapper>
           <S.ErrorTitle>잘못된 URL 접근입니다.</S.ErrorTitle>
-          <br />
           <S.ErrorContent>{dataError.message}</S.ErrorContent>
         </S.ErrorWrapper>
       ) : (
-        <S.PageWrapper>
-          <S.MessageWrapper>
-            <AddMessageCard></AddMessageCard>
-            {messageCardData.map((cardData) => (
-              <MessageCard cardData={cardData} key={uuid()}></MessageCard>
-            ))}
-          </S.MessageWrapper>
-          <S.ModalBackground $currentCardData={currentCardData.id}>
-            <Modal></Modal>
-          </S.ModalBackground>
-          <div ref={target}></div>
-        </S.PageWrapper>
+        <>
+          <S.Header />
+          <S.PageWrapper>
+            <S.MessageWrapper>
+              <AddMessageCard></AddMessageCard>
+              {messageCardData.map((cardData) => (
+                <MessageCard cardData={cardData} key={uuid()}></MessageCard>
+              ))}
+            </S.MessageWrapper>
+            <S.ModalBackground $currentCardData={currentCardData.id}>
+              <Modal></Modal>
+            </S.ModalBackground>
+            <div ref={target}></div>
+          </S.PageWrapper>
+        </>
       )}
     </PostIDContext.Provider>
   );
