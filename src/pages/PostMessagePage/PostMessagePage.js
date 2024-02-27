@@ -20,6 +20,8 @@ import {
 } from './PostMessagePage.style';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -125,6 +127,7 @@ export const PostMessagePage = () => {
           <PostMessageContentHeader>
             내용을 입력해 주세요
           </PostMessageContentHeader>
+          <ReactQuill style={{ width: '720px', height: '260px' }} />
         </PostMessageContent>
 
         <PostMessageContent>
