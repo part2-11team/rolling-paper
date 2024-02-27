@@ -15,6 +15,7 @@ import {
   SelectPictureList,
   SelectPictures,
   PostWrapper,
+  SubmitButton,
 } from './PostMessagePage.style';
 
 export const PostMessagePage = () => {
@@ -129,6 +130,7 @@ export const PostMessagePage = () => {
           </PostMessageDropdownList>
         </PostMessageContent>
       </PostMessageContainer>
+      <SubmitButton>생성하기</SubmitButton>
     </PostWrapper>
   );
 };

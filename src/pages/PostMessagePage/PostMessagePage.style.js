@@ -14,6 +14,7 @@ export const PostMessageContainer = styled.div`
   align-items: flex-start;
   gap: 50px;
   margin-top: 47px;
+  margin-bottom: 38px;
 `;
 
 export const PostMessageContent = styled.div`
@@ -155,5 +156,38 @@ export const DropdownListContentOptionText = styled.p`
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.16px;
+`;
+
+export const SubmitButton = styled.button`
+  display: flex;
+  width: 720px;
+  padding: 14px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: #9935ff;
+  margin: 24px;
+
+  color: #fff;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.18px;
+
+  &:hover {
+    background: #861dee;
+  }
+
+  &:active {
+    background: #6e0ad1;
+  }
+
+  &:focus {
+    border: #5603a7;
+    background: #6e0ad1;
   }
 `;
