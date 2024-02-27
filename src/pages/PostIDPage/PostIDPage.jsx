@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './PostIDPage.style';
-import { AddMessageCard, PostIDContext, MessageCard, Modal } from './index';
+import {
+  AddMessageCard,
+  PostIDContext,
+  MessageCard,
+  Modal,
+  getMessageCardData,
+  loadingIcon,
+} from './index';
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
-import { getMessageCardData } from '../../API';
 
 const DEFAULT = {
   id: null,
@@ -22,9 +28,9 @@ export default function PostIDPage() {
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [currentHoverCard, setCurrentHoverCard] = useState(null);
   const [messageCardData, setMessageCardData] = useState([]);
-  const [offset, setOffset] = useState(-PAGE_LOADING);
-  const [loading, setLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const target = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
@@ -45,32 +51,33 @@ export default function PostIDPage() {
   };
 
   const handleScroll = (entry) => {
-    if (entry[0].isIntersecting) {
+    if (entry[0].isIntersecting && !initialLoading) {
       setLoading(true);
-      setOffset((prevOffset) => prevOffset + PAGE_LOADING);
+      setOffset(messageCardData.length);
     }
   };
 
   const getCardData = async (limit = null, offset = null) => {
+    setLoading(true);
     const { data, error } = await getMessageCardData(userID, limit, offset);
     if (data) {
       setMessageCardData((prev) => [...prev, ...data]);
     } else {
       setDataError(error);
     }
+    setLoading(false);
+    if (initialLoading) {
+      setInitialLoading(false);
+    }
   };
 
   useEffect(() => {
-    if (loading) {
-      if (initialLoading) {
-        getCardData(INITIAL_PAGE_LOADING, 0);
-        setInitialLoading(false);
-      } else {
-        getCardData(PAGE_LOADING, offset);
-      }
+    if (initialLoading) {
+      getCardData(INITIAL_PAGE_LOADING, offset);
+    } else {
+      getCardData(PAGE_LOADING, offset);
     }
   }, [offset]);
-
   useEffect(() => {
     const observer = new IntersectionObserver(handleScroll, options);
     if (target.current) {
@@ -79,7 +86,7 @@ export default function PostIDPage() {
     return () => {
       observer.disconnect(target.current);
     };
-  }, []);
+  }, [handleScroll]);
   return (
     <PostIDContext.Provider
       value={{
@@ -99,15 +106,23 @@ export default function PostIDPage() {
           <S.Header />
           <S.PageWrapper>
             <S.MessageWrapper>
-              <AddMessageCard></AddMessageCard>
+              {!initialLoading && <AddMessageCard></AddMessageCard>}
               {messageCardData.map((cardData) => (
                 <MessageCard cardData={cardData} key={uuid()}></MessageCard>
               ))}
+              {loading ? (
+                <S.LoadingIcon
+                  src={loadingIcon}
+                  alt="loading"
+                  $initialLoading={initialLoading}
+                ></S.LoadingIcon>
+              ) : (
+                <div ref={target}></div>
+              )}
             </S.MessageWrapper>
             <S.ModalBackground $currentCardData={currentCardData.id}>
               <Modal></Modal>
             </S.ModalBackground>
-            <div ref={target}></div>
           </S.PageWrapper>
         </>
       )}

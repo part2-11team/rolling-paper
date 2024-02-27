@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
 import { FONT_STYLE } from '../../style/fontStyle';
 
@@ -62,4 +62,22 @@ export const ErrorTitle = styled.p`
 export const ErrorContent = styled.p`
   margin-top: 15px;
   ${FONT_STYLE.REGULAR_15};
+`;
+
+const loading = keyframes`
+  from{
+    transfrom: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingIcon = styled.img`
+  position: absolute;
+  ${({ $initialLoading }) => ($initialLoading ? 'top: 80px' : 'bottom: 30px')};
+  left: calc(50% - 15px);
+  width: 30px;
+  height: 30px;
+  animation: ${loading} 0.9s infinite;
 `;
