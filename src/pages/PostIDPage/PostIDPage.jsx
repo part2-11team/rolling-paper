@@ -34,6 +34,7 @@ export default function PostIDPage() {
   const target = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
+  const [endData, setEndData] = useState(false);
   const options = {
     threshold: 0.5,
   };
@@ -60,10 +61,15 @@ export default function PostIDPage() {
   const getCardData = async (limit = null, offset = null) => {
     setLoading(true);
     const { data, error } = await getMessageCardData(userID, limit, offset);
-    if (data) {
+    if (data && data.length > 0) {
       setMessageCardData((prev) => [...prev, ...data]);
+      /* eslint-disable */
     } else {
-      setDataError(error);
+      if (error) {
+        setDataError(error);
+      } else {
+        setEndData(true);
+      }
     }
     setLoading(false);
     if (initialLoading) {
@@ -115,9 +121,10 @@ export default function PostIDPage() {
                   src={loadingIcon}
                   alt="loading"
                   $initialLoading={initialLoading}
+                  $endData={endData}
                 ></S.LoadingIcon>
               ) : (
-                <div ref={target}></div>
+                !endData && <div ref={target}></div>
               )}
             </S.MessageWrapper>
             <S.ModalBackground $currentCardData={currentCardData.id}>
