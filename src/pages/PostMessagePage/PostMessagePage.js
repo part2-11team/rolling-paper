@@ -24,8 +24,6 @@ import arrowUpIcon from './asset/arrow_top.png';
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
   const [isOpenFont, setIsOpenFont] = useState(false);
-  const [isOpenRelationIcon, setIsOpenRelationIcon] = useState(false);
-  const [isOpenFontIcon, setIsOpenFontIcon] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
   const [selectedFontOption, setSelectedFontOption] = useState('지인');
 
@@ -59,7 +57,6 @@ export const PostMessagePage = () => {
 
   const handleToggleDropdown = () => {
     setIsOpen(!isOpenRelation); // 드롭다운 열고 닫기 토글
-    setIsOpenRelationIcon(!isOpenRelation);
   };
 
   const handleFontToggleDropdown = () => {
