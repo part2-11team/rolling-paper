@@ -14,6 +14,7 @@ export const Modal = () => {
   };
   return (
     <>
+      <h1>modal</h1>
       {cardData.id && (
         <S.Wrapper>
           <MessageCardHeader
