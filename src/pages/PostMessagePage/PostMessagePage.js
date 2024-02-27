@@ -70,6 +70,7 @@ export const PostMessagePage = () => {
           <PostMessageContentHeader>From.</PostMessageContentHeader>
           <PostMessageInput placeholder="이름을 입력해 주세요."></PostMessageInput>
         </PostMessageContent>
+
         <PostMessageContent>
           <PostMessageContentHeader>프로필 이미지</PostMessageContentHeader>
           <SelectPictureContain>
@@ -79,15 +80,16 @@ export const PostMessagePage = () => {
                 프로필 이미지를 선택해주세요!
               </SelectPictureListInfo>
               <SelectPictureList>
-                {samplePicture.map((DropOption) => (
+                {samplePicture.map((samplePicture) => (
                   <SelectPictures key={samplePicture.value}>
-                    {DropOption.label}
+                    {samplePicture.label}
                   </SelectPictures>
                 ))}
               </SelectPictureList>
             </SelectPictureListContain>
           </SelectPictureContain>
         </PostMessageContent>
+
         <PostMessageContent>
           <PostMessageContentHeader>상대와의 관계</PostMessageContentHeader>
           <PostMessageDropdownList>
@@ -106,11 +108,13 @@ export const PostMessagePage = () => {
             </PostMessageDropdownListContent>
           </PostMessageDropdownList>
         </PostMessageContent>
+
         <PostMessageContent>
           <PostMessageContentHeader>
             내용을 입력해 주세요
           </PostMessageContentHeader>
         </PostMessageContent>
+
         <PostMessageContent>
           <PostMessageContentHeader>폰트 선택</PostMessageContentHeader>
           <PostMessageDropdownList>
@@ -130,6 +134,7 @@ export const PostMessagePage = () => {
           </PostMessageDropdownList>
         </PostMessageContent>
       </PostMessageContainer>
+
       <SubmitButton>생성하기</SubmitButton>
     </PostWrapper>
   );

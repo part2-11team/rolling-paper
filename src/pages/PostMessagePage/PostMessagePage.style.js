@@ -43,6 +43,18 @@ export const PostMessageInput = styled.input`
   border-radius: 8px;
   border: 1px solid #ccc;
   background: #fff;
+
+  &:hover {
+    border: 1px solid #555;
+  }
+
+  &:active {
+    border: 2px solid #3a3a3a;
+  }
+
+  &:focus {
+    border: 2px solid #555;
+  }
 `;
 
 export const SelectPictureContain = styled.div`
@@ -105,13 +117,25 @@ export const PostMessageDropdownListButton = styled.button`
   align-items: center;
   gap: 189px;
   border-radius: 8px;
-  border: 2px solid #555;
+  border: 1px solid #ccc;
   color: #181818;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.16px;
+
+  &:hover {
+    border: 1px solid #555;
+  }
+
+  &:active {
+    border: 2px solid #555;
+  }
+
+  &:focus {
+    border: 2px solid #555;
+  }
 `;
 
 export const PostMessageDropdownListContent = styled.div`
