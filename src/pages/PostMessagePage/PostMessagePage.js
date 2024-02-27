@@ -13,6 +13,8 @@ import {
   SelectPictureListContain,
   SelectPictureListInfo,
   SelectPictureList,
+  SelectPictures,
+  PostWrapper,
 } from './PostMessagePage.style';
 
 export const PostMessagePage = () => {
@@ -29,6 +31,13 @@ export const PostMessagePage = () => {
   ];
 
   const dropdownFontOptions = [
+    { value: '가족', label: '가족' },
+    { value: '지인', label: '지인' },
+    { value: '동료', label: '동료' },
+    { value: '친구', label: '친구' },
+  ];
+
+  const samplePicture = [
     { value: '가족', label: '가족' },
     { value: '지인', label: '지인' },
     { value: '동료', label: '동료' },
@@ -54,7 +63,7 @@ export const PostMessagePage = () => {
   };
 
   return (
-    <>
+    <PostWrapper>
       <PostMessageContainer>
         <PostMessageContent>
           <PostMessageContentHeader>From.</PostMessageContentHeader>
@@ -68,7 +77,13 @@ export const PostMessagePage = () => {
               <SelectPictureListInfo>
                 프로필 이미지를 선택해주세요!
               </SelectPictureListInfo>
-              <SelectPictureList></SelectPictureList>
+              <SelectPictureList>
+                {samplePicture.map((DropOption) => (
+                  <SelectPictures key={samplePicture.value}>
+                    {DropOption.label}
+                  </SelectPictures>
+                ))}
+              </SelectPictureList>
             </SelectPictureListContain>
           </SelectPictureContain>
         </PostMessageContent>
@@ -114,6 +129,6 @@ export const PostMessagePage = () => {
           </PostMessageDropdownList>
         </PostMessageContent>
       </PostMessageContainer>
-    </>
+    </PostWrapper>
   );
 };

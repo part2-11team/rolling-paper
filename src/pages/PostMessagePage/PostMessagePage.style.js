@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 import React from 'react';
 
-export const PostMessageInput = styled.input`
+export const PostWrapper = styled.div`
   display: flex;
-  width: 720px;
-  padding: 12px 16px;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fff;
 `;
 
 export const PostMessageContainer = styled.div`
@@ -17,6 +13,7 @@ export const PostMessageContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 50px;
+  margin-top: 47px;
 `;
 
 export const PostMessageContent = styled.div`
@@ -34,6 +31,17 @@ export const PostMessageContentHeader = styled.div`
   font-weight: 700;
   line-height: 36px;
   letter-spacing: -0.24px;
+`;
+
+export const PostMessageInput = styled.input`
+  display: flex;
+  width: 720px;
+  padding: 12px 16px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
 `;
 
 export const SelectPictureContain = styled.div`
@@ -67,6 +75,8 @@ export const SelectPictureListInfo = styled.div`
 `;
 
 export const SelectPictureList = styled.div`
+  display: flex;
+  align-items: flex-start;
   width: 605px;
   height: 56px;
 `;
