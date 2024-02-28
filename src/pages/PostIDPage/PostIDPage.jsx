@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './PostIDPage.style';
 import {
@@ -42,6 +41,7 @@ export default function PostIDPage() {
     name: null,
     backgroundColor: 'beige',
     backgroundImageURL: null,
+    recentMessages: [],
   });
   const [messageCount, setMessageCount] = useState(0);
   const options = {
@@ -100,16 +100,21 @@ export default function PostIDPage() {
   };
 
   const getUserData = async (userID) => {
-    const { name, backgroundColor, backgroundImageURL, messageCount, error } =
-      await getRecipientData(userID);
+    const {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      recentMessages,
+      error,
+    } = await getRecipientData(userID);
     if (error) {
       setDataError(error);
       return;
     }
 
-    setUserData({ name, backgroundColor, backgroundImageURL });
+    setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
     setMessageCount(messageCount);
-    console.log(backgroundColor, backgroundImageURL);
   };
 
   useEffect(() => {
@@ -152,7 +157,15 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <>
-          <S.Header>{userData.name}</S.Header>
+          <S.Header>
+            이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
+            {messageCount} &nbsp;&nbsp; ID1:
+            {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
+            &nbsp;&nbsp; ID2:
+            {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
+            &nbsp;&nbsp; ID3:
+            {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
+          </S.Header>
           <S.PageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
