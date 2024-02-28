@@ -44,14 +44,14 @@ const TextEditor = () => {
     const selection = window.getSelection();
 
     if (selection.isCollapsed) {
-      document.execCommand('foreColor', false, color);
+      document.execCommand('foreColor', false, color); //선택범위가 있을 때
     } else {
       const range = selection.getRangeAt(0);
       const collapsedRange = range.cloneRange();
       collapsedRange.setStart(range.endContainer, range.endOffset);
       selection.removeAllRanges();
       selection.addRange(collapsedRange);
-      document.execCommand('foreColor', false, color);
+      document.execCommand('foreColor', false, color); //없을 때
     }
   };
 
@@ -65,44 +65,69 @@ const TextEditor = () => {
   };
 
   const handleBulletList = () => {
-    const selection = window.getSelection();
+    const selection = window.getSelection(); //범위 선택
     if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const isTextOnly = Array.from(range.cloneContents().childNodes).every(
-        (node) => node.nodeType === Node.TEXT_NODE,
-      );
-      if (isTextOnly) {
-        const ulElement = document.createElement('ul');
-        const fragment = document.createDocumentFragment();
-        Array.from(range.cloneContents().childNodes).forEach((child) => {
-          const liElement = document.createElement('li');
-          liElement.appendChild(child.cloneNode(true));
-          fragment.appendChild(liElement);
-        });
-        range.deleteContents(); // 선택한 범위의 컨텐츠 삭제
-        ulElement.appendChild(fragment); // <li> 요소들을 <ul> 요소에 추가
-        range.insertNode(ulElement); // 새로운 <ul> 요소를 삽입하여 선택한 범위에 넣기
+      const range = selection.getRangeAt(0); //범위 영역 선택 시작
+      let targetDiv = range.commonAncestorContainer; //특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
+      while (
+        targetDiv &&
+        (targetDiv.nodeType !== Node.ELEMENT_NODE ||
+          !targetDiv.classList.contains('target-div'))
+      ) {
+        targetDiv = targetDiv.parentNode;
+      }
+      // 찾은 부모 요소의 특정 클래스 확인
+      if (targetDiv && targetDiv.classList.contains('target-div')) {
+        const isTextOnly = Array.from(range.cloneContents().childNodes).every(
+          (node) => node.nodeType === Node.TEXT_NODE,
+        ); // 텍스트만 있는지 확인하기
+        if (isTextOnly) {
+          //확인 후 ul,li 생성 및  반복
+          const ulElement = document.createElement('ul');
+          const fragment = document.createDocumentFragment();
+          Array.from(range.cloneContents().childNodes).forEach((child) => {
+            const liElement = document.createElement('li');
+            liElement.appendChild(child.cloneNode(true));
+            fragment.appendChild(liElement);
+          });
+          range.deleteContents(); // 선택한 범위의 컨텐츠 삭제 => 이동을 위한 삭제
+          ulElement.appendChild(fragment); // ul에 li 추가
+          range.insertNode(ulElement); // 완성된 ul 삽입
+        }
       }
     }
   };
+
   const handleBulletOlList = () => {
-    const selection2 = window.getSelection();
-    if (selection2.rangeCount > 0) {
-      const range = selection2.getRangeAt(0);
-      const isTextOnly = Array.from(range.cloneContents().childNodes).every(
-        (node) => node.nodeType === Node.TEXT_NODE,
-      );
-      if (isTextOnly) {
-        const ulElement = document.createElement('ol');
-        const fragment = document.createDocumentFragment();
-        Array.from(range.cloneContents().childNodes).forEach((child) => {
-          const liElement = document.createElement('li');
-          liElement.appendChild(child.cloneNode(true));
-          fragment.appendChild(liElement);
-        });
-        range.deleteContents(); // 선택한 범위의 컨텐츠 삭제
-        ulElement.appendChild(fragment); // <li> 요소들을 <ul> 요소에 추가
-        range.insertNode(ulElement); // 새로운 <ul> 요소를 삽입하여 선택한 범위에 넣기
+    const selection = window.getSelection(); //범위 선택
+    if (selection.rangeCount > 0) {
+      const range = selection.getRangeAt(0); //범위 영역 선택 시작
+      let targetDiv = range.commonAncestorContainer; //특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
+      while (
+        targetDiv &&
+        (targetDiv.nodeType !== Node.ELEMENT_NODE ||
+          !targetDiv.classList.contains('target-div'))
+      ) {
+        targetDiv = targetDiv.parentNode;
+      }
+      // 찾은 부모 요소의 특정 클래스 확인
+      if (targetDiv && targetDiv.classList.contains('target-div')) {
+        const isTextOnly = Array.from(range.cloneContents().childNodes).every(
+          (node) => node.nodeType === Node.TEXT_NODE,
+        ); // 텍스트만 있는지 확인하기
+        if (isTextOnly) {
+          //확인 후 ol,li 생성 및  반복
+          const ulElement = document.createElement('ol');
+          const fragment = document.createDocumentFragment();
+          Array.from(range.cloneContents().childNodes).forEach((child) => {
+            const liElement = document.createElement('li');
+            liElement.appendChild(child.cloneNode(true));
+            fragment.appendChild(liElement);
+          });
+          range.deleteContents(); // 선택한 범위의 컨텐츠 삭제 => 이동을 위한 삭제
+          ulElement.appendChild(fragment); // ol에 li 추가
+          range.insertNode(ulElement); // 완성된 ol 삽입
+        }
       }
     }
   };
@@ -160,16 +185,18 @@ const TextEditor = () => {
           </ToolBarIcons>
         </ToolBar>
       </ToolBarBackground>
-      <TextArea
-        ref={editorRef}
-        contentEditable={true}
-        suppressContentEditableWarning={true}
-        style={{
-          minHeight: '100px',
-          padding: '10px',
-        }}
-        onInput={handleInput}
-      ></TextArea>
+      <div className="target-div">
+        <TextArea
+          ref={editorRef}
+          contentEditable={true}
+          suppressContentEditableWarning={true}
+          style={{
+            minHeight: '100px',
+            padding: '10px',
+          }}
+          onInput={handleInput}
+        ></TextArea>
+      </div>
       {content ? '' : <PlaceHolder>I am your reach text editor.</PlaceHolder>}
     </TextEditorWrapper>
   );
