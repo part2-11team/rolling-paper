@@ -20,14 +20,17 @@ import {
 } from './PostMessagePage.style';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import TextEditor from './TextEditor';
+import Man1 from './asset/man1.png';
+import Man2 from './asset/man2.png';
+import DefaultImg from './asset/defaultImg.png';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
   const [isOpenFont, setIsOpenFont] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
-  const [selectedFontOption, setSelectedFontOption] = useState('지인');
+  const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
+  const [profileImg, setProfileImg] = useState(DefaultImg);
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -37,24 +40,25 @@ export const PostMessagePage = () => {
   ];
 
   const dropdownFontOptions = [
-    { value: '가족', label: '가족' },
-    { value: '지인', label: '지인' },
-    { value: '동료', label: '동료' },
-    { value: '친구', label: '친구' },
+    { value: 'Noto Sans', label: 'Noto Sans' },
+    { value: 'Pretendard', label: 'Pretendard' },
+    { value: '나눔명조', label: '나눔명조' },
+    { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
   ];
 
   const samplePicture = [
-    { value: '가족', label: '가족' },
-    { value: '지인', label: '지인' },
-    { value: '동료', label: '동료' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
-    { value: '친구', label: '친구' },
+    { src: Man1 },
+    { src: Man2 },
+    { src: Man1 },
+    { src: Man2 },
+    { src: Man1 },
+    { src: Man2 },
+    { src: Man1 },
+    { src: Man2 },
+    { src: Man1 },
+    { src: Man2 },
+    { src: Man1 },
+    { src: Man2 },
   ];
 
   const handleToggleDropdown = () => {
@@ -85,17 +89,21 @@ export const PostMessagePage = () => {
 
         <PostMessageContent>
           <PostMessageContentHeader>프로필 이미지</PostMessageContentHeader>
+
           <SelectPictureContain>
-            <SelectedPicture />
+            <SelectedPicture src={DefaultImg} />
+
             <SelectPictureListContain>
               <SelectPictureListInfo>
                 프로필 이미지를 선택해주세요!
               </SelectPictureListInfo>
+
               <SelectPictureList>
                 {samplePicture.slice(0, 10).map((samplePicture, index) => (
-                  <SelectPictures key={index}>
-                    {samplePicture.label}
-                  </SelectPictures>
+                  <SelectPictures
+                    key={index}
+                    src={samplePicture.src}
+                  ></SelectPictures>
                 ))}
               </SelectPictureList>
             </SelectPictureListContain>
@@ -127,11 +135,12 @@ export const PostMessagePage = () => {
           <PostMessageContentHeader>
             내용을 입력해 주세요
           </PostMessageContentHeader>
-          <ReactQuill style={{ width: '720px', height: '260px' }} />
+          <TextEditor />
         </PostMessageContent>
 
         <PostMessageContent>
           <PostMessageContentHeader>폰트 선택</PostMessageContentHeader>
+
           <PostMessageDropdownList onClick={handleFontToggleDropdown}>
             <DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
 

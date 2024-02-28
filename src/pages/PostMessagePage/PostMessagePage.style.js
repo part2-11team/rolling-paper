@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import React from 'react';
 
 export const PostWrapper = styled.div`
   display: flex;
@@ -94,7 +93,7 @@ export const SelectPictureList = styled.div`
   height: 56px;
   gap: 4px;
 `;
-export const SelectPictures = styled.div`
+export const SelectPictures = styled.img`
   display: flex;
   width: 56px;
   height: 56px;
@@ -102,7 +101,6 @@ export const SelectPictures = styled.div`
   flex-shrink: 0;
   border-radius: 100px;
   border: 1px solid #eee;
-  background: #fff;
 `;
 
 export const PostMessageDropdownList = styled.div`
@@ -154,6 +152,8 @@ export const PostMessageDropdownListContent = styled.div`
   z-index: 1;
   margin-top: 10px;
 `;
+
+PostMessageDropdownListContent.shouldForwardProp = (prop) => prop !== 'isOpen';
 
 export const DropdownListContentOption = styled.div`
   display: flex;
