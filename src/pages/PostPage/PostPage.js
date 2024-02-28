@@ -39,8 +39,8 @@ const PostPage = () => {
 
   return (
   <S.PostPage>
-    <S.PostPageContainer>
-      <S.ToInputDiv>
+    <S.PostPageForm>
+      <S.ToInputWrapper>
         <S.PostPageH1>
           To.
         </S.PostPageH1>
@@ -53,8 +53,8 @@ const PostPage = () => {
           $hasError={error}
         />
         <S.ErrorMessage $hasError={error}>값을 입력해 주세요.</S.ErrorMessage>
-      </S.ToInputDiv>
-      <S.BackgroundSelectDiv>
+      </S.ToInputWrapper>
+      <S.BackgroundSelectWrapper>
         <S.PostPageH1>
           배경화면을 선택해 주세요.
         </S.PostPageH1>
@@ -73,11 +73,11 @@ const PostPage = () => {
           <S.SelectBox $chosen={choiceColor} $selectNth={Background[2]} />
           <S.SelectBox $chosen={choiceColor} $selectNth={Background[3]} />
         </S.ColorSelectorDiv>
-      </S.BackgroundSelectDiv>
+      </S.BackgroundSelectWrapper>
       <Button size="full" onClick={(e) => handleMovetoListClick(e)}>
         생성하기
       </Button>
-      </S.PostPageContainer>
+      </S.PostPageForm>
   </S.PostPage>
   );
 };
