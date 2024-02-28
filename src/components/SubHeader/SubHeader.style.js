@@ -1,4 +1,6 @@
 ﻿import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 export const SubHeader = styled.div`
   display: flex;
@@ -20,14 +22,8 @@ export const HeaderContent = styled.div`
 `;
 
 export const UserName = styled.div`
-  color: var(--gray-800, #2b2b2b);
-  /* Font/28 Bold */
-  font-family: Pretendard;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 42px; /* 150% */
-  letter-spacing: -0.28px;
+  color: ${COLORS.GRAY_800};
+  ${FONT_STYLE.BOLD_28};
 `;
 
 export const UserInfo = styled.div`
@@ -65,7 +61,7 @@ export const AllProfile = styled.div`
   left: 42px;
   border-radius: 140px;
   border: 1.4px solid #fff;
-  background: #fff;
+  background: ${COLORS.WHITE};
   justify-content: center;
   align-items: center;
   width: 28px;
@@ -73,14 +69,10 @@ export const AllProfile = styled.div`
   flex-shrink: 0;
   z-index: 4;
   color: #484848;
-  font-family: Pretendard;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 18px; /* 150% */
+  ${FONT_STYLE.REGULAR_12}
 `;
 export const CntText = styled.div`
-  color: var(--gray-900, #181818);
+  color: ${COLORS.GRAY_900};
   font-family: Pretendard;
   font-size: 18px;
   font-style: normal;
@@ -89,18 +81,14 @@ export const CntText = styled.div`
 `;
 
 export const Strong = styled.strong`
-  color: var(--gray-900, #181818);
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 27px; /* 150% */
+  color: ${COLORS.GRAY_900};
+  ${FONT_STYLE.BOLD_18}
 `;
 
 export const Border = styled.div`
   width: 1px;
   height: 28px;
-  background: var(--gray-200, #eee);
+  background: ${COLORS.GRAY_200};
 `;
 
 export const HeaderService = styled.div`
@@ -145,14 +133,10 @@ export const AddEmojiButton = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 6px;
-  border: 1px solid var(--gray-300, #ccc);
-  background: var(--white, #fff);
-  color: var(--gray-900, #181818);
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px; /* 150% */
+  border: 1px solid ${COLORS.GRAY_300};
+  background: ${COLORS.WHITE};
+  color: ${COLORS.GRAY_900};
+  ${FONT_STYLE.REGULAR_16}
 `;
 
 export const ShareButton = styled.button`
@@ -162,6 +146,6 @@ export const ShareButton = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 6px;
-  border: 1px solid var(--gray-300, #ccc);
-  background: var(--white, #fff);
+  border: 1px solid ${COLORS.GRAY_300};
+  background: ${COLORS.WHITE};
 `;
