@@ -32,12 +32,18 @@ export const ToInputDiv = styled.div`
 
 export const ToInput = styled.input`
   margin-top: 1.2rem;
-  border: 0.1rem solid ${COLORS.GRAY_300};
+  border: 0.1rem solid ${props => props.$hasError ? COLORS.ERROR : COLORS.GRAY_300};
   border-radius: 0.8rem;  
   padding: 1.2rem 1.6rem;  
   width: 72rem;
   color: ${COLORS.GRAY_500};
   ${FONT_STYLE.REGULAR_16}
+`
+
+export const ErrorMessage = styled.div`
+  color: ${COLORS.ERROR};
+  ${FONT_STYLE.REGULAR_14}
+  display: ${props => props.$hasError ? 'block' : 'none'};
 `
 
 export const BackgroundSelectDiv = styled.div`
@@ -64,8 +70,8 @@ export const SelectBox = styled.div`
   width: 16.8rem;
   height: 16.8rem;
   border-radius: 1.6rem;
-  background-color: ${({ chosen, $selectNth }) => {
-    if (chosen) {
+  background-color: ${({ $chosen, $selectNth }) => {
+    if ($chosen) {
       switch ($selectNth) {
         case 'orange':
           return COLORS.ORANGE_200;
@@ -105,8 +111,8 @@ export const ColorImageButton = styled.div`
   background-color: ${COLORS.GRAY_100};
   color: ${COLORS.GRAY_900};
   
-  ${({ chosen }) =>
-    chosen &&
+  ${({ $chosen }) =>
+    $chosen &&
     css`
       background-color: ${COLORS.WHITE};
       border: 0.2rem solid ${COLORS.PURPLE_600};
