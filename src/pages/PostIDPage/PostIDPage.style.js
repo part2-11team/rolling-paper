@@ -76,7 +76,8 @@ const loading = keyframes`
 export const LoadingIcon = styled.img`
   display: ${({ $endData }) => ($endData ? 'none' : 'block')};
   position: absolute;
-  ${({ $initialLoading }) => ($initialLoading ? 'top: 0px' : 'bottom: 30px')};
+  ${({ $initialLoading }) =>
+    $initialLoading ? 'top: calc(50% - 15px)' : 'bottom: 30px'};
   left: calc(50% - 15px);
   width: 30px;
   height: 30px;

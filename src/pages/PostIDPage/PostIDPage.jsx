@@ -30,7 +30,7 @@ export default function PostIDPage() {
   const [messageCardData, setMessageCardData] = useState([]);
   const [offset, setOffset] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const target = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
@@ -59,16 +59,15 @@ export default function PostIDPage() {
   };
 
   const getCardData = async (limit = null, offset = null) => {
-    setLoading(true);
     const { data, error } = await getMessageCardData(userID, limit, offset);
-    if (data && data.length > 0) {
+    if (data) {
       setMessageCardData((prev) => [...prev, ...data]);
-      /* eslint-disable */
+      if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
+        setEndData(true);
+      }
     } else {
       if (error) {
         setDataError(error);
-      } else {
-        setEndData(true);
       }
     }
     setLoading(false);
