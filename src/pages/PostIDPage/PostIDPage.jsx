@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
 import * as S from './PostIDPage.style';
 import {
@@ -10,7 +11,7 @@ import {
 } from './index';
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
-import { deleteMessageCardData } from '../../API';
+import { deleteMessageCardData, getRecipientData } from '../../API';
 
 const DEFAULT = {
   id: null,
@@ -37,6 +38,12 @@ export default function PostIDPage() {
   const [dataError, setDataError] = useState(null);
   const [endData, setEndData] = useState(false);
   const [deleteCount, setDeleteCount] = useState(0);
+  const [userData, setUserData] = useState({
+    name: null,
+    backgroundColor: 'beige',
+    backgroundImageURL: null,
+  });
+  const [messageCount, setMessageCount] = useState(0);
   const options = {
     threshold: 0.5,
   };
@@ -92,8 +99,25 @@ export default function PostIDPage() {
     }
   };
 
+  const getUserData = async (userID) => {
+    const { name, backgroundColor, backgroundImageURL, messageCount, error } =
+      await getRecipientData(userID);
+    if (error) {
+      setDataError(error);
+      return;
+    }
+
+    setUserData({ name, backgroundColor, backgroundImageURL });
+    setMessageCount(messageCount);
+    console.log(backgroundColor, backgroundImageURL);
+  };
+
   useEffect(() => {
-    if (loading) {
+    getUserData(userID);
+  }, []);
+
+  useEffect(() => {
+    if (loading && !dataError) {
       if (initialLoading) {
         getCardData(INITIAL_PAGE_LOADING, offset);
       } else {
@@ -110,6 +134,7 @@ export default function PostIDPage() {
       observer.disconnect(target.current);
     };
   }, [handleScroll]);
+
   return (
     <PostIDContext.Provider
       value={{
@@ -127,8 +152,11 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <>
-          <S.Header />
-          <S.PageWrapper>
+          <S.Header>{userData.name}</S.Header>
+          <S.PageWrapper
+            $color={userData.backgroundColor}
+            $url={userData.backgroundImageURL}
+          >
             <S.MessageWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
               {messageCardData.map((cardData) => (

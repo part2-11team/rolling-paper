@@ -38,3 +38,20 @@ export const deleteMessageCardData = async (CardID) => {
     return { error: error };
   }
 };
+/* eslint-disable */
+export const getRecipientData = async (userID) => {
+  try {
+    const response = await axios.get(`${BASE_URL}recipients/${userID}/`);
+    const { name, backgroundColor, backgroundImageURL, messageCount } =
+      response.data;
+    return {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      error: null,
+    };
+  } catch (error) {
+    return { error: error };
+  }
+};

@@ -2,17 +2,30 @@ import { styled, keyframes } from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
 import { FONT_STYLE } from '../../style/fontStyle';
 
+const BACKGROUND_COLOR = {
+  beige: COLORS.ORANGE_200,
+  purple: COLORS.PURPLE_200,
+  blue: COLORS.BLUE_200,
+  green: COLORS.GREEN_200,
+};
+
 export const Header = styled.div`
   width: 100%;
   height: 133px;
   background-color: ${COLORS.WHITE};
+  ${FONT_STYLE.BOLD_28};
 `;
 
 export const PageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: fit-content;
-  background-color: ${COLORS.ORANGE_200};
+  ${({ $url, $color }) =>
+    $url
+      ? `background: url(${$url}) no-repeat center rgba(0, 0, 0, 0.5);`
+      : `background-color: ${BACKGROUND_COLOR[$color]}`};
+  background-size: cover;
+  background-attachment: fixed;
 `;
 
 export const ModalBackground = styled.div`
