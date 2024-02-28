@@ -30,7 +30,7 @@ export const PostMessagePage = () => {
   const [isOpenFont, setIsOpenFont] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
-  const [profileImg, setProfileImg] = useState(DefaultImg);
+  //const [profileImg, setProfileImg] = useState(DefaultImg); 추후 이미지 설정 작업을 위한 코드
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
