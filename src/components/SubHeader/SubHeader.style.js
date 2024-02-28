@@ -44,11 +44,41 @@ export const PaperCnt = styled.div`
 
 export const ProfileCnt = styled.div`
   display: flex;
+  position: relative;
   width: 76px;
   height: 28px;
   flex-direction: row;
 `;
 
+export const ProfileBedge = styled.img`
+  position: absolute;
+  border-radius: 140px;
+  border: 1.4px solid #fff;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+`;
+
+export const AllProfile = styled.div`
+  display: flex;
+  position: absolute;
+  left: 42px;
+  border-radius: 140px;
+  border: 1.4px solid #fff;
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  z-index: 4;
+  color: #484848;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+`;
 export const CntText = styled.div`
   color: var(--gray-900, #181818);
   font-family: Pretendard;

@@ -5,13 +5,25 @@ import AddEmoji from '../../assets/icon/add-24.svg';
 import Share from '../../assets/icon/share-24.svg';
 
 const SubHeader = ({ value }) => {
+  const ProfileBedge = value.messageCardData.slice(0, 3);
+
   return (
     <S.SubHeader>
       <S.HeaderContent>
         <S.UserName>To.{value.currentCardData.id}</S.UserName>
         <S.UserInfo>
           <S.PaperCnt>
-            <S.ProfileCnt>프로필 더미</S.ProfileCnt>
+            <S.ProfileCnt>
+              {ProfileBedge.map((data, index) => (
+                <S.ProfileBedge
+                  key={index}
+                  src={data.profileImageURL}
+                  alt={`Profile ${index}`}
+                  style={{ left: `${index * 14}px`, zIndex: `${index}` }}
+                />
+              ))}
+              <S.AllProfile>+{value.messageCardData.length - 3}</S.AllProfile>
+            </S.ProfileCnt>
             <S.CntText>
               <S.Strong>{value.messageCardData.length}</S.Strong> 명이
               작성했어요!
