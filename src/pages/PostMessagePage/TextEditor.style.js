@@ -45,7 +45,7 @@ export const ToolBarIcon = styled.img`
   justify-content: center;
 
   &:active {
-    background-color: #003d7a;
+    background-color: #ccc;
   }
 `;
 export const ToolBarIconColor = styled.input`

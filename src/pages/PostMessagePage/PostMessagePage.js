@@ -1,23 +1,5 @@
 import React, { useState } from 'react';
-import {
-  PostMessageContainer,
-  PostMessageContent,
-  PostMessageContentHeader,
-  PostMessageDropdownList,
-  PostMessageDropdownListButton,
-  PostMessageDropdownListContent,
-  PostMessageInput,
-  DropdownListContentOption,
-  SelectPictureContain,
-  SelectedPicture,
-  SelectPictureListContain,
-  SelectPictureListInfo,
-  SelectPictureList,
-  SelectPictures,
-  PostWrapper,
-  SubmitButton,
-  DropdownIcon,
-} from './PostMessagePage.style';
+import * as PMS from './PostMessagePage.style.js';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
 import TextEditor from './TextEditor';
@@ -80,88 +62,94 @@ export const PostMessagePage = () => {
   };
 
   return (
-    <PostWrapper>
-      <PostMessageContainer>
-        <PostMessageContent>
-          <PostMessageContentHeader>From.</PostMessageContentHeader>
-          <PostMessageInput placeholder="이름을 입력해 주세요."></PostMessageInput>
-        </PostMessageContent>
+    <PMS.PostWrapper>
+      <PMS.PostMessageContainer>
+        <PMS.PostMessageContent>
+          <PMS.PostMessageContentHeader>From.</PMS.PostMessageContentHeader>
+          <PMS.PostMessageInput placeholder="이름을 입력해 주세요."></PMS.PostMessageInput>
+        </PMS.PostMessageContent>
 
-        <PostMessageContent>
-          <PostMessageContentHeader>프로필 이미지</PostMessageContentHeader>
+        <PMS.PostMessageContent>
+          <PMS.PostMessageContentHeader>
+            프로필 이미지
+          </PMS.PostMessageContentHeader>
 
-          <SelectPictureContain>
-            <SelectedPicture src={DefaultImg} />
+          <PMS.SelectPictureContain>
+            <PMS.SelectedPicture src={DefaultImg} />
 
-            <SelectPictureListContain>
-              <SelectPictureListInfo>
+            <PMS.SelectPictureListContain>
+              <PMS.SelectPictureListInfo>
                 프로필 이미지를 선택해주세요!
-              </SelectPictureListInfo>
+              </PMS.SelectPictureListInfo>
 
-              <SelectPictureList>
+              <PMS.SelectPictureList>
                 {samplePicture.slice(0, 10).map((samplePicture, index) => (
-                  <SelectPictures
+                  <PMS.SelectPictures
                     key={index}
                     src={samplePicture.src}
-                  ></SelectPictures>
+                  ></PMS.SelectPictures>
                 ))}
-              </SelectPictureList>
-            </SelectPictureListContain>
-          </SelectPictureContain>
-        </PostMessageContent>
+              </PMS.SelectPictureList>
+            </PMS.SelectPictureListContain>
+          </PMS.SelectPictureContain>
+        </PMS.PostMessageContent>
 
-        <PostMessageContent>
-          <PostMessageContentHeader>상대와의 관계</PostMessageContentHeader>
-          <PostMessageDropdownList onClick={handleToggleDropdown}>
-            <DropdownIcon src={isOpenRelation ? arrowUpIcon : arrowDownIcon} />
+        <PMS.PostMessageContent>
+          <PMS.PostMessageContentHeader>
+            상대와의 관계
+          </PMS.PostMessageContentHeader>
+          <PMS.PostMessageDropdownList onClick={handleToggleDropdown}>
+            <PMS.DropdownIcon
+              src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
+            />
 
-            <PostMessageDropdownListButton>
+            <PMS.PostMessageDropdownListButton>
               {selectedRelationOption}
-            </PostMessageDropdownListButton>
-            <PostMessageDropdownListContent isOpen={isOpenRelation}>
+            </PMS.PostMessageDropdownListButton>
+            <PMS.PostMessageDropdownListContent isOpen={isOpenRelation}>
               {dropdownRelationOptions.map((DropOption) => (
-                <DropdownListContentOption
+                <PMS.DropdownListContentOption
                   key={DropOption.value}
                   onClick={() => handleSelectRelation(DropOption.value)}
                 >
                   {DropOption.label}
-                </DropdownListContentOption>
+                </PMS.DropdownListContentOption>
               ))}
-            </PostMessageDropdownListContent>
-          </PostMessageDropdownList>
-        </PostMessageContent>
+            </PMS.PostMessageDropdownListContent>
+          </PMS.PostMessageDropdownList>
+        </PMS.PostMessageContent>
 
-        <PostMessageContent>
-          <PostMessageContentHeader>
+        <PMS.PostMessageContent>
+          <PMS.PostMessageContentHeader>
             내용을 입력해 주세요
-          </PostMessageContentHeader>
+          </PMS.PostMessageContentHeader>
           <TextEditor />
-        </PostMessageContent>
+        </PMS.PostMessageContent>
 
-        <PostMessageContent>
-          <PostMessageContentHeader>폰트 선택</PostMessageContentHeader>
+        <PMS.PostMessageContent>
+          <PMS.PostMessageContentHeader>폰트 선택</PMS.PostMessageContentHeader>
 
-          <PostMessageDropdownList onClick={handleFontToggleDropdown}>
-            <DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
+          <PMS.PostMessageDropdownList onClick={handleFontToggleDropdown}>
+            <PMS.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
 
-            <PostMessageDropdownListButton>
+            <PMS.PostMessageDropdownListButton>
               {selectedFontOption}
-            </PostMessageDropdownListButton>
-            <PostMessageDropdownListContent isOpen={isOpenFont}>
+            </PMS.PostMessageDropdownListButton>
+            <PMS.PostMessageDropdownListContent isOpen={isOpenFont}>
               {dropdownFontOptions.map((DropOption) => (
-                <DropdownListContentOption
+                <PMS.DropdownListContentOption
                   key={DropOption.value}
                   onClick={() => handleSelectFont(DropOption.value)}
                 >
                   {DropOption.label}
-                </DropdownListContentOption>
+                </PMS.DropdownListContentOption>
               ))}
-            </PostMessageDropdownListContent>
-          </PostMessageDropdownList>
-        </PostMessageContent>
-      </PostMessageContainer>
+            </PMS.PostMessageDropdownListContent>
+          </PMS.PostMessageDropdownList>
+        </PMS.PostMessageContent>
+      </PMS.PostMessageContainer>
 
-      <SubmitButton>생성하기</SubmitButton>
-    </PostWrapper>
+      <PMS.SubmitButton>생성하기</PMS.SubmitButton>
+    </PMS.PostWrapper>
   );
 };
