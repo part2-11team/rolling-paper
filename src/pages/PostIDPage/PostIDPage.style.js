@@ -1,5 +1,6 @@
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from '../../style/fontStyle';
 
 export const Header = styled.div`
   width: 100%;
@@ -46,4 +47,39 @@ export const MessageWrapper = styled.div`
     max-width: 495px;
     min-width: 360px;
   }
+`;
+
+export const ErrorWrapper = styled.div`
+  padding: 15% 0;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+`;
+
+export const ErrorTitle = styled.p`
+  ${FONT_STYLE.BOLD_28};
+`;
+export const ErrorContent = styled.p`
+  margin-top: 15px;
+  ${FONT_STYLE.REGULAR_15};
+`;
+
+const loading = keyframes`
+  from{
+    transfrom: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+export const LoadingIcon = styled.img`
+  display: ${({ $endData }) => ($endData ? 'none' : 'block')};
+  position: absolute;
+  ${({ $initialLoading }) =>
+    $initialLoading ? 'top: calc(50% - 15px)' : 'bottom: 30px'};
+  left: calc(50% - 15px);
+  width: 30px;
+  height: 30px;
+  animation: ${loading} 0.9s infinite;
 `;

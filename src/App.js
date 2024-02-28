@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import GlobalStyle from './style/GlobalStyle';
-import PaperListPage from './pages/PaperListPage';
 import PostPage from './pages/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
 import PaperListPage from './pages/PaperListPage/PaperListPage';
@@ -16,8 +15,10 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/list" element={<PaperListPage />}></Route>
-          <Route path="/post" element={<PostPage />}></Route>
-          <Route path="/postID" element={<PostIDPage />}></Route>
+          <Route path="/post">
+            <Route index element={<PostPage />}></Route>
+            <Route path=":userID" element={<PostIDPage />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
