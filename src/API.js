@@ -29,3 +29,12 @@ export const getMessageCardData = async (
     return { data: null, error: error };
   }
 };
+
+export const deleteMessageCardData = async (CardID) => {
+  try {
+    await axios.delete(`${BASE_URL}messages/${CardID}/`);
+    return { error: null };
+  } catch (error) {
+    return { error: error };
+  }
+};

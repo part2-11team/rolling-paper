@@ -10,6 +10,7 @@ import {
 } from './index';
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
+import { deleteMessageCardData } from '../../API';
 
 const DEFAULT = {
   id: null,
@@ -35,6 +36,7 @@ export default function PostIDPage() {
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
   const [endData, setEndData] = useState(false);
+  const [deleteCount, setDeleteCount] = useState(0);
   const options = {
     threshold: 0.5,
   };
@@ -74,13 +76,29 @@ export default function PostIDPage() {
     if (initialLoading) {
       setInitialLoading(false);
     }
+    setDeleteCount(0);
+  };
+
+  const deleteCardData = async (cardID) => {
+    const { error } = await deleteMessageCardData(cardID);
+    if (error) {
+      setDataError(error);
+    } else {
+      setOffset((prevOffset) => prevOffset - 1);
+      setDeleteCount((prevCount) => (prevCount + 1) % 3);
+      setMessageCardData((prevCardData) =>
+        prevCardData.filter((cardData) => cardData.id !== cardID),
+      );
+    }
   };
 
   useEffect(() => {
-    if (initialLoading) {
-      getCardData(INITIAL_PAGE_LOADING, offset);
-    } else {
-      getCardData(PAGE_LOADING, offset);
+    if (loading) {
+      if (initialLoading) {
+        getCardData(INITIAL_PAGE_LOADING, offset);
+      } else {
+        getCardData(PAGE_LOADING + deleteCount, offset);
+      }
     }
   }, [offset]);
   useEffect(() => {
@@ -99,11 +117,12 @@ export default function PostIDPage() {
         handleCurrentCardData,
         currentHoverCard,
         handleCurrentHoverCard,
+        deleteCardData,
       }}
     >
       {dataError ? (
         <S.ErrorWrapper>
-          <S.ErrorTitle>잘못된 URL 접근입니다.</S.ErrorTitle>
+          <S.ErrorTitle>잘못된 접근입니다.</S.ErrorTitle>
           <S.ErrorContent>{dataError.message}</S.ErrorContent>
         </S.ErrorWrapper>
       ) : (
