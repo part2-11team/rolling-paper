@@ -227,8 +227,15 @@ export const SubmitButton = styled.button`
   }
 
   &:focus {
-    border: #5603a7;
+    border: ${COLORS.PURPLE_900};
     background: ${COLORS.PURPLE_800};
+  }
+
+  &:disabled {
+    border-radius: 12px;
+    border: 1px solid ${COLORS.GRAY_300};
+    background: ${COLORS.GRAY_300};
+    cursor: not-allowed;
   }
 `;
 

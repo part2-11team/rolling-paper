@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as S from './PostMessagePage.style.js';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
@@ -10,11 +10,12 @@ import DefaultImg from './asset/defaultImg.png';
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
   const [isOpenFont, setIsOpenFont] = useState(false);
-  const [isName, setIsName] = useState(false);
+  const [isName, setIsName] = useState();
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
   const [profileImg, setProfileImg] = useState(DefaultImg);
   const [editorTextContent, setEditorTextContent] = useState('');
+  const [passValue, setPassValue] = useState(true);
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -71,6 +72,14 @@ export const PostMessagePage = () => {
     setSelectedFontOption(font);
     setIsOpenFont(false); // 드롭다운 닫기
   };
+
+  useEffect(() => {
+    if (isName === false && editorTextContent.trim() !== '') {
+      setPassValue(true);
+    } else {
+      setPassValue(false);
+    }
+  }, [isName, editorTextContent]);
 
   return (
     <S.PostWrapper>
@@ -172,7 +181,7 @@ export const PostMessagePage = () => {
         </S.PostMessageContent>
       </S.PostMessageContainer>
 
-      <S.SubmitButton>생성하기</S.SubmitButton>
+      <S.SubmitButton disabled={!passValue}>생성하기</S.SubmitButton>
     </S.PostWrapper>
   );
 };
