@@ -69,15 +69,53 @@ export default function PostIDPage() {
     }
   };
 
-  const getCardData = async (limit = null, offset = null) => {
-    /* eslint-disable */
+  const InitialGetCardData = async (limit = null, offset = null) => {
     const { data, count, error } = await getMessageCardData(
       userID,
       limit,
       offset,
     );
-    console.log(data, count);
     if (!error) {
+      setMessageCardData((prev) => [...prev, ...data]);
+      setMessageCount(count);
+      if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
+        setEndData(true);
+      }
+    } else {
+      if (error) {
+        setDataError(error);
+      }
+    }
+    setLoading(false);
+    setInitialLoading(false);
+  };
+
+  const getCardData = async (limit = null, offset = null) => {
+    const { data, count, error } = await getMessageCardData(
+      userID,
+      limit,
+      offset,
+    );
+    if (!error) {
+      /* eslint-disable */
+      console.log(count, messageCount);
+      if (count > messageCount) {
+        console.log(count, messageCount);
+        setLoading(false);
+        const updateCount = count - messageCount;
+        const { data: updateData, error: updateError } =
+          await getMessageCardData(userID, updateCount, 0);
+        if (!updateError) {
+          setMessageCardData((prevCardData) => [
+            ...updateData,
+            ...prevCardData,
+          ]);
+          setOffset((prevOffset) => prevOffset + updateCount);
+          setMessageCount(count);
+        } else {
+          setDataError(updateError);
+        }
+      }
       setMessageCardData((prev) => [...prev, ...data]);
       if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
         setEndData(true);
@@ -88,9 +126,6 @@ export default function PostIDPage() {
       }
     }
     setLoading(false);
-    if (initialLoading) {
-      setInitialLoading(false);
-    }
     setDeleteCount(0);
   };
 
@@ -133,7 +168,7 @@ export default function PostIDPage() {
   useEffect(() => {
     if (loading && !dataError) {
       if (initialLoading) {
-        getCardData(INITIAL_PAGE_LOADING, offset);
+        InitialGetCardData(INITIAL_PAGE_LOADING, offset);
       } else {
         getCardData(PAGE_LOADING + deleteCount, offset);
       }
