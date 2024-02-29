@@ -47,7 +47,7 @@ export default function PostIDPage() {
   });
   const [messageCount, setMessageCount] = useState(0);
   const options = {
-    threshold: 0.5,
+    threshold: 0.3,
   };
 
   const handleCurrentCardData = (cardData = null) => {
@@ -169,7 +169,7 @@ export default function PostIDPage() {
     getUserData(userID);
   }, []);
 
-  useEffect(() => {
+  const dataLoad = () => {
     if (loading && !dataError) {
       if (initialLoading) {
         InitialGetCardData(INITIAL_PAGE_LOADING, offset);
@@ -177,7 +177,7 @@ export default function PostIDPage() {
         getCardData(PAGE_LOADING + deleteCount, offset);
       }
     }
-  }, [offset]);
+  };
   useEffect(() => {
     const observer = new IntersectionObserver(handleScroll, options);
     if (target.current) {
@@ -232,17 +232,18 @@ export default function PostIDPage() {
               {messageCardData.map((cardData) => (
                 <MessageCard cardData={cardData} key={uuid()}></MessageCard>
               ))}
+              {loading ? (
+                <S.LoadingIcon
+                  src={loadingIcon}
+                  alt="loading"
+                  $initialLoading={initialLoading}
+                  $endData={endData}
+                  onLoad={dataLoad}
+                ></S.LoadingIcon>
+              ) : (
+                !endData && <div ref={target}></div>
+              )}
             </S.GridWrapper>
-            {loading ? (
-              <S.LoadingIcon
-                src={loadingIcon}
-                alt="loading"
-                $initialLoading={initialLoading}
-                $endData={endData}
-              ></S.LoadingIcon>
-            ) : (
-              !endData && <div ref={target}></div>
-            )}
           </S.MessageWrapper>
           <S.ModalBackground
             $currentCardData={currentCardData.id}

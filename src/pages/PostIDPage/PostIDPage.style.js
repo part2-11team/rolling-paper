@@ -117,9 +117,9 @@ const loading = keyframes`
 `;
 
 export const LoadingIcon = styled.img`
-  display: ${({ $endData }) => ($endData ? 'none' : 'block')};
+  visibility: ${({ $endData }) => ($endData ? 'hidden' : 'visible')};
   position: absolute;
-  ${({ $initialLoading }) => ($initialLoading ? 'top: 25%' : 'bottom: 30px')};
+  ${({ $initialLoading }) => ($initialLoading ? 'top: 40vh' : 'bottom: 30px')};
   left: calc(50% - 15px);
   width: 30px;
   height: 30px;
