@@ -10,6 +10,7 @@ import DefaultImg from './asset/defaultImg.png';
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
   const [isOpenFont, setIsOpenFont] = useState(false);
+  const [isName, setIsName] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
   //const [profileImg, setProfileImg] = useState(DefaultImg); 추후 이미지 설정 작업을 위한 코드
@@ -43,6 +44,11 @@ export const PostMessagePage = () => {
     { src: Man2 },
   ];
 
+  const handleNameError = (e) => {
+    const value = e.target.value;
+    value.trim() === '' ? setIsName(true) : setIsName(false);
+  };
+
   const handleToggleDropdown = () => {
     setIsOpen(!isOpenRelation); // 드롭다운 열고 닫기 토글
   };
@@ -66,7 +72,18 @@ export const PostMessagePage = () => {
       <S.PostMessageContainer>
         <S.PostMessageContent>
           <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
-          <S.PostMessageInput placeholder="이름을 입력해 주세요."></S.PostMessageInput>
+          <div>
+            <S.PostMessageInput
+              placeholder="이름을 입력해 주세요."
+              onBlur={handleNameError}
+              style={{ borderColor: isName ? '#dc3a3a' : '#ccc' }}
+            ></S.PostMessageInput>
+            {isName && (
+              <S.PostMessageInputError>
+                값을 입력해주세요.
+              </S.PostMessageInputError>
+            )}
+          </div>
         </S.PostMessageContent>
 
         <S.PostMessageContent>

@@ -57,6 +57,20 @@ export const PostMessageInput = styled.input`
   }
 `;
 
+export const PostMessageInputError = styled.p`
+  color: ${COLORS.ERROR};
+
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.06px;
+
+  margin-top: 4px;
+  margin-left: 15px;
+`;
+
 export const SelectPictureContain = styled.div`
   display: flex;
   align-items: center;
