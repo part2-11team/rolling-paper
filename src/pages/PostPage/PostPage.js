@@ -74,7 +74,7 @@ const PostPage = () => {
           <S.SelectBox $chosen={choiceColor} $selectNth={Background[3]} />
         </S.ColorSelectorDiv>
       </S.BackgroundSelectWrapper>
-      <Button size="full" onClick={(e) => handleMovetoListClick(e)}>
+      <Button disabled={!value} size="full" onClick={handleMovetoListClick}>
         생성하기
       </Button>
       </S.PostPageForm>
