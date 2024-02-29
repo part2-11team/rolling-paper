@@ -58,6 +58,11 @@ export default function PostIDPage() {
     }
   };
 
+  const clickOutterEvent = (e) => {
+    e.stopPropagation();
+    setCurrentCardData(DEFAULT);
+  };
+
   const handleCurrentHoverCard = (id) => {
     setCurrentHoverCard(id);
   };
@@ -239,7 +244,10 @@ export default function PostIDPage() {
               !endData && <div ref={target}></div>
             )}
           </S.MessageWrapper>
-          <S.ModalBackground $currentCardData={currentCardData.id}>
+          <S.ModalBackground
+            $currentCardData={currentCardData.id}
+            onClick={clickOutterEvent}
+          >
             <Modal></Modal>
           </S.ModalBackground>
         </S.PageWrapper>
