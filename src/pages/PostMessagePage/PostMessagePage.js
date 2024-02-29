@@ -12,27 +12,17 @@ export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
   const [isOpenFont, setIsOpenFont] = useState(false);
   const [isName, setIsName] = useState();
-  const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
-  const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
-  const [profileImg, setProfileImg] = useState(DefaultImg);
-  const [editorTextContent, setEditorTextContent] = useState('');
-  const [passValue, setPassValue] = useState(true);
-  const [currentTime, setCurrentTime] = useState('');
-  const [name, setName] = useState('');
+  const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
+  const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
+  const [profileImg, setProfileImg] = useState(DefaultImg); //프로필 사진
+  const [editorTextContent, setEditorTextContent] = useState(''); //메세지
+  const [passValue, setPassValue] = useState(true); //값 확인
+  const [currentTime, setCurrentTime] = useState(''); //생성날짜
+  const [name, setName] = useState(''); //이름
 
-  /*
-  const [name, setName] = useState('');//이름
-  const [currentTime, setCurrentTime] = useState('');//시간
-
-  const handleNameChange = (e) => {
-  setName(e.target.value);
-  };
-
-  const [currentTime, setCurrentTime] = useState('');
-
-  let MessageRetrieve = {
-    id: 'data.id',
-    recipientId: 'data.recipient_id',
+  let DATA = {
+    //id: 'data.id',
+    //recipientId: 'data.recipient_id',
     sender: name,
     profileImageURL: profileImg,
     relationship: selectedRelationOption,
@@ -40,8 +30,6 @@ export const PostMessagePage = () => {
     font: selectedFontOption,
     createdAt: currentTime,
   };
-
-  */
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -83,6 +71,17 @@ export const PostMessagePage = () => {
 
   const handleSetProfileImg = (src) => {
     setProfileImg(src);
+  };
+
+  const handleImportProfileImg = (src) => {
+    const file = src.target.files[0]; //파일 선택 처음 꺼
+    if (file) {
+      const readerImg = new FileReader(); //이미지 파일 읽는 뭐시기냐 그 이벤트 객체 생성
+      readerImg.onloadend = () => {
+        setProfileImg(readerImg.result); // 비동기적으로 작동하는 로드가 밑에 파일을 변환하면 그것을 프로필 이미지로
+      };
+      readerImg.readAsDataURL(file); //선택된 이미지 파일을 URL로 변환
+    }
   };
 
   const handleToggleDropdown = () => {
@@ -148,9 +147,24 @@ export const PostMessagePage = () => {
             <S.SelectedPicture src={profileImg} />
 
             <S.SelectPictureListContain>
-              <S.SelectPictureListInfo>
-                프로필 이미지를 선택해주세요!
-              </S.SelectPictureListInfo>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <S.SelectPictureListInfo>
+                  프로필 이미지를 선택해주세요!
+                </S.SelectPictureListInfo>
+
+                <S.InputLabel
+                  htmlFor="fileInput" //라벨을 이용한 커스텀 버튼
+                >
+                  <S.InputButton>이미지 추가하기</S.InputButton>
+                </S.InputLabel>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImportProfileImg}
+                  style={{ display: 'none' }}
+                />
+              </div>
 
               <S.SelectPictureList>
                 {samplePicture.slice(0, 10).map((samplePicture, index) => (
@@ -225,10 +239,7 @@ export const PostMessagePage = () => {
       <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
         생성하기
       </S.SubmitButton>
-      <p>
-        {currentTime}
-        {name}
-      </p>
+      {DATA ? '' : ''}
     </S.PostWrapper>
   );
 };

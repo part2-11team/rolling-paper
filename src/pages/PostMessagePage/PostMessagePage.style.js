@@ -238,6 +238,55 @@ export const SubmitButton = styled.button`
     cursor: not-allowed;
   }
 `;
+export const InputLabel = styled.label`
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const InputButton = styled.button`
+  display: flex;
+  width: 100px;
+  height: 20px;
+  padding: 0px 0px;
+  margin: 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  background: ${COLORS.PURPLE_600};
+  z-index: -1;
+
+  color: ${COLORS.WHITE};
+  text-align: center;
+  font-family: Pretendard;
+  fontSize: '12px',
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -0.18px;
+
+  &:hover {
+    background: ${COLORS.PURPLE_700};
+  }
+
+  &:active {
+    background: ${COLORS.PURPLE_800};
+  }
+
+  &:focus {
+    border: ${COLORS.PURPLE_900};
+    background: ${COLORS.PURPLE_800};
+  }
+
+  &:disabled {
+    border-radius: 12px;
+    border: 1px solid ${COLORS.GRAY_300};
+    background: ${COLORS.GRAY_300};
+    cursor: not-allowed;
+  }
+`;
 
 export const DropdownIcon = styled.img`
   position: absolute;
