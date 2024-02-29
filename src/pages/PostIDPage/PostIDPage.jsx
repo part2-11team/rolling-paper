@@ -78,7 +78,7 @@ export default function PostIDPage() {
     if (!error) {
       setMessageCardData((prev) => [...prev, ...data]);
       setMessageCount(count);
-      if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
+      if (data.length < INITIAL_PAGE_LOADING) {
         setEndData(true);
       }
     } else {
@@ -97,11 +97,7 @@ export default function PostIDPage() {
       offset,
     );
     if (!error) {
-      /* eslint-disable */
-      console.log(count, messageCount);
       if (count > messageCount) {
-        console.log(count, messageCount);
-        setLoading(false);
         const updateCount = count - messageCount;
         const { data: updateData, error: updateError } =
           await getMessageCardData(userID, updateCount, 0);
@@ -110,14 +106,17 @@ export default function PostIDPage() {
             ...updateData,
             ...prevCardData,
           ]);
-          setOffset((prevOffset) => prevOffset + updateCount);
           setMessageCount(count);
         } else {
           setDataError(updateError);
         }
+        const restData = data.slice(updateCount);
+        setMessageCardData((prevCardData) => [...prevCardData, ...restData]);
+      } else {
+        setMessageCardData((prev) => [...prev, ...data]);
       }
-      setMessageCardData((prev) => [...prev, ...data]);
-      if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
+
+      if (data.length < PAGE_LOADING) {
         setEndData(true);
       }
     } else {
