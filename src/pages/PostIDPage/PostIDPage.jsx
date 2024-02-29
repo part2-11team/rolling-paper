@@ -11,6 +11,8 @@ import {
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
 import { deleteMessageCardData, getRecipientData } from '../../API';
+import Header from '../../components/Common/Header/Header';
+import SubHeader from '../../components/SubHeader/SubHeader';
 
 const DEFAULT = {
   id: null,
@@ -157,7 +159,13 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <>
-          <S.Header>
+          <S.PageWrapper
+            $color={userData.backgroundColor}
+            $url={userData.backgroundImageURL}
+          >
+          <Header page="post" />
+          <SubHeader value={{ messageCardData, currentCardData }} />
+          {/*<S.Header>
             이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
             {messageCount} &nbsp;&nbsp; ID1:
             {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
@@ -165,11 +173,8 @@ export default function PostIDPage() {
             {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
             &nbsp;&nbsp; ID3:
             {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
-          </S.Header>
-          <S.PageWrapper
-            $color={userData.backgroundColor}
-            $url={userData.backgroundImageURL}
-          >
+          </S.Header> */}
+          <S.PageWrapper>
             <S.MessageWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
               {messageCardData.map((cardData) => (
