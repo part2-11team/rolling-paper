@@ -6,6 +6,7 @@ import TextEditor from './TextEditor';
 import Man1 from './asset/man1.png';
 import Man2 from './asset/man2.png';
 import DefaultImg from './asset/defaultImg.png';
+import { COLORS } from '../../style/colorPalette';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -16,6 +17,37 @@ export const PostMessagePage = () => {
   const [profileImg, setProfileImg] = useState(DefaultImg);
   const [editorTextContent, setEditorTextContent] = useState('');
   const [passValue, setPassValue] = useState(true);
+  const [currentTime, setCurrentTime] = useState('');
+
+  /*
+  const [name, setName] = useState('');//이름
+  const [currentTime, setCurrentTime] = useState('');//시간
+
+  const handleNameChange = (e) => {
+  setName(e.target.value);
+  };
+
+  const [currentTime, setCurrentTime] = useState('');
+
+  const handleSetTime = () => {
+    const now = new Date();
+    const dateOption = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const timeNow = now.toLocaleDateString('ko-KR', dateOption);
+    setCurrentTime(timeNow);
+  };
+
+  let MessageRetrieve = {
+    id: 'data.id',
+    recipientId: 'data.recipient_id',
+    sender: name,
+    profileImageURL: profileImg,
+    relationship: selectedRelationOption,
+    content: editorTextContent,
+    font: selectedFontOption,
+    createdAt: currentTime,
+  };
+
+  */
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -73,6 +105,13 @@ export const PostMessagePage = () => {
     setIsOpenFont(false); // 드롭다운 닫기
   };
 
+  const handleSetTime = () => {
+    const now = new Date();
+    const dateOption = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const timeNow = now.toLocaleDateString('ko-KR', dateOption);
+    setCurrentTime(timeNow);
+  };
+
   useEffect(() => {
     if (isName === false && editorTextContent.trim() !== '') {
       setPassValue(true);
@@ -90,7 +129,9 @@ export const PostMessagePage = () => {
             <S.PostMessageInput
               placeholder="이름을 입력해 주세요."
               onBlur={handleNameError}
-              style={{ borderColor: isName ? '#dc3a3a' : '#ccc' }}
+              style={{
+                borderColor: isName ? `${COLORS.ERROR}` : `${COLORS.GRAY_300}`,
+              }}
             ></S.PostMessageInput>
             {isName && (
               <S.PostMessageInputError>
@@ -181,7 +222,10 @@ export const PostMessagePage = () => {
         </S.PostMessageContent>
       </S.PostMessageContainer>
 
-      <S.SubmitButton disabled={!passValue}>생성하기</S.SubmitButton>
+      <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
+        생성하기
+      </S.SubmitButton>
+      <p>{currentTime}</p>
     </S.PostWrapper>
   );
 };
