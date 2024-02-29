@@ -29,3 +29,34 @@ export const getMessageCardData = async (
     return { data: null, error: error };
   }
 };
+
+export const deleteMessageCardData = async (CardID) => {
+  try {
+    await axios.delete(`${BASE_URL}messages/${CardID}/`);
+    return { error: null };
+  } catch (error) {
+    return { error: error };
+  }
+};
+export const getRecipientData = async (userID) => {
+  try {
+    const response = await axios.get(`${BASE_URL}recipients/${userID}/`);
+    const {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      recentMessages,
+    } = response.data;
+    return {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      recentMessages,
+      error: null,
+    };
+  } catch (error) {
+    return { error: error };
+  }
+};

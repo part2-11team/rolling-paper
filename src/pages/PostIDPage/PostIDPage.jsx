@@ -10,6 +10,7 @@ import {
 } from './index';
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
+import { deleteMessageCardData, getRecipientData } from '../../API';
 import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
 
@@ -37,6 +38,14 @@ export default function PostIDPage() {
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
   const [endData, setEndData] = useState(false);
+  const [deleteCount, setDeleteCount] = useState(0);
+  const [userData, setUserData] = useState({
+    name: null,
+    backgroundColor: 'beige',
+    backgroundImageURL: null,
+    recentMessages: [],
+  });
+  const [messageCount, setMessageCount] = useState(0);
   const options = {
     threshold: 0.5,
   };
@@ -76,13 +85,51 @@ export default function PostIDPage() {
     if (initialLoading) {
       setInitialLoading(false);
     }
+    setDeleteCount(0);
+  };
+
+  const deleteCardData = async (cardID) => {
+    const { error } = await deleteMessageCardData(cardID);
+    if (error) {
+      setDataError(error);
+    } else {
+      setOffset((prevOffset) => prevOffset - 1);
+      setDeleteCount((prevCount) => (prevCount + 1) % 3);
+      setMessageCardData((prevCardData) =>
+        prevCardData.filter((cardData) => cardData.id !== cardID),
+      );
+    }
+  };
+
+  const getUserData = async (userID) => {
+    const {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      recentMessages,
+      error,
+    } = await getRecipientData(userID);
+    if (error) {
+      setDataError(error);
+      return;
+    }
+
+    setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
+    setMessageCount(messageCount);
   };
 
   useEffect(() => {
-    if (initialLoading) {
-      getCardData(INITIAL_PAGE_LOADING, offset);
-    } else {
-      getCardData(PAGE_LOADING, offset);
+    getUserData(userID);
+  }, []);
+
+  useEffect(() => {
+    if (loading && !dataError) {
+      if (initialLoading) {
+        getCardData(INITIAL_PAGE_LOADING, offset);
+      } else {
+        getCardData(PAGE_LOADING + deleteCount, offset);
+      }
     }
   }, [offset]);
   useEffect(() => {
@@ -94,6 +141,7 @@ export default function PostIDPage() {
       observer.disconnect(target.current);
     };
   }, [handleScroll]);
+
   return (
     <PostIDContext.Provider
       value={{
@@ -101,18 +149,31 @@ export default function PostIDPage() {
         handleCurrentCardData,
         currentHoverCard,
         handleCurrentHoverCard,
+        deleteCardData,
       }}
     >
       {dataError ? (
         <S.ErrorWrapper>
-          <S.ErrorTitle>잘못된 URL 접근입니다.</S.ErrorTitle>
+          <S.ErrorTitle>잘못된 접근입니다.</S.ErrorTitle>
           <S.ErrorContent>{dataError.message}</S.ErrorContent>
         </S.ErrorWrapper>
       ) : (
         <>
+          <S.PageWrapper
+            $color={userData.backgroundColor}
+            $url={userData.backgroundImageURL}
+          >
           <Header page="post" />
           <SubHeader value={{ messageCardData, currentCardData }} />
-          {/* <S.Header /> */}
+          {/*<S.Header>
+            이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
+            {messageCount} &nbsp;&nbsp; ID1:
+            {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
+            &nbsp;&nbsp; ID2:
+            {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
+            &nbsp;&nbsp; ID3:
+            {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
+          </S.Header> */}
           <S.PageWrapper>
             <S.MessageWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
