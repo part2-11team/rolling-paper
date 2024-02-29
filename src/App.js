@@ -5,16 +5,17 @@ import PostMessagePage from './pages/PostMessagePage/PostMessagePage';
 import GlobalStyle from './style/GlobalStyle';
 import PostPage from './pages/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
+import PaperListPage from './pages/PaperListPage/PaperListPage';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <PostMessagePage />
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
+          <Route path="/list" element={<PaperListPage />}></Route>
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
