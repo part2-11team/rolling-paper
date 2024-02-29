@@ -5,7 +5,6 @@ import useRequest from './useRequest';
 import { Link } from 'react-router-dom';
 import PaperCard from '../../components/PaperCard';
 import ArrowButton from '../../components/ArrowButton';
-import mock from './mock.js';
 
 const PaperListPage = () => {
   const { data: recentPaper, isLoading: isLoadingRecent } = useRequest({
@@ -25,20 +24,17 @@ const PaperListPage = () => {
     },
   });
 
-  console.log(popularPaper);
-  console.log(recentPaper);
-
   return (
     <>
       <S.Container>
         <PaperSection
           title="인기 롤링 페이퍼 🔥"
-          papers={mock}
+          papers={popularPaper}
           isLoading={isLoadingPopular}
         />
         <PaperSection
           title="최근에 만든 롤링 페이퍼⭐️"
-          papers={mock}
+          papers={recentPaper}
           isLoading={isLoadingRecent}
         />
       </S.Container>
