@@ -159,12 +159,10 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <>
-          <S.PageWrapper
-            $color={userData.backgroundColor}
-            $url={userData.backgroundImageURL}
-          >
           <Header page="post" />
-          <SubHeader value={{ messageCardData, currentCardData }} />
+          <SubHeader
+            value={{ messageCardData, currentCardData, messageCount }}
+          />
           {/*<S.Header>
             이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
             {messageCount} &nbsp;&nbsp; ID1:
@@ -174,7 +172,10 @@ export default function PostIDPage() {
             &nbsp;&nbsp; ID3:
             {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
           </S.Header> */}
-          <S.PageWrapper>
+          <S.PageWrapper
+            $color={userData.backgroundColor}
+            $url={userData.backgroundImageURL}
+          >
             <S.MessageWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
               {messageCardData.map((cardData) => (
