@@ -11,7 +11,7 @@ import underLineIcon from './asset/textEditor/underline.png';
 import bulletDotIcon from './asset/textEditor/bulletDot.png';
 import bulletNumberIcon from './asset/textEditor/bulletNumber.png';
 
-const TextEditor = ({ onChange }) => {
+const TextEditor = ({ onChange, fontFamily }) => {
   const editorRef = useRef(null);
   const [content, setContent] = useState('');
 
@@ -189,11 +189,12 @@ const TextEditor = ({ onChange }) => {
           style={{
             minHeight: '100px',
             padding: '10px',
+            fontFamily: fontFamily, //폰트 프롭
           }}
           onInput={handleInput}
         ></S.TextArea>
       </div>
-      {content ? (
+      {content.trim() ? (
         ''
       ) : (
         <S.PlaceHolder>I am your reach text editor.</S.PlaceHolder>
