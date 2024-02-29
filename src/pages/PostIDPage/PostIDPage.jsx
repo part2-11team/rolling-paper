@@ -11,8 +11,8 @@ import {
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
 import { deleteMessageCardData, getRecipientData } from '../../API';
-import Header from '../../components/Common/Header/Header';
-import SubHeader from '../../components/SubHeader/SubHeader';
+//import Header from '../../components/Common/Header/Header';
+//import SubHeader from '../../components/SubHeader/SubHeader';
 
 const DEFAULT = {
   id: null,
@@ -70,8 +70,14 @@ export default function PostIDPage() {
   };
 
   const getCardData = async (limit = null, offset = null) => {
-    const { data, error } = await getMessageCardData(userID, limit, offset);
-    if (data) {
+    /* eslint-disable */
+    const { data, count, error } = await getMessageCardData(
+      userID,
+      limit,
+      offset,
+    );
+    console.log(data, count);
+    if (!error) {
       setMessageCardData((prev) => [...prev, ...data]);
       if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
         setEndData(true);
@@ -98,6 +104,7 @@ export default function PostIDPage() {
       setMessageCardData((prevCardData) =>
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
+      setMessageCount((prevCount) => prevCount - 1);
     }
   };
 
@@ -106,7 +113,7 @@ export default function PostIDPage() {
       name,
       backgroundColor,
       backgroundImageURL,
-      messageCount,
+      messageCount: messageCountData,
       recentMessages,
       error,
     } = await getRecipientData(userID);
@@ -116,7 +123,7 @@ export default function PostIDPage() {
     }
 
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
-    setMessageCount(messageCount);
+    setMessageCount(messageCountData);
   };
 
   useEffect(() => {
@@ -159,11 +166,15 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <>
-          <Header page="post" />
-          <SubHeader
-            value={{ messageCardData, currentCardData, messageCount }}
-          />
-          {/*<S.Header>
+          {/*
+            <>
+              <Header page="post" />
+              <SubHeader
+                value={{ messageCardData, currentCardData, messageCount }}
+              />
+            </>
+            */}
+          <S.Header>
             이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
             {messageCount} &nbsp;&nbsp; ID1:
             {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
@@ -171,7 +182,7 @@ export default function PostIDPage() {
             {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
             &nbsp;&nbsp; ID3:
             {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
-          </S.Header> */}
+          </S.Header>
           <S.PageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
