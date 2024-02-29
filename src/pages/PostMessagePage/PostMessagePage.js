@@ -18,6 +18,7 @@ export const PostMessagePage = () => {
   const [editorTextContent, setEditorTextContent] = useState('');
   const [passValue, setPassValue] = useState(true);
   const [currentTime, setCurrentTime] = useState('');
+  const [name, setName] = useState('');
 
   /*
   const [name, setName] = useState('');//이름
@@ -28,13 +29,6 @@ export const PostMessagePage = () => {
   };
 
   const [currentTime, setCurrentTime] = useState('');
-
-  const handleSetTime = () => {
-    const now = new Date();
-    const dateOption = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const timeNow = now.toLocaleDateString('ko-KR', dateOption);
-    setCurrentTime(timeNow);
-  };
 
   let MessageRetrieve = {
     id: 'data.id',
@@ -78,6 +72,10 @@ export const PostMessagePage = () => {
     { src: Man2 },
   ];
 
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
   const handleNameError = (e) => {
     const value = e.target.value;
     value.trim() === '' ? setIsName(true) : setIsName(false);
@@ -108,7 +106,8 @@ export const PostMessagePage = () => {
   const handleSetTime = () => {
     const now = new Date();
     const dateOption = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const timeNow = now.toLocaleDateString('ko-KR', dateOption);
+    const time = now.toLocaleDateString('ko-KR', dateOption);
+    const timeNow = time.slice(0, -1);
     setCurrentTime(timeNow);
   };
 
@@ -132,6 +131,7 @@ export const PostMessagePage = () => {
               style={{
                 borderColor: isName ? `${COLORS.ERROR}` : `${COLORS.GRAY_300}`,
               }}
+              onChange={handleNameChange}
             ></S.PostMessageInput>
             {isName && (
               <S.PostMessageInputError>
@@ -225,7 +225,10 @@ export const PostMessagePage = () => {
       <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
         생성하기
       </S.SubmitButton>
-      <p>{currentTime}</p>
+      <p>
+        {currentTime}
+        {name}
+      </p>
     </S.PostWrapper>
   );
 };
