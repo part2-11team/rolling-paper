@@ -18,6 +18,7 @@ export const PostPageForm = styled.form`
   width: 72rem;
   @media (max-width: 768px) {
     width: 100%;
+    margin: 5rem 0 3rem;
 `;
 
 export const ToInputWrapper = styled.div`
@@ -33,7 +34,7 @@ export const PostPageH1 = styled.h1`
 
 export const ToInput = styled.input`
   margin-top: 1.2rem;
-  border: 0.1rem solid ${props => props.$hasError ? COLORS.ERROR : COLORS.GRAY_300};
+  border: 0.1rem solid ${({ hasError }) => hasError ? COLORS.ERROR : COLORS.GRAY_300};
   border-radius: 0.8rem;  
   padding: 1.2rem 1.6rem;  
   width: 72rem;
@@ -46,7 +47,7 @@ export const ToInput = styled.input`
 export const ErrorMessage = styled.div`
   color: ${COLORS.ERROR};
   ${FONT_STYLE.REGULAR_14};
-  display: ${props => props.$hasError ? 'block' : 'none'};
+  display: ${({ hasError }) => hasError ? 'block' : 'none'};
 `;
 
 export const BackgroundSelectWrapper = styled.div`
@@ -76,6 +77,8 @@ export const ColorSelectorDiv = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
+    margin-top: 2.8rem;
+    width: 100%;
     gap: 1.2rem;
   }
 `;
@@ -86,15 +89,11 @@ export const SelectBox = styled.div`
   align-items: center;
   width: 16.8rem;
   height: 16.8rem;
+  cursor: pointer;
   border-radius: 1.6rem;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-
-  background-color: ${({ $chosen, $selectNth }) => {
-    if ($chosen) {
-      switch ($selectNth) {
+  background-color: ${({ selectedValue, selectedIndex }) => {
+    if (selectedValue === '컬러') {
+      switch (selectedIndex) {
         case 'orange':
           return COLORS.ORANGE_200;
         case 'purple':
@@ -106,8 +105,9 @@ export const SelectBox = styled.div`
         default:
           return COLORS.ORANGE_200;
       }
-    } else {
-      switch ($selectNth) {
+    }
+    if (selectedValue === '이미지') {
+      switch (selectedIndex) {
         case 'orange':
           return COLORS.ORANGE_500;
         case 'purple':
@@ -120,7 +120,18 @@ export const SelectBox = styled.div`
           return COLORS.ORANGE_500;
       }
     }
-  }}
+  }};
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 15.4rem;
+  }
+`;
+
+export const SelectedImg = styled.img`
+  width: 4.4rem;
+  height: 4.4rem;
+  display: ${({ value, index }) => value === index ? 'block' : 'none'};
 `;
 
 export const ColorImageButton = styled.div`
@@ -132,18 +143,15 @@ export const ColorImageButton = styled.div`
   ${FONT_STYLE.REGULAR_16};
   background-color: ${COLORS.GRAY_100};
   color: ${COLORS.GRAY_900};
+  cursor: pointer;
   
-  ${({ $chosen }) =>
-    $chosen &&
-    css`
+  ${({ selectedValue, value }) =>
+    selectedValue === value && css`
       background-color: ${COLORS.WHITE};
       border: 0.2rem solid ${COLORS.PURPLE_600};
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
       color: ${COLORS.PURPLE_700};
       ${FONT_STYLE.BOLD_16}
     `}
 `;
-export const SelectedImg = styled.img`
-  width: 4.4rem;
-  height: 4.4rem;
-`;
+
