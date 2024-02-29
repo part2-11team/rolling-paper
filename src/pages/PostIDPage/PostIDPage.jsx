@@ -11,8 +11,8 @@ import {
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
 import { deleteMessageCardData, getRecipientData } from '../../API';
-//import Header from '../../components/Common/Header/Header';
-//import SubHeader from '../../components/SubHeader/SubHeader';
+import Header from '../../components/Common/Header/Header';
+import SubHeader from '../../components/SubHeader/SubHeader';
 
 const DEFAULT = {
   id: null,
@@ -76,7 +76,7 @@ export default function PostIDPage() {
       offset,
     );
     if (!error) {
-      setMessageCardData((prev) => [...prev, ...data]);
+      setMessageCardData([...data]);
       setMessageCount(count);
       if (data.length < INITIAL_PAGE_LOADING) {
         setEndData(true);
@@ -199,15 +199,15 @@ export default function PostIDPage() {
           <S.ErrorContent>{dataError.message}</S.ErrorContent>
         </S.ErrorWrapper>
       ) : (
-        <>
+        <S.PageWrapper
+          $color={userData.backgroundColor}
+          $url={userData.backgroundImageURL}
+        >
+          <Header page="post" />
+          <SubHeader
+            value={{ messageCardData, currentCardData, messageCount }}
+          />
           {/*
-            <>
-              <Header page="post" />
-              <SubHeader
-                value={{ messageCardData, currentCardData, messageCount }}
-              />
-            </>
-            */}
           <S.Header>
             이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
             {messageCount} &nbsp;&nbsp; ID1:
@@ -217,31 +217,32 @@ export default function PostIDPage() {
             &nbsp;&nbsp; ID3:
             {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
           </S.Header>
-          <S.PageWrapper
+          */}
+          <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
           >
-            <S.MessageWrapper>
+            <S.GridWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
               {messageCardData.map((cardData) => (
                 <MessageCard cardData={cardData} key={uuid()}></MessageCard>
               ))}
-              {loading ? (
-                <S.LoadingIcon
-                  src={loadingIcon}
-                  alt="loading"
-                  $initialLoading={initialLoading}
-                  $endData={endData}
-                ></S.LoadingIcon>
-              ) : (
-                !endData && <div ref={target}></div>
-              )}
-            </S.MessageWrapper>
-            <S.ModalBackground $currentCardData={currentCardData.id}>
-              <Modal></Modal>
-            </S.ModalBackground>
-          </S.PageWrapper>
-        </>
+            </S.GridWrapper>
+            {loading ? (
+              <S.LoadingIcon
+                src={loadingIcon}
+                alt="loading"
+                $initialLoading={initialLoading}
+                $endData={endData}
+              ></S.LoadingIcon>
+            ) : (
+              !endData && <div ref={target}></div>
+            )}
+          </S.MessageWrapper>
+          <S.ModalBackground $currentCardData={currentCardData.id}>
+            <Modal></Modal>
+          </S.ModalBackground>
+        </S.PageWrapper>
       )}
     </PostIDContext.Provider>
   );

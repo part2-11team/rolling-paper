@@ -9,14 +9,44 @@ const BACKGROUND_COLOR = {
   green: COLORS.GREEN_200,
 };
 
+export const PageWrapper = styled.div`
+  position: relative;
+  height: 100vh;
+  ${({ $url, $color }) =>
+    $url
+      ? `background: url(${$url}) no-repeat center rgba(0, 0, 0, 0.5);`
+      : `background-color: ${BACKGROUND_COLOR[$color]}`};
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+`;
+
 export const Header = styled.div`
   width: 100%;
   height: 133px;
-  background-color: ${COLORS.WHITE};
+  background-color: white;
   ${FONT_STYLE.BOLD_28};
 `;
 
-export const PageWrapper = styled.div`
+export const MessageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: fit-content;
@@ -30,15 +60,15 @@ export const PageWrapper = styled.div`
 
 export const ModalBackground = styled.div`
   display: ${({ $currentCardData }) => ($currentCardData ? 'block' : 'none')};
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
 `;
 
-export const MessageWrapper = styled.div`
+export const GridWrapper = styled.div`
   display: grid;
   width: 1200px;
   grid-template-columns: 1fr 1fr 1fr;
@@ -89,8 +119,7 @@ const loading = keyframes`
 export const LoadingIcon = styled.img`
   display: ${({ $endData }) => ($endData ? 'none' : 'block')};
   position: absolute;
-  ${({ $initialLoading }) =>
-    $initialLoading ? 'top: calc(50% - 15px)' : 'bottom: 30px'};
+  ${({ $initialLoading }) => ($initialLoading ? 'top: 25%' : 'bottom: 30px')};
   left: calc(50% - 15px);
   width: 30px;
   height: 30px;
