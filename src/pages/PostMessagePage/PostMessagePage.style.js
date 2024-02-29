@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 export const PostWrapper = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ export const PostMessageContent = styled.div`
 `;
 
 export const PostMessageContentHeader = styled.div`
-  color: #181818;
+  color: ${COLORS.GRAY_900};
   font-family: Pretendard;
   font-size: 24px;
   font-style: normal;
@@ -40,19 +41,19 @@ export const PostMessageInput = styled.input`
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid ${COLORS.GRAY_300};
+  background: ${COLORS.WHITE};
 
   &:hover {
-    border: 1px solid #555;
+    border: 1px solid ${COLORS.GRAY_500};
   }
 
   &:active {
-    border: 2px solid #3a3a3a;
+    border: 2px solid ${COLORS.GRAY_700};
   }
 
   &:focus {
-    border: 2px solid #555;
+    border: 2px solid ${COLORS.GRAY_500};
   }
 `;
 
@@ -68,7 +69,7 @@ export const SelectedPicture = styled.img`
   width: 80px;
   height: 80px;
   border-radius: 100px;
-  background: #ccc;
+  background: ${COLORS.GRAY_300};
 `;
 export const SelectPictureListContain = styled.div`
   display: flex;
@@ -77,7 +78,7 @@ export const SelectPictureListContain = styled.div`
   gap: 12px;
 `;
 export const SelectPictureListInfo = styled.div`
-  color: #555;
+  color: ${COLORS.GRAY_500};
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -100,7 +101,7 @@ export const SelectPictures = styled.img`
   align-items: center;
   flex-shrink: 0;
   border-radius: 100px;
-  border: 1px solid #eee;
+  border: 1px solid ${COLORS.GRAY_200};
 `;
 
 export const PostMessageDropdownList = styled.div`
@@ -116,8 +117,8 @@ export const PostMessageDropdownListButton = styled.button`
   align-items: center;
   gap: 189px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  color: #181818;
+  border: 1px solid ${COLORS.GRAY_300};
+  color: ${COLORS.GRAY_900};
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -125,15 +126,15 @@ export const PostMessageDropdownListButton = styled.button`
   letter-spacing: -0.16px;
 
   &:hover {
-    border: 1px solid #555;
+    border: 1px solid ${COLORS.GRAY_500};
   }
 
   &:active {
-    border: 2px solid #555;
+    border: 2px solid ${COLORS.GRAY_500};
   }
 
   &:focus {
-    border: 2px solid #555;
+    border: 2px solid ${COLORS.GRAY_500};
   }
 `;
 
@@ -146,8 +147,8 @@ export const PostMessageDropdownListContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fff;
+  border: 1px solid ${COLORS.GRAY_300};
+  background: ${COLORS.WHITE};
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
   z-index: 1;
   margin-top: 10px;
@@ -162,19 +163,19 @@ export const DropdownListContentOption = styled.div`
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  color: #181818;
+  color: ${COLORS.GRAY_900};
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.16px;
   &:hover {
-    background-color: #f1f1f1;
+    background-color: ${COLORS.GRAY_100};
   }
 `;
 
 export const DropdownListContentOptionText = styled.p`
-  color: #181818;
+  color: ${COLORS.GRAY_900};
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -191,10 +192,10 @@ export const SubmitButton = styled.button`
   align-items: center;
   gap: 10px;
   border-radius: 12px;
-  background: #9935ff;
+  background: ${COLORS.PURPLE_600};
   margin: 24px;
 
-  color: #fff;
+  color: ${COLORS.WHITE};
   text-align: center;
   font-family: Pretendard;
   font-size: 18px;
@@ -204,16 +205,16 @@ export const SubmitButton = styled.button`
   letter-spacing: -0.18px;
 
   &:hover {
-    background: #861dee;
+    background: ${COLORS.PURPLE_700};
   }
 
   &:active {
-    background: #6e0ad1;
+    background: ${COLORS.PURPLE_800};
   }
 
   &:focus {
     border: #5603a7;
-    background: #6e0ad1;
+    background: ${COLORS.PURPLE_800};
   }
 `;
 

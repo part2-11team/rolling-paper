@@ -38,3 +38,5 @@ export const COLORS = {
   ERROR: '#dc3a3a',
   SURFACE: '#f6f8ff',
 };
+${COLORS.ORANGE_200};
+${FONT_STYLE.REGULAR_15};
