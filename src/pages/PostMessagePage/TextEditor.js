@@ -11,7 +11,7 @@ import underLineIcon from './asset/textEditor/underline.png';
 import bulletDotIcon from './asset/textEditor/bulletDot.png';
 import bulletNumberIcon from './asset/textEditor/bulletNumber.png';
 
-const TextEditor = () => {
+const TextEditor = ({ onChange }) => {
   const editorRef = useRef(null);
   const [content, setContent] = useState('');
 
@@ -125,7 +125,9 @@ const TextEditor = () => {
 
   const handleInput = (e) => {
     const text = e.target.innerHTML;
+    const content = editorRef.current.innerHTML;
     setContent(text);
+    onChange(content);
   };
 
   return (

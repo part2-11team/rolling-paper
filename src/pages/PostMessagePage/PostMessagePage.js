@@ -14,6 +14,7 @@ export const PostMessagePage = () => {
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
   const [profileImg, setProfileImg] = useState(DefaultImg);
+  const [editorTextContent, setEditorTextContent] = useState('');
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -141,7 +142,11 @@ export const PostMessagePage = () => {
           <S.PostMessageContentHeader>
             내용을 입력해 주세요
           </S.PostMessageContentHeader>
-          <TextEditor />
+          <TextEditor
+            value={editorTextContent}
+            onChange={(content) => setEditorTextContent(content)}
+            fontFamily={selectedFontOption}
+          />
         </S.PostMessageContent>
 
         <S.PostMessageContent>
