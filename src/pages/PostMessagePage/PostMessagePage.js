@@ -13,7 +13,7 @@ export const PostMessagePage = () => {
   const [isName, setIsName] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인');
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans');
-  //const [profileImg, setProfileImg] = useState(DefaultImg); 추후 이미지 설정 작업을 위한 코드
+  const [profileImg, setProfileImg] = useState(DefaultImg);
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -47,6 +47,10 @@ export const PostMessagePage = () => {
   const handleNameError = (e) => {
     const value = e.target.value;
     value.trim() === '' ? setIsName(true) : setIsName(false);
+  };
+
+  const handleSetProfileImg = (src) => {
+    setProfileImg(src);
   };
 
   const handleToggleDropdown = () => {
@@ -90,7 +94,7 @@ export const PostMessagePage = () => {
           <S.PostMessageContentHeader>프로필 이미지</S.PostMessageContentHeader>
 
           <S.SelectPictureContain>
-            <S.SelectedPicture src={DefaultImg} />
+            <S.SelectedPicture src={profileImg} />
 
             <S.SelectPictureListContain>
               <S.SelectPictureListInfo>
@@ -102,6 +106,7 @@ export const PostMessagePage = () => {
                   <S.SelectPictures
                     key={index}
                     src={samplePicture.src}
+                    onClick={() => handleSetProfileImg(samplePicture.src)}
                   ></S.SelectPictures>
                 ))}
               </S.SelectPictureList>
