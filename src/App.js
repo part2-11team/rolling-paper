@@ -19,7 +19,7 @@ function App() {
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
-            <Route path="/userID/message" element={<PostMessagePage />}></Route>
+            <Route path="userID/message" element={<PostMessagePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

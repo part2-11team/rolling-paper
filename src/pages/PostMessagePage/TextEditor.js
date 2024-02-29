@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import './TextEditor.css';
-import * as TES from './TextEditor.style';
+import * as S from './TextEditor.style';
 import colorIcon from './asset/textEditor/color.png';
 import centerIcon from './asset/textEditor/center.png';
 import leftIcon from './asset/textEditor/left.png';
@@ -129,58 +129,58 @@ const TextEditor = () => {
   };
 
   return (
-    <TES.TextEditorWrapper>
-      <TES.ToolBarBackground>
-        <TES.ToolBar>
-          <TES.ToolBarIcons>
-            <TES.ToolBarIcon
+    <S.TextEditorWrapper>
+      <S.ToolBarBackground>
+        <S.ToolBar>
+          <S.ToolBarIcons>
+            <S.ToolBarIcon
               src={boldIcon}
               onClick={handleBoldClick}
-            ></TES.ToolBarIcon>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+            <S.ToolBarIcon
               src={italicIcon}
               onClick={handleItalicClick}
-            ></TES.ToolBarIcon>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+            <S.ToolBarIcon
               src={underLineIcon}
               onClick={handleUnderlineClick}
-            ></TES.ToolBarIcon>
-          </TES.ToolBarIcons>
-          <TES.ToolBarIcons>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+          </S.ToolBarIcons>
+          <S.ToolBarIcons>
+            <S.ToolBarIcon
               src={centerIcon}
               onClick={() => handleTextAlign('center')}
-            ></TES.ToolBarIcon>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+            <S.ToolBarIcon
               src={rightIcon}
               onClick={() => handleTextAlign('right')}
-            ></TES.ToolBarIcon>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+            <S.ToolBarIcon
               src={leftIcon}
               onClick={() => handleTextAlign('left')}
-            ></TES.ToolBarIcon>
-          </TES.ToolBarIcons>
-          <TES.ToolBarIcons>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+          </S.ToolBarIcons>
+          <S.ToolBarIcons>
+            <S.ToolBarIcon
               src={bulletDotIcon}
               onClick={handleBulletList}
-            ></TES.ToolBarIcon>
-            <TES.ToolBarIcon
+            ></S.ToolBarIcon>
+            <S.ToolBarIcon
               src={bulletNumberIcon}
               onClick={handleBulletOlList}
-            ></TES.ToolBarIcon>
-          </TES.ToolBarIcons>
-          <TES.ToolBarIcons>
-            <TES.ToolBarIconColor
+            ></S.ToolBarIcon>
+          </S.ToolBarIcons>
+          <S.ToolBarIcons>
+            <S.ToolBarIconColor
               src={colorIcon}
               type="color"
               onChange={(e) => handleTextColorChange(e.target.value)}
             />
-          </TES.ToolBarIcons>
-        </TES.ToolBar>
-      </TES.ToolBarBackground>
+          </S.ToolBarIcons>
+        </S.ToolBar>
+      </S.ToolBarBackground>
       <div className="target-div">
-        <TES.TextArea
+        <S.TextArea
           ref={editorRef}
           contentEditable={true}
           suppressContentEditableWarning={true}
@@ -189,14 +189,14 @@ const TextEditor = () => {
             padding: '10px',
           }}
           onInput={handleInput}
-        ></TES.TextArea>
+        ></S.TextArea>
       </div>
       {content ? (
         ''
       ) : (
-        <TES.PlaceHolder>I am your reach text editor.</TES.PlaceHolder>
+        <S.PlaceHolder>I am your reach text editor.</S.PlaceHolder>
       )}
-    </TES.TextEditorWrapper>
+    </S.TextEditorWrapper>
   );
 };
 
