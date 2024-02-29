@@ -10,6 +10,8 @@ import {
 } from './index';
 import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
+import Header from '../../components/Common/Header/Header';
+import SubHeader from '../../components/SubHeader/SubHeader';
 
 const DEFAULT = {
   id: null,
@@ -108,7 +110,9 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <>
-          <S.Header />
+          <Header page="post" />
+          <SubHeader value={{ messageCardData, currentCardData }} />
+          {/* <S.Header /> */}
           <S.PageWrapper>
             <S.MessageWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
