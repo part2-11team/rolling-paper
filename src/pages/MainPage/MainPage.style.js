@@ -11,8 +11,6 @@ const onTablet = `@media only screen and (min-width: ${BREAKPOINT_TABLET}px) and
 
 const onPc = `@media only screen and (min-width: ${BREAKPOINT_PC}px)`;
 
-//const onTabletAndPc = `@media only screen and (min-width: ${BREAKPOINT_TABLET}px)`;
-
 export const BrTag = styled.br`
   display: none;
 

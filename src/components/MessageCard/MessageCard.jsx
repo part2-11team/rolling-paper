@@ -4,8 +4,12 @@ import { PostIDContext, getFormattedDate, Deleted } from './index';
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
 
 export const MessageCard = ({ cardData }) => {
-  const { currentHoverCard, handleCurrentCardData, handleCurrentHoverCard } =
-    useContext(PostIDContext);
+  const {
+    currentHoverCard,
+    handleCurrentCardData,
+    handleCurrentHoverCard,
+    deleteCardData,
+  } = useContext(PostIDContext);
   const formattedDate = getFormattedDate(cardData.createdAt);
   const handleCardWrapper = () => {
     handleCurrentCardData(cardData);
@@ -20,7 +24,8 @@ export const MessageCard = ({ cardData }) => {
   };
   const handleClickDeleteButton = (e) => {
     e.stopPropagation();
-    alert('삭제 버튼');
+    deleteCardData(cardData.id);
+    alert(`삭제되었습니다.`);
   };
 
   const DeleteButtonComponent = () => {

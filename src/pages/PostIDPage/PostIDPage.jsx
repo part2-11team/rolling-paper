@@ -1,6 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as S from './PostIDPage.style';
-import { AddMessageCard, PostIDContext, MessageCard, Modal } from './index';
+import {
+  AddMessageCard,
+  PostIDContext,
+  MessageCard,
+  Modal,
+  getMessageCardData,
+  loadingIcon,
+} from './index';
+import uuid from 'react-uuid';
+import { useParams } from 'react-router-dom';
+import { deleteMessageCardData, getRecipientData } from '../../API';
+import Header from '../../components/Common/Header/Header';
+import SubHeader from '../../components/SubHeader/SubHeader';
 
 const DEFAULT = {
   id: null,
@@ -12,10 +24,31 @@ const DEFAULT = {
   font: null,
   createdAt: null,
 };
+const PAGE_LOADING = 12;
+const INITIAL_PAGE_LOADING = 11;
 
 export default function PostIDPage() {
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [currentHoverCard, setCurrentHoverCard] = useState(null);
+  const [messageCardData, setMessageCardData] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const target = useRef(null);
+  const { userID } = useParams();
+  const [dataError, setDataError] = useState(null);
+  const [endData, setEndData] = useState(false);
+  const [deleteCount, setDeleteCount] = useState(0);
+  const [userData, setUserData] = useState({
+    name: null,
+    backgroundColor: 'beige',
+    backgroundImageURL: null,
+    recentMessages: [],
+  });
+  const [messageCount, setMessageCount] = useState(0);
+  const options = {
+    threshold: 0.5,
+  };
 
   const handleCurrentCardData = (cardData = null) => {
     if (currentCardData.id) {
@@ -29,86 +62,142 @@ export default function PostIDPage() {
     setCurrentHoverCard(id);
   };
 
-  const SAMPLEDATA = [
-    {
-      id: 27,
-      recipientId: 2,
-      sender: '김하은',
-      profileImageURL:
-        'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '가족',
-      content:
-        '코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요! 코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요!코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요!코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요!코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요!코로나가 또다시 기승을 부리는 요즘이네요. 건강, 체력 모두 조심 또 하세요!',
-      font: 'Pretendard',
-      createdAt: '2023-11-01T08:05:25.399056Z',
-    },
-    {
-      id: 28,
-      recipientId: 2,
-      sender: '김하은',
-      profileImageURL:
-        'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '친구',
-      content: '열심히 일하는 모습 멋있습니다.',
-      font: null,
-      createdAt: '2023-11-01T08:05:25.399056Z',
-    },
-    {
-      id: 29,
-      recipientId: 2,
-      sender: '김하은',
-      profileImageURL:
-        'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '동료',
-      content: '열심히 일하는 모습 멋있습니다.',
-      font: 'Noto Sans',
-      createdAt: '2023-11-01T08:05:25.399056Z',
-    },
-    {
-      id: 30,
-      recipientId: 2,
-      sender: '김하은',
-      profileImageURL:
-        'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '지인',
-      content: '열심히 일하는 모습 멋있습니다.',
-      font: 'Pretendard',
-      createdAt: '2023-11-01T08:05:25.399056Z',
-    },
-    {
-      id: 31,
-      recipientId: 2,
-      sender: '김하은',
-      profileImageURL:
-        'https://fastly.picsum.photos/id/311/200/200.jpg?hmac=CHiYGYQ3Xpesshw5eYWH7U0Kyl9zMTZLQuRDU4OtyH8',
-      relationship: '가족',
-      content: '열심히 일하는 모습 멋있습니다.',
-      font: 'Pretendard',
-      createdAt: '2023-11-01T08:05:25.399056Z',
-    },
-  ];
+  const handleScroll = (entry) => {
+    if (entry[0].isIntersecting && !initialLoading) {
+      setLoading(true);
+      setOffset(messageCardData.length);
+    }
+  };
+
+  const getCardData = async (limit = null, offset = null) => {
+    const { data, error } = await getMessageCardData(userID, limit, offset);
+    if (data) {
+      setMessageCardData((prev) => [...prev, ...data]);
+      if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
+        setEndData(true);
+      }
+    } else {
+      if (error) {
+        setDataError(error);
+      }
+    }
+    setLoading(false);
+    if (initialLoading) {
+      setInitialLoading(false);
+    }
+    setDeleteCount(0);
+  };
+
+  const deleteCardData = async (cardID) => {
+    const { error } = await deleteMessageCardData(cardID);
+    if (error) {
+      setDataError(error);
+    } else {
+      setOffset((prevOffset) => prevOffset - 1);
+      setDeleteCount((prevCount) => (prevCount + 1) % 3);
+      setMessageCardData((prevCardData) =>
+        prevCardData.filter((cardData) => cardData.id !== cardID),
+      );
+    }
+  };
+
+  const getUserData = async (userID) => {
+    const {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      recentMessages,
+      error,
+    } = await getRecipientData(userID);
+    if (error) {
+      setDataError(error);
+      return;
+    }
+
+    setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
+    setMessageCount(messageCount);
+  };
+
+  useEffect(() => {
+    getUserData(userID);
+  }, []);
+
+  useEffect(() => {
+    if (loading && !dataError) {
+      if (initialLoading) {
+        getCardData(INITIAL_PAGE_LOADING, offset);
+      } else {
+        getCardData(PAGE_LOADING + deleteCount, offset);
+      }
+    }
+  }, [offset]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleScroll, options);
+    if (target.current) {
+      observer.observe(target.current);
+    }
+    return () => {
+      observer.disconnect(target.current);
+    };
+  }, [handleScroll]);
 
   return (
-    <S.PageWrapper>
-      <PostIDContext.Provider
-        value={{
-          currentCardData,
-          handleCurrentCardData,
-          currentHoverCard,
-          handleCurrentHoverCard,
-        }}
-      >
-        <S.Header />
-        <S.MessageWrapper>
-          <AddMessageCard></AddMessageCard>
-          {SAMPLEDATA.map((cardData) => (
-            <MessageCard cardData={cardData} key={cardData.id}></MessageCard>
-          ))}
-        </S.MessageWrapper>
-        <S.ModalBackground $currentCardData={currentCardData.id}>
-          <Modal></Modal>
-        </S.ModalBackground>
-      </PostIDContext.Provider>
-    </S.PageWrapper>
+    <PostIDContext.Provider
+      value={{
+        currentCardData,
+        handleCurrentCardData,
+        currentHoverCard,
+        handleCurrentHoverCard,
+        deleteCardData,
+      }}
+    >
+      {dataError ? (
+        <S.ErrorWrapper>
+          <S.ErrorTitle>잘못된 접근입니다.</S.ErrorTitle>
+          <S.ErrorContent>{dataError.message}</S.ErrorContent>
+        </S.ErrorWrapper>
+      ) : (
+        <>
+          <Header page="post" />
+          <SubHeader
+            value={{ messageCardData, currentCardData, messageCount }}
+          />
+          {/*<S.Header>
+            이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
+            {messageCount} &nbsp;&nbsp; ID1:
+            {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
+            &nbsp;&nbsp; ID2:
+            {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
+            &nbsp;&nbsp; ID3:
+            {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
+          </S.Header> */}
+          <S.PageWrapper
+            $color={userData.backgroundColor}
+            $url={userData.backgroundImageURL}
+          >
+            <S.MessageWrapper>
+              {!initialLoading && <AddMessageCard></AddMessageCard>}
+              {messageCardData.map((cardData) => (
+                <MessageCard cardData={cardData} key={uuid()}></MessageCard>
+              ))}
+              {loading ? (
+                <S.LoadingIcon
+                  src={loadingIcon}
+                  alt="loading"
+                  $initialLoading={initialLoading}
+                  $endData={endData}
+                ></S.LoadingIcon>
+              ) : (
+                !endData && <div ref={target}></div>
+              )}
+            </S.MessageWrapper>
+            <S.ModalBackground $currentCardData={currentCardData.id}>
+              <Modal></Modal>
+            </S.ModalBackground>
+          </S.PageWrapper>
+        </>
+      )}
+    </PostIDContext.Provider>
   );
 }
