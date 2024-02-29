@@ -33,7 +33,7 @@ const PaperListPage = () => {
           isLoading={isLoadingPopular}
         />
         <PaperSection
-          title="최근에 만든 롤링 페이퍼⭐️"
+          title="최근에 만든 롤링 페이퍼 ⭐️"
           papers={recentPaper}
           isLoading={isLoadingRecent}
         />
