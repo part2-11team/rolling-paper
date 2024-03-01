@@ -47,7 +47,7 @@ export default function PostIDPage() {
   });
   const [messageCount, setMessageCount] = useState(0);
   const options = {
-    threshold: 0.5,
+    threshold: 0.3,
   };
 
   const handleCurrentCardData = (cardData = null) => {
@@ -56,6 +56,11 @@ export default function PostIDPage() {
     } else {
       setCurrentCardData(cardData);
     }
+  };
+
+  const clickOutterEvent = (e) => {
+    e.stopPropagation();
+    setCurrentCardData(DEFAULT);
   };
 
   const handleCurrentHoverCard = (id) => {
@@ -69,11 +74,16 @@ export default function PostIDPage() {
     }
   };
 
-  const getCardData = async (limit = null, offset = null) => {
-    const { data, error } = await getMessageCardData(userID, limit, offset);
-    if (data) {
-      setMessageCardData((prev) => [...prev, ...data]);
-      if (data.length < Math.min(PAGE_LOADING, INITIAL_PAGE_LOADING)) {
+  const InitialGetCardData = async (limit = null, offset = null) => {
+    const { data, count, error } = await getMessageCardData(
+      userID,
+      limit,
+      offset,
+    );
+    if (!error) {
+      setMessageCardData([...data]);
+      setMessageCount(count);
+      if (data.length < INITIAL_PAGE_LOADING) {
         setEndData(true);
       }
     } else {
@@ -82,9 +92,44 @@ export default function PostIDPage() {
       }
     }
     setLoading(false);
-    if (initialLoading) {
-      setInitialLoading(false);
+    setInitialLoading(false);
+  };
+
+  const getCardData = async (limit = null, offset = null) => {
+    const { data, count, error } = await getMessageCardData(
+      userID,
+      limit,
+      offset,
+    );
+    if (!error) {
+      if (count > messageCount) {
+        const updateCount = count - messageCount;
+        const { data: updateData, error: updateError } =
+          await getMessageCardData(userID, updateCount, 0);
+        if (!updateError) {
+          setMessageCardData((prevCardData) => [
+            ...updateData,
+            ...prevCardData,
+          ]);
+          setMessageCount(count);
+        } else {
+          setDataError(updateError);
+        }
+        const restData = data.slice(updateCount);
+        setMessageCardData((prevCardData) => [...prevCardData, ...restData]);
+      } else {
+        setMessageCardData((prev) => [...prev, ...data]);
+      }
+
+      if (data.length < PAGE_LOADING) {
+        setEndData(true);
+      }
+    } else {
+      if (error) {
+        setDataError(error);
+      }
     }
+    setLoading(false);
     setDeleteCount(0);
   };
 
@@ -98,6 +143,7 @@ export default function PostIDPage() {
       setMessageCardData((prevCardData) =>
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
+      setMessageCount((prevCount) => prevCount - 1);
     }
   };
 
@@ -106,7 +152,7 @@ export default function PostIDPage() {
       name,
       backgroundColor,
       backgroundImageURL,
-      messageCount,
+      messageCount: messageCountData,
       recentMessages,
       error,
     } = await getRecipientData(userID);
@@ -116,22 +162,22 @@ export default function PostIDPage() {
     }
 
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
-    setMessageCount(messageCount);
+    setMessageCount(messageCountData);
   };
 
   useEffect(() => {
     getUserData(userID);
   }, []);
 
-  useEffect(() => {
+  const dataLoad = () => {
     if (loading && !dataError) {
       if (initialLoading) {
-        getCardData(INITIAL_PAGE_LOADING, offset);
+        InitialGetCardData(INITIAL_PAGE_LOADING, offset);
       } else {
         getCardData(PAGE_LOADING + deleteCount, offset);
       }
     }
-  }, [offset]);
+  };
   useEffect(() => {
     const observer = new IntersectionObserver(handleScroll, options);
     if (target.current) {
@@ -158,12 +204,16 @@ export default function PostIDPage() {
           <S.ErrorContent>{dataError.message}</S.ErrorContent>
         </S.ErrorWrapper>
       ) : (
-        <>
+        <S.PageWrapper
+          $color={userData.backgroundColor}
+          $url={userData.backgroundImageURL}
+        >
           <Header page="post" />
           <SubHeader
             value={{ messageCardData, currentCardData, messageCount }}
           />
-          {/*<S.Header>
+          {/*
+          <S.Header>
             이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
             {messageCount} &nbsp;&nbsp; ID1:
             {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
@@ -171,12 +221,13 @@ export default function PostIDPage() {
             {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
             &nbsp;&nbsp; ID3:
             {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
-          </S.Header> */}
-          <S.PageWrapper
+          </S.Header>
+          */}
+          <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
           >
-            <S.MessageWrapper>
+            <S.GridWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
               {messageCardData.map((cardData) => (
                 <MessageCard cardData={cardData} key={uuid()}></MessageCard>
@@ -187,16 +238,20 @@ export default function PostIDPage() {
                   alt="loading"
                   $initialLoading={initialLoading}
                   $endData={endData}
+                  onLoad={dataLoad}
                 ></S.LoadingIcon>
               ) : (
                 !endData && <div ref={target}></div>
               )}
-            </S.MessageWrapper>
-            <S.ModalBackground $currentCardData={currentCardData.id}>
-              <Modal></Modal>
-            </S.ModalBackground>
-          </S.PageWrapper>
-        </>
+            </S.GridWrapper>
+          </S.MessageWrapper>
+          <S.ModalBackground
+            $currentCardData={currentCardData.id}
+            onClick={clickOutterEvent}
+          >
+            <Modal></Modal>
+          </S.ModalBackground>
+        </S.PageWrapper>
       )}
     </PostIDContext.Provider>
   );

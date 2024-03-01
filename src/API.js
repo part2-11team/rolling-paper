@@ -24,9 +24,10 @@ export const getMessageCardData = async (
       `${BASE_URL}recipients/${userID}/messages/${queryURL}`,
     );
     const data = response.data.results;
-    return { data: data, error: null };
+    const count = response.data.count;
+    return { data, count, error: null };
   } catch (error) {
-    return { data: null, error: error };
+    return { data: null, count: null, error: error };
   }
 };
 

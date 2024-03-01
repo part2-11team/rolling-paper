@@ -1,4 +1,5 @@
 ﻿import styled from 'styled-components';
+import { COLORS } from '../../../style/colorPalette';
 
 export const HeaderWrapper = styled.header`
   display: flex;
@@ -9,6 +10,7 @@ export const HeaderWrapper = styled.header`
   align-items: center;
   gap: 1px;
   flex-shrink: 0;
+  background-color: ${COLORS.WHITE};
 `;
 
 export const HeaderContent = styled.div`

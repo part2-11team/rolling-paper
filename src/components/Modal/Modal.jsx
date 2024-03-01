@@ -12,10 +12,13 @@ export const Modal = () => {
     const formattedDate = getFormattedDate(cardData.createdAt);
     return <S.CreatedDate>{formattedDate}</S.CreatedDate>;
   };
+  const ClickModal = (e) => {
+    e.stopPropagation();
+  };
   return (
     <>
       {cardData.id && (
-        <S.Wrapper>
+        <S.Wrapper onClick={ClickModal}>
           <MessageCardHeader
             cardData={cardData}
             Component={CreatedDateComponent}
