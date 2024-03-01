@@ -1,15 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as S from './PostIDPage.style';
-import {
-  AddMessageCard,
-  PostIDContext,
-  MessageCard,
-  Modal,
-  getMessageCardData,
-  loadingIcon,
-} from './index';
+import { PostIDContext, Modal, MessageCardWrapper } from './index';
 import { useParams } from 'react-router-dom';
-import { deleteMessageCardData, getRecipientData } from '../../API';
+import { getRecipientData } from '../../API';
 import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
 import { ScrollBar } from '../../components/ScrollBar/ScrollBar';
@@ -24,23 +17,15 @@ const DEFAULT = {
   font: null,
   createdAt: null,
 };
-const PAGE_LOADING = 12;
-const INITIAL_PAGE_LOADING = 11;
 
 export default function PostIDPage() {
   const [scrollHeight, setScrollHeight] = useState(0);
   const [pageHeight, setPageHeight] = useState(0);
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [messageCardData, setMessageCardData] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const target = useRef(null);
   const pageRef = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
-  const [endData, setEndData] = useState(false);
-  const [deleteCount, setDeleteCount] = useState(0);
   const [userData, setUserData] = useState({
     name: null,
     backgroundColor: 'beige',
@@ -48,9 +33,6 @@ export default function PostIDPage() {
     recentMessages: [],
   });
   const [messageCount, setMessageCount] = useState(0);
-  const options = {
-    threshold: 0.3,
-  };
 
   const handleCurrentCardData = useCallback(
     (cardData = null) => {
@@ -67,86 +49,6 @@ export default function PostIDPage() {
     e.stopPropagation();
     setCurrentCardData(DEFAULT);
   };
-
-  const handleScroll = (entry) => {
-    if (entry[0].isIntersecting && !initialLoading) {
-      setLoading(true);
-      setOffset(messageCardData.length);
-    }
-  };
-
-  const InitialGetCardData = async (limit = null, offset = null) => {
-    const { data, count, error } = await getMessageCardData(
-      userID,
-      limit,
-      offset,
-    );
-    if (!error) {
-      setMessageCardData([...data]);
-      setMessageCount(count);
-      if (data.length < INITIAL_PAGE_LOADING) {
-        setEndData(true);
-      }
-    } else {
-      if (error) {
-        setDataError(error);
-      }
-    }
-    setLoading(false);
-    setInitialLoading(false);
-  };
-
-  const getCardData = async (limit = null, offset = null) => {
-    const { data, count, error } = await getMessageCardData(
-      userID,
-      limit,
-      offset,
-    );
-    if (!error) {
-      if (count > messageCount) {
-        const updateCount = count - messageCount;
-        const { data: updateData, error: updateError } =
-          await getMessageCardData(userID, updateCount, 0);
-        if (!updateError) {
-          setMessageCardData((prevCardData) => [
-            ...updateData,
-            ...prevCardData,
-          ]);
-          setMessageCount(count);
-        } else {
-          setDataError(updateError);
-        }
-        const restData = data.slice(updateCount);
-        setMessageCardData((prevCardData) => [...prevCardData, ...restData]);
-      } else {
-        setMessageCardData((prev) => [...prev, ...data]);
-      }
-
-      if (data.length < PAGE_LOADING) {
-        setEndData(true);
-      }
-    } else {
-      if (error) {
-        setDataError(error);
-      }
-    }
-    setLoading(false);
-    setDeleteCount(0);
-  };
-
-  const deleteCardData = useCallback(async (cardID) => {
-    const { error } = await deleteMessageCardData(cardID);
-    if (error) {
-      setDataError(error);
-    } else {
-      setOffset((prevOffset) => prevOffset - 1);
-      setDeleteCount((prevCount) => (prevCount + 1) % 3);
-      setMessageCardData((prevCardData) =>
-        prevCardData.filter((cardData) => cardData.id !== cardID),
-      );
-      setMessageCount((prevCount) => prevCount - 1);
-    }
-  });
 
   const getUserData = async (userID) => {
     const {
@@ -170,6 +72,10 @@ export default function PostIDPage() {
     setScrollHeight(pageRef.current.scrollTop);
   };
 
+  const handleMessageCardData = useCallback((value) => {
+    setMessageCardData(value);
+  }, []);
+
   useEffect(() => {
     getUserData(userID);
   }, []);
@@ -178,30 +84,10 @@ export default function PostIDPage() {
     setPageHeight(pageRef.current.scrollHeight);
   }, [messageCardData]);
 
-  const dataLoad = () => {
-    if (loading && !dataError) {
-      if (initialLoading) {
-        InitialGetCardData(INITIAL_PAGE_LOADING, offset);
-      } else {
-        getCardData(PAGE_LOADING + deleteCount, offset);
-      }
-    }
-  };
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleScroll, options);
-    if (target.current) {
-      observer.observe(target.current);
-    }
-    return () => {
-      observer.disconnect(target.current);
-    };
-  }, [handleScroll]);
-
   return (
     <PostIDContext.Provider
       value={{
         currentCardData,
-        deleteCardData,
         handleCurrentCardData,
       }}
     >
@@ -236,27 +122,12 @@ export default function PostIDPage() {
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
           >
-            <S.GridWrapper>
-              {!initialLoading && <AddMessageCard></AddMessageCard>}
-              {messageCardData.map((cardData, index) => (
-                <MessageCard
-                  cardData={cardData}
-                  key={index}
-                  handleCurrentCardData={handleCurrentCardData}
-                ></MessageCard>
-              ))}
-              {loading ? (
-                <S.LoadingIcon
-                  src={loadingIcon}
-                  alt="loading"
-                  $initialLoading={initialLoading}
-                  $endData={endData}
-                  onLoad={dataLoad}
-                ></S.LoadingIcon>
-              ) : (
-                !endData && <div ref={target}></div>
-              )}
-            </S.GridWrapper>
+            <MessageCardWrapper
+              messageCardData={messageCardData}
+              setMessageCardData={handleMessageCardData}
+              currentCardData={currentCardData}
+              setCurrentCardData={handleCurrentCardData}
+            ></MessageCardWrapper>
           </S.MessageWrapper>
           <ScrollBar
             pageHeight={pageHeight}
