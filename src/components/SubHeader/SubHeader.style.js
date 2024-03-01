@@ -10,6 +10,7 @@ export const SubHeader = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+  background-color: ${COLORS.WHITE};
 `;
 
 export const HeaderContent = styled.div`
