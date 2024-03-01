@@ -19,24 +19,6 @@ export const PageWrapper = styled.div`
   background-size: cover;
   background-attachment: fixed;
   overflow: auto;
-  &::-webkit-scrollbar {
-    display: block;
-    width: 8px;
-  }
-  &::-webkit-scrollbar-track {
-    display: none;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  &::-webkit-scrollbar-thumb:active {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
 `;
 
 export const Header = styled.div`

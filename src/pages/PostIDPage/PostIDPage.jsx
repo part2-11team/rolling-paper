@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as S from './PostIDPage.style';
 import {
   AddMessageCard,
@@ -8,11 +8,11 @@ import {
   getMessageCardData,
   loadingIcon,
 } from './index';
-import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
 import { deleteMessageCardData, getRecipientData } from '../../API';
 import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
+import { ScrollBar } from '../../components/ScrollBar/ScrollBar';
 
 const DEFAULT = {
   id: null,
@@ -28,13 +28,15 @@ const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 
 export default function PostIDPage() {
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const [pageHeight, setPageHeight] = useState(0);
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
-  const [currentHoverCard, setCurrentHoverCard] = useState(null);
   const [messageCardData, setMessageCardData] = useState([]);
   const [offset, setOffset] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const target = useRef(null);
+  const pageRef = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
   const [endData, setEndData] = useState(false);
@@ -50,21 +52,20 @@ export default function PostIDPage() {
     threshold: 0.3,
   };
 
-  const handleCurrentCardData = (cardData = null) => {
-    if (currentCardData.id) {
-      setCurrentCardData(DEFAULT);
-    } else {
-      setCurrentCardData(cardData);
-    }
-  };
+  const handleCurrentCardData = useCallback(
+    (cardData = null) => {
+      if (currentCardData.id) {
+        setCurrentCardData(DEFAULT);
+      } else {
+        setCurrentCardData(cardData);
+      }
+    },
+    [currentCardData],
+  );
 
   const clickOutterEvent = (e) => {
     e.stopPropagation();
     setCurrentCardData(DEFAULT);
-  };
-
-  const handleCurrentHoverCard = (id) => {
-    setCurrentHoverCard(id);
   };
 
   const handleScroll = (entry) => {
@@ -133,7 +134,7 @@ export default function PostIDPage() {
     setDeleteCount(0);
   };
 
-  const deleteCardData = async (cardID) => {
+  const deleteCardData = useCallback(async (cardID) => {
     const { error } = await deleteMessageCardData(cardID);
     if (error) {
       setDataError(error);
@@ -145,7 +146,7 @@ export default function PostIDPage() {
       );
       setMessageCount((prevCount) => prevCount - 1);
     }
-  };
+  });
 
   const getUserData = async (userID) => {
     const {
@@ -165,9 +166,17 @@ export default function PostIDPage() {
     setMessageCount(messageCountData);
   };
 
+  const handlePageScroll = () => {
+    setScrollHeight(pageRef.current.scrollTop);
+  };
+
   useEffect(() => {
     getUserData(userID);
   }, []);
+
+  useEffect(() => {
+    setPageHeight(pageRef.current.scrollHeight);
+  }, [messageCardData]);
 
   const dataLoad = () => {
     if (loading && !dataError) {
@@ -192,10 +201,8 @@ export default function PostIDPage() {
     <PostIDContext.Provider
       value={{
         currentCardData,
-        handleCurrentCardData,
-        currentHoverCard,
-        handleCurrentHoverCard,
         deleteCardData,
+        handleCurrentCardData,
       }}
     >
       {dataError ? (
@@ -205,8 +212,10 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <S.PageWrapper
+          ref={pageRef}
           $color={userData.backgroundColor}
           $url={userData.backgroundImageURL}
+          onScroll={handlePageScroll}
         >
           <Header page="post" />
           <SubHeader
@@ -229,8 +238,12 @@ export default function PostIDPage() {
           >
             <S.GridWrapper>
               {!initialLoading && <AddMessageCard></AddMessageCard>}
-              {messageCardData.map((cardData) => (
-                <MessageCard cardData={cardData} key={uuid()}></MessageCard>
+              {messageCardData.map((cardData, index) => (
+                <MessageCard
+                  cardData={cardData}
+                  key={index}
+                  handleCurrentCardData={handleCurrentCardData}
+                ></MessageCard>
               ))}
               {loading ? (
                 <S.LoadingIcon
@@ -245,6 +258,10 @@ export default function PostIDPage() {
               )}
             </S.GridWrapper>
           </S.MessageWrapper>
+          <ScrollBar
+            pageHeight={pageHeight}
+            scrollHeight={scrollHeight}
+          ></ScrollBar>
           <S.ModalBackground
             $currentCardData={currentCardData.id}
             onClick={clickOutterEvent}
