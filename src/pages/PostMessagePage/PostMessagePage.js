@@ -7,6 +7,9 @@ import Man1 from './asset/man1.png';
 import Man2 from './asset/man2.png';
 import DefaultImg from './asset/defaultImg.png';
 import { COLORS } from '../../style/colorPalette';
+import Header from '../../components/Common/Header/Header.jsx';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -17,18 +20,20 @@ export const PostMessagePage = () => {
   const [profileImg, setProfileImg] = useState(DefaultImg); //프로필 사진
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
-  const [currentTime, setCurrentTime] = useState(''); //생성날짜
   const [name, setName] = useState(''); //이름
+  const { userID } = useParams();
+  const [samplePicture, setSamplePicture] = useState([]); // 이미지 URL 배열 상태
 
-  let DATA = {
-    //id: 'data.id',
-    //recipientId: 'data.recipient_id',
+  const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
+
+  const url = `https://rolling-api.vercel.app/0-3/recipients/${userID}/messages/`;
+
+  let data = {
     sender: name,
     profileImageURL: profileImg,
     relationship: selectedRelationOption,
     content: editorTextContent,
     font: selectedFontOption,
-    createdAt: currentTime,
   };
 
   const dropdownRelationOptions = [
@@ -119,16 +124,27 @@ export const PostMessagePage = () => {
   }, [isName, editorTextContent]);
 
   return (
+    <>
+      <S.NavController>
+        <Header
+          page="main"
+          style={{
+            borderColor: isName ? `${COLORS.ERROR}` : `${COLORS.GRAY_300}`,
+          }}
+        />
+      </S.NavController>
     <S.PostWrapper>
       <S.PostMessageContainer>
         <S.PostMessageContent>
           <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
-          <div>
+            <S.InputContainer>
             <S.PostMessageInput
               placeholder="이름을 입력해 주세요."
               onBlur={handleNameError}
               style={{
-                borderColor: isName ? `${COLORS.ERROR}` : `${COLORS.GRAY_300}`,
+                  borderColor: isName
+                    ? `${COLORS.ERROR}`
+                    : `${COLORS.GRAY_300}`,
               }}
               onChange={handleNameChange}
             ></S.PostMessageInput>
@@ -137,17 +153,19 @@ export const PostMessagePage = () => {
                 값을 입력해주세요.
               </S.PostMessageInputError>
             )}
-          </div>
+            </S.InputContainer>
         </S.PostMessageContent>
 
         <S.PostMessageContent>
-          <S.PostMessageContentHeader>프로필 이미지</S.PostMessageContentHeader>
+            <S.PostMessageContentHeader>
+              프로필 이미지
+            </S.PostMessageContentHeader>
 
           <S.SelectPictureContain>
             <S.SelectedPicture src={profileImg} />
 
             <S.SelectPictureListContain>
-              <div style={{ display: 'flex', gap: '8px' }}>
+                <S.SubContain>
                 <S.SelectPictureListInfo>
                   프로필 이미지를 선택해주세요!
                 </S.SelectPictureListInfo>
@@ -155,7 +173,7 @@ export const PostMessagePage = () => {
                 <S.InputLabel
                   htmlFor="fileInput" //라벨을 이용한 커스텀 버튼
                 >
-                  <S.InputButton>이미지 추가하기</S.InputButton>
+                    이미지 추가하기
                 </S.InputLabel>
                 <input
                   id="fileInput"
@@ -164,7 +182,7 @@ export const PostMessagePage = () => {
                   onChange={handleImportProfileImg}
                   style={{ display: 'none' }}
                 />
-              </div>
+                </S.SubContain>
 
               <S.SelectPictureList>
                 {samplePicture.slice(0, 10).map((samplePicture, index) => (
@@ -180,7 +198,9 @@ export const PostMessagePage = () => {
         </S.PostMessageContent>
 
         <S.PostMessageContent>
-          <S.PostMessageContentHeader>상대와의 관계</S.PostMessageContentHeader>
+            <S.PostMessageContentHeader>
+              상대와의 관계
+            </S.PostMessageContentHeader>
           <S.PostMessageDropdownList onClick={handleToggleDropdown}>
             <S.DropdownIcon
               src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
@@ -239,8 +259,8 @@ export const PostMessagePage = () => {
       <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
         생성하기
       </S.SubmitButton>
-      {DATA ? '' : ''}
     </S.PostWrapper>
+    </>
   );
 };
 
