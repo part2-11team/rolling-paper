@@ -8,7 +8,12 @@ const BACKGROUND_COLOR = {
   blue: COLORS.BLUE_200,
   green: COLORS.GREEN_200,
 };
-
+const DRAG = `
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+`;
 export const PageWrapper = styled.div`
   position: relative;
   height: 100vh;
@@ -19,6 +24,7 @@ export const PageWrapper = styled.div`
   background-size: cover;
   background-attachment: fixed;
   overflow: auto;
+  ${({ $drag }) => $drag && DRAG};
 `;
 
 export const Header = styled.div`
@@ -74,22 +80,22 @@ export const ScrollbarTrack = styled.div`
   z-index: 50;
 `;
 
-export const scrollbarThumb = styled.div`
+export const scrollbarWrapper = styled.div`
   position: absolute;
+  right: 0px;
+  width: 40px;
+  margin: 8px 0;
+  cursor: pointer;
+`;
+
+export const scrollbarThumb = styled.div`
+  position: relative;
+  left: 30px;
   width: 8px;
-  height: 100px;
+  height: 100%;
   top: 0px;
   border-radius: 10px;
-  margin: 8px 0;
   background-color: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  &:active {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
 `;
 
 export const UpperScrollButton = styled.div`
@@ -100,7 +106,7 @@ export const UpperScrollButton = styled.div`
   background-color: white;
   bottom: 10px;
   border-radius: 502px;
-  left: calc(50% - 20px);
+  left: calc(50% - 15px);
 `;
 
 export const UpperImageIcon = styled.img`

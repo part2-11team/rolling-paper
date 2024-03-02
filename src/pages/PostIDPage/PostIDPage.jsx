@@ -26,6 +26,7 @@ export default function PostIDPage() {
   const [startScrollHeight, setStartScrollHeight] = useState(0);
   const pageRef = useRef(null);
   const scrollRef = useRef(null);
+  const scrollThumbRef = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
   const [userData, setUserData] = useState({
@@ -93,6 +94,7 @@ export default function PostIDPage() {
     setStartY(e.clientY);
     setStartScrollHeight(pageRef.current.scrollTop);
     setDrag(true);
+    scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
   };
 
   const calculateHeight = (height) => {
@@ -119,6 +121,11 @@ export default function PostIDPage() {
     }
   };
 
+  const handleMouseUp = () => {
+    setDrag(false);
+    scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+  };
+
   const moveScrollTop = () => {
     const position = pageRef.current.scrollTop;
     if (position) {
@@ -132,9 +139,6 @@ export default function PostIDPage() {
   const handleClickUpperButton = () => {
     moveScrollTop();
   };
-  const handleMouseUp = () => {
-    setDrag(false);
-  };
 
   useEffect(() => {
     getUserData(userID);
@@ -143,9 +147,27 @@ export default function PostIDPage() {
   useEffect(() => {
     setDrag(false);
     setPageHeight(pageRef.current.scrollHeight);
+    if (pageRef.current.scrollHeight - pageRef.current.clientHeight <= 0) {
+      scrollRef.current.style.height = `0px`;
+    } else {
+      const pageScrollHeight = pageRef.current.scrollHeight;
+      const scrollTop = pageRef.current.scrollTop;
+      const viewPortHeight = window.innerHeight;
+      const scrollbarHeight =
+        ((viewPortHeight - 16) / pageScrollHeight) * viewPortHeight;
+      const ScrollbarTop =
+        (scrollTop / pageScrollHeight) * (viewPortHeight - 16);
+      scrollRef.current.style.top = `${ScrollbarTop}px`;
+      scrollRef.current.style.height = `${scrollbarHeight}px`;
+    }
   }, [messageCardData]);
 
   useEffect(() => {
+    const viewPortHeight = window.innerHeight;
+    const scrollbarHeight =
+      ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
+    scrollRef.current.style.height = `${scrollbarHeight}px`;
+
     const handleResize = () => {
       setPageHeight(pageRef.current.scrollHeight);
     };
@@ -171,6 +193,7 @@ export default function PostIDPage() {
           ref={pageRef}
           $color={userData.backgroundColor}
           $url={userData.backgroundImageURL}
+          $drag={drag}
           onScroll={handlePageScroll}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -202,10 +225,9 @@ export default function PostIDPage() {
             ></MessageCardWrapper>
           </S.MessageWrapper>
           <S.ScrollbarTrack>
-            <S.scrollbarThumb
-              ref={scrollRef}
-              onMouseDown={handleMouseDown}
-            ></S.scrollbarThumb>
+            <S.scrollbarWrapper ref={scrollRef} onMouseDown={handleMouseDown}>
+              <S.scrollbarThumb ref={scrollThumbRef}></S.scrollbarThumb>
+            </S.scrollbarWrapper>
           </S.ScrollbarTrack>
           <S.ModalBackground
             $currentCardData={currentCardData.id}

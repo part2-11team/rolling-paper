@@ -41,4 +41,8 @@ export const LoadingIcon = styled.img`
   width: 30px;
   height: 30px;
   animation: ${loading} 0.9s infinite;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
