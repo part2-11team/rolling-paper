@@ -6,15 +6,23 @@ export const PostWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin-right: 20px;
+  margin-left: 20px;
 `;
 
 export const PostMessageContainer = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 50px;
   margin-top: 47px;
   margin-bottom: 38px;
+  width: 720px;
+
+  @media (max-width: 720px) {
+    width: 100%;
+  }
 `;
 
 export const PostMessageContent = styled.div`
@@ -22,6 +30,7 @@ export const PostMessageContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+  width: 100%;
 `;
 
 export const PostMessageContentHeader = styled.div`
@@ -34,9 +43,13 @@ export const PostMessageContentHeader = styled.div`
   letter-spacing: -0.24px;
 `;
 
+export const InputContainer = styled.div`
+  width: 100%;
+`;
+
 export const PostMessageInput = styled.input`
   display: flex;
-  width: 720px;
+  width: 100%;
   padding: 12px 16px;
   align-items: center;
   gap: 10px;
@@ -91,6 +104,7 @@ export const SelectPictureListContain = styled.div`
   align-items: flex-start;
   gap: 12px;
 `;
+
 export const SelectPictureListInfo = styled.div`
   color: ${COLORS.GRAY_500};
   font-family: Pretendard;
@@ -99,14 +113,22 @@ export const SelectPictureListInfo = styled.div`
   font-weight: 400;
   line-height: 26px;
   letter-spacing: -0.16px;
+
+  @media (max-width: 415px) {
+    width: 110px;
+  }
 `;
 
 export const SelectPictureList = styled.div`
   display: flex;
   align-items: flex-start;
-  width: 605px;
+  width: 100%;
   height: 56px;
   gap: 4px;
+  flex-wrap: wrap;
+  @media (max-width: 415px) {
+    gap: 2px;
+  }
 `;
 export const SelectPictures = styled.img`
   display: flex;
@@ -116,6 +138,10 @@ export const SelectPictures = styled.img`
   flex-shrink: 0;
   border-radius: 100px;
   border: 1px solid ${COLORS.GRAY_200};
+  @media (max-width: 720px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 export const PostMessageDropdownList = styled.div`
@@ -237,31 +263,32 @@ export const SubmitButton = styled.button`
     background: ${COLORS.GRAY_300};
     cursor: not-allowed;
   }
+  @media (max-width: 720px) {
+    width: 100%;
+  }
 `;
+
+export const SubContain = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const InputLabel = styled.label`
   display: flex;
   cursor: pointer;
   justify-content: center;
   align-items: center;
-`;
-
-export const InputButton = styled.button`
-  display: flex;
   width: 100px;
   height: 20px;
-  padding: 0px 0px;
-  margin: 0px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
   border-radius: 12px;
   background: ${COLORS.PURPLE_600};
-  z-index: -1;
 
   color: ${COLORS.WHITE};
   text-align: center;
   font-family: Pretendard;
-  fontSize: '12px',
+  font-size: 12px;
   font-style: normal;
   font-weight: 700;
   line-height: 28px;
@@ -286,6 +313,9 @@ export const InputButton = styled.button`
     background: ${COLORS.GRAY_300};
     cursor: not-allowed;
   }
+  @media (max-width: 415px) {
+    width: 90px;
+  }
 `;
 
 export const DropdownIcon = styled.img`
@@ -296,4 +326,10 @@ export const DropdownIcon = styled.img`
   width: 16px;
   height: 16px;
   flex-shrink: 0;
+`;
+
+export const NavController = styled.div`
+  @media (max-width: 415px) {
+    display: none;
+  }
 `;
