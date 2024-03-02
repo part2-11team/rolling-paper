@@ -181,7 +181,7 @@ const TextEditor = ({ onChange, fontFamily }) => {
           </S.ToolBarIcons>
         </S.ToolBar>
       </S.ToolBarBackground>
-      <div className="target-div">
+      <S.TextAreaContainer className="target-div">
         <S.TextArea
           ref={editorRef}
           contentEditable={true}
@@ -193,7 +193,7 @@ const TextEditor = ({ onChange, fontFamily }) => {
           }}
           onInput={handleInput}
         ></S.TextArea>
-      </div>
+      </S.TextAreaContainer>
       {content.trim() ? (
         ''
       ) : (
