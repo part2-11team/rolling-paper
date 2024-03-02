@@ -1,15 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './PostPage.style.js';
 import Button from '../../components/MainButton';
 import SelectedImg from '../../assets/icon/background-selected.png'
 import Header from '../../components/Common/Header/Header';
 
 const PostPage = () => {
+  const navigate = useNavigate();
   const [clickedIndex, setClickedIndex] = useState(1)
   const [backgroundValue, setBackgroundValue] = useState('컬러')
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
+
+  const COLOR_VALUE = [
+    'beige', 'purple', 'blue', 'green'
+  ]
+
+  const COLOR_OR_IMAGE = [
+    {
+      id: 1,
+      value: '컬러',
+    },
+    {
+      id: 2,
+      value: '이미지',
+    }
+  ]
 
   //배경화면 이미지 데이터 받아오기
   useEffect(() => {
@@ -26,24 +43,12 @@ const PostPage = () => {
         }));
         setImageUrls(imageObjects);
       } catch (error) {
-        return (error);
+        throw new Error(error)
       }
     };
 
     fetchBackgroundImages();
   }, []);
-
-  //배경화면 컬러인지 이미지인지 배열로 저장
-  const COLOR_OR_IMAGE = [
-    {
-      id: 1,
-      value: '컬러',
-    },
-    {
-      id: 2,
-      value: '이미지',
-    }
-  ]
 
   //클릭한 인덱스 몇번째인지 저장
   const handleClickedIndex = (id) => {
@@ -63,14 +68,42 @@ const PostPage = () => {
     return setError(false);
   }
 
-  //생성하기 버튼을 눌렀을때 => 아직 구현안함
-  const handleMovetoListClick = () => {
-    alert("미완성입니다!")
+  //완성된 폼 데이터 전송
+  const handleMovetoListClick = async (e) => {
+    e.preventDefault();
+    const url = "https://rolling-api.vercel.app/0-3/recipients/";
+    const data = {
+      name: value.trim(),
+      backgroundColor: backgroundValue === '컬러' ? COLOR_VALUE[clickedIndex -1] : null,
+      backgroundImageURL: backgroundValue === '이미지' ? imageUrls[clickedIndex -1] : null
+    };
+  
+    const requestPost = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    };
+  
+    try {
+      const response = await fetch(url, requestPost);
+    
+      if (!response.ok) {
+        throw new Error(error);
+      }
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+    navigate(`/postid`);
+    }
   }
 
   return (
     <>
-  <Header page="post" />
+  <S.HeaderWrapper>
+    <Header page="post" />
+  </S.HeaderWrapper>
   <S.PostPage>
     <S.PostPageForm>
       <S.ToInputWrapper>
@@ -129,7 +162,7 @@ const PostPage = () => {
       <Button 
       disabled={!value} 
       size="full" 
-      onClick={handleMovetoListClick}>
+      onClick={(e) => handleMovetoListClick(e)}>
         생성하기
       </Button>
       </S.PostPageForm>
