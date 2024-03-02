@@ -16,9 +16,9 @@ const DEFAULT = {
   font: null,
   createdAt: null,
 };
-
 export default function PostIDPage() {
   const [pageHeight, setPageHeight] = useState(0);
+  const [scrollStatus, setScrollStatus] = useState(false);
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [messageCardData, setMessageCardData] = useState([]);
   const [drag, setDrag] = useState(false);
@@ -78,6 +78,11 @@ export default function PostIDPage() {
     const ScrollbarTop = (scrollTop / pageHeight) * (viewPortHeight - 16);
     scrollRef.current.style.top = `${ScrollbarTop}px`;
     scrollRef.current.style.height = `${scrollbarHeight}px`;
+    if (scrollTop === 0) {
+      setScrollStatus(false);
+    } else {
+      setScrollStatus(true);
+    }
   };
 
   const handleMessageCardData = useCallback((value) => {
@@ -208,14 +213,16 @@ export default function PostIDPage() {
           >
             <Modal></Modal>
           </S.ModalBackground>
-          <S.UpperScrollButton onClick={handleClickUpperButton}>
-            <S.UpperImageIcon
-              src={arrowDown}
-              alt="arrow"
-              width={40}
-              height={40}
-            ></S.UpperImageIcon>
-          </S.UpperScrollButton>
+          {scrollStatus && (
+            <S.UpperScrollButton onClick={handleClickUpperButton}>
+              <S.UpperImageIcon
+                src={arrowDown}
+                alt="arrow"
+                width={30}
+                height={30}
+              ></S.UpperImageIcon>
+            </S.UpperScrollButton>
+          )}
         </S.PageWrapper>
       )}
     </PostIDContext.Provider>
