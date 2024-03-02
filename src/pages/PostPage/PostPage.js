@@ -3,7 +3,6 @@ import * as S from './PostPage.style.js';
 import Button from '../../components/MainButton';
 import SelectedImg from '../../assets/icon/background-selected.png'
 import Header from '../../components/Common/Header/Header';
-import axios from 'axios';
 
 const PostPage = () => {
   const [clickedIndex, setClickedIndex] = useState(1)
@@ -16,18 +15,21 @@ const PostPage = () => {
   useEffect(() => {
     const fetchBackgroundImages = async () => {
       try {
-        const response = await axios.get('https://rolling-api.vercel.app/background-images/');
-        // 이미지 배열을 객체 배열로 변환
-        const imageObjects = response.data.imageUrls.map((url, index) => ({
+        const response = await fetch('https://rolling-api.vercel.app/background-images/');
+        if (!response.ok) {
+          throw new Error('Failed to fetch background images');
+        }
+        const responseData = await response.json();
+        const imageObjects = responseData.imageUrls.map((url, index) => ({
           id: index + 1,
           url: url
         }));
         setImageUrls(imageObjects);
       } catch (error) {
-        alert(error);
+        return (error);
       }
     };
-  
+
     fetchBackgroundImages();
   }, []);
 
@@ -42,26 +44,6 @@ const PostPage = () => {
       value: '이미지',
     }
   ]
-
-  // //배경화면 색깔, 배열로 저장
-  // const BACKGROUND_DATA = [
-  //   {
-  //     id: 1,
-  //     color: 'orange',
-  //   },
-  //   {
-  //     id: 2,
-  //     color: 'purple',
-  //   },
-  //   {
-  //     id: 3,
-  //     color: 'blue',
-  //   },
-  //   {
-  //     id: 4,
-  //     color: 'green',
-  //   }
-  // ]
 
   //클릭한 인덱스 몇번째인지 저장
   const handleClickedIndex = (id) => {
@@ -95,7 +77,8 @@ const PostPage = () => {
         <S.PostPageH1>
           To.
         </S.PostPageH1>
-        <S.ToInput 
+        <S.ToInput
+          id="recipientName" 
           type="text"
           placeholder="받는 사람 이름을 입력해 주세요" 
           value={value} 
