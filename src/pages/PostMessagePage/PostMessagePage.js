@@ -90,12 +90,13 @@ export const PostMessagePage = () => {
     setIsOpenFont(false); // 드롭다운 닫기
   };
 
-  const handleSetTime = () => {
-    const now = new Date();
-    const dateOption = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const time = now.toLocaleDateString('ko-KR', dateOption);
-    const timeNow = time.slice(0, -1);
-    setCurrentTime(timeNow);
+  const handleSendData = async (url, data) => {
+    try {
+      const response = await axios.post(url, data);
+      return { success: true, data: response.data }; //성공시 데이터 출력
+    } catch (error) {
+      return { success: false, error: error }; //실패시 에러 데이터 출력
+    }
   };
 
   useEffect(() => {
@@ -250,7 +251,10 @@ export const PostMessagePage = () => {
           </S.PostMessageContent>
         </S.PostMessageContainer>
 
-        <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
+        <S.SubmitButton
+          disabled={!passValue}
+          onClick={() => handleSendData(url, data)}
+        >
           생성하기
         </S.SubmitButton>
       </S.PostWrapper>
