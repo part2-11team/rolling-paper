@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
+import PostMessagePage from './pages/PostMessagePage/PostMessagePage';
 import GlobalStyle from './style/GlobalStyle';
 import PostPage from './pages/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
@@ -19,6 +20,7 @@ function App() {
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
+            <Route path="userID/message" element={<PostMessagePage />} />
           </Route>
         </Routes>
       </BrowserRouter>
