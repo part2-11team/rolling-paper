@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { COLORS } from '../../style/colorPalette';
 
 export const TextEditorWrapper = styled.div`
   display: flex;
@@ -7,7 +8,7 @@ export const TextEditorWrapper = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid ${COLORS.GRAY_300};
   flex-direction: column;
   position: relative;
 `;
@@ -16,9 +17,9 @@ export const ToolBarBackground = styled.div`
   height: 49px;
   flex-shrink: 0;
   border-radius: 8px 8px 0px 0px;
-  background: #eee;
+  background: ${COLORS.GRAY_200};
   position: relative;
-  margin: 0px 1px 0 2px;
+  margin: 0.5px 0.5px 0 0.5px;
 `;
 export const ToolBar = styled.div`
   display: inline-flex;
@@ -45,7 +46,7 @@ export const ToolBarIcon = styled.img`
   justify-content: center;
 
   &:active {
-    background-color: #ccc;
+    background-color: ${COLORS.GRAY_300};
   }
 `;
 export const ToolBarIconColor = styled.input`
@@ -64,7 +65,7 @@ export const TextArea = styled.div`
   margin: 16px;
   outline: none;
 
-  color: #181818;
+  color: ${COLORS.GRAY_900};
 
   font-family: Pretendard;
   font-size: 16px;
@@ -86,7 +87,7 @@ export const PlaceHolder = styled.p`
   top: 29%;
   left: 3.5%;
 
-  color: #ccc;
+  color: ${COLORS.GRAY_300};
 
   font-family: Pretendard;
   font-size: 16px;
