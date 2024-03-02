@@ -82,15 +82,15 @@ export const ScrollbarTrack = styled.div`
 
 export const scrollbarWrapper = styled.div`
   position: absolute;
-  right: 0px;
-  width: 40px;
+  right: -10px;
+  width: 25px;
   margin: 8px 0;
   cursor: pointer;
 `;
 
 export const scrollbarThumb = styled.div`
-  position: relative;
-  left: 30px;
+  position: absolute;
+  right: 10px;
   width: 8px;
   height: 100%;
   top: 0px;
@@ -103,10 +103,18 @@ export const UpperScrollButton = styled.div`
   width: 30px;
   height: 30px;
   box-shadow: 0px 2px 6px 0px rgb(0, 0, 0, 0.2);
-  background-color: white;
+  background-color: rgba(256, 256, 256, 0.7);
   bottom: 10px;
   border-radius: 502px;
   left: calc(50% - 15px);
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${COLORS.GRAY_100};
+  }
+  &:active {
+    background-color: ${COLORS.GRAY_200};
+  }
 `;
 
 export const UpperImageIcon = styled.img`
@@ -114,4 +122,5 @@ export const UpperImageIcon = styled.img`
   height: 30px;
   filter: invert(70%);
   transform: rotate(180deg);
+  opacity: 1;
 `;
