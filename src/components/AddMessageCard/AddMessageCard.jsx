@@ -6,7 +6,9 @@ import {
   AddMessageHover,
   AddMessagePressed,
 } from './index';
+import { useNavigate } from 'react-router-dom';
 export const AddMessageCard = () => {
+  const navigate = useNavigate();
   const [image, setImage] = useState(AddMessageEnabled);
   const handleMouseOver = () => {
     setImage(AddMessageHover);
@@ -20,12 +22,16 @@ export const AddMessageCard = () => {
   const handleMouseDown = () => {
     setImage(AddMessagePressed);
   };
+  const handleClick = () => {
+    navigate('./message');
+  };
   return (
     <S.Wrapper
       onFocus={handleFocus}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       onMouseDown={handleMouseDown}
+      onClick={handleClick}
     >
       <S.AddButtonWrapper>
         <S.AddButtonIcon

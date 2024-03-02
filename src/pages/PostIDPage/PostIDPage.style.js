@@ -64,3 +64,30 @@ export const ErrorContent = styled.p`
   margin-top: 15px;
   ${FONT_STYLE.REGULAR_15};
 `;
+
+export const ScrollbarTrack = styled.div`
+  position: fixed;
+  top: 0px;
+  right: 7px;
+  height: 100vh;
+  width: 8px;
+  z-index: 50;
+`;
+
+export const scrollbarThumb = styled.div`
+  position: absolute;
+  width: 8px;
+  height: 100px;
+  top: 0px;
+  border-radius: 10px;
+  margin: 8px 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+`;

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
 import { PostIDContext, Modal, MessageCardWrapper } from './index';
-import { useParams } from 'react-router-dom';
 import { getRecipientData } from '../../API';
 import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
-import { ScrollBar } from '../../components/ScrollBar/ScrollBar';
-
 const DEFAULT = {
   id: null,
   recipientId: null,
@@ -19,11 +17,14 @@ const DEFAULT = {
 };
 
 export default function PostIDPage() {
-  const [scrollHeight, setScrollHeight] = useState(0);
   const [pageHeight, setPageHeight] = useState(0);
   const [currentCardData, setCurrentCardData] = useState(DEFAULT);
   const [messageCardData, setMessageCardData] = useState([]);
+  const [drag, setDrag] = useState(false);
+  const [startY, setStartY] = useState(0);
+  const [startScrollHeight, setStartScrollHeight] = useState(0);
   const pageRef = useRef(null);
+  const scrollRef = useRef(null);
   const { userID } = useParams();
   const [dataError, setDataError] = useState(null);
   const [userData, setUserData] = useState({
@@ -69,20 +70,70 @@ export default function PostIDPage() {
   };
 
   const handlePageScroll = () => {
-    setScrollHeight(pageRef.current.scrollTop);
+    const scrollTop = pageRef.current.scrollTop;
+    const viewPortHeight = window.innerHeight;
+    const scrollbarHeight =
+      ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
+    const ScrollbarTop = (scrollTop / pageHeight) * (viewPortHeight - 16);
+    scrollRef.current.style.top = `${ScrollbarTop}px`;
+    scrollRef.current.style.height = `${scrollbarHeight}px`;
   };
 
   const handleMessageCardData = useCallback((value) => {
     setMessageCardData(value);
   }, []);
 
+  const handleMouseDown = (e) => {
+    setStartY(e.clientY);
+    setStartScrollHeight(pageRef.current.scrollTop);
+    setDrag(true);
+  };
+
+  const calculateHeight = (height) => {
+    const viewPortHeight = window.innerHeight;
+    const scrollbarHeight =
+      ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
+    const ScrollbarTop = (height / pageHeight) * (viewPortHeight - 16);
+
+    if (scrollbarHeight + ScrollbarTop > viewPortHeight - 16) {
+      const MaxScrollTop =
+        ((viewPortHeight - 16 - scrollbarHeight) * pageHeight) /
+        (viewPortHeight - 16);
+      return MaxScrollTop;
+    }
+    return height;
+  };
+
+  const handleMouseMove = (e) => {
+    if (drag) {
+      const deltaH = e.clientY - startY;
+      const deltaScrollHeight =
+        startScrollHeight + (deltaH / (window.innerHeight - 16)) * pageHeight;
+      pageRef.current.scrollTop = calculateHeight(deltaScrollHeight);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setDrag(false);
+  };
+
   useEffect(() => {
     getUserData(userID);
   }, []);
 
   useEffect(() => {
+    setDrag(false);
     setPageHeight(pageRef.current.scrollHeight);
   }, [messageCardData]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPageHeight(pageRef.current.scrollHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <PostIDContext.Provider
@@ -102,6 +153,8 @@ export default function PostIDPage() {
           $color={userData.backgroundColor}
           $url={userData.backgroundImageURL}
           onScroll={handlePageScroll}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
         >
           <Header page="post" />
           <SubHeader
@@ -129,10 +182,12 @@ export default function PostIDPage() {
               setCurrentCardData={handleCurrentCardData}
             ></MessageCardWrapper>
           </S.MessageWrapper>
-          <ScrollBar
-            pageHeight={pageHeight}
-            scrollHeight={scrollHeight}
-          ></ScrollBar>
+          <S.ScrollbarTrack>
+            <S.scrollbarThumb
+              ref={scrollRef}
+              onMouseDown={handleMouseDown}
+            ></S.scrollbarThumb>
+          </S.ScrollbarTrack>
           <S.ModalBackground
             $currentCardData={currentCardData.id}
             onClick={clickOutterEvent}

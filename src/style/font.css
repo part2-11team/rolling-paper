@@ -1,7 +1,5 @@
 @font-face {
   font-family: 'Pretendard-Regular';
-  font-display: swap;
-  src: url('../assets/fonts/Pretendard-Regular.otf') format('woff');
-  font-weight: 400;
+  src: url('../assets/fonts/Pretendard-Regular.otf') format('truetype');
   font-style: normal;
 }
