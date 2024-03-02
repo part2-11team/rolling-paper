@@ -5,6 +5,7 @@ import { PostIDContext, Modal, MessageCardWrapper } from './index';
 import { getRecipientData } from '../../API';
 import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
+import arrowDown from '../../assets/icon/arrow_down.svg';
 const DEFAULT = {
   id: null,
   recipientId: null,
@@ -113,6 +114,19 @@ export default function PostIDPage() {
     }
   };
 
+  const moveScrollTop = () => {
+    const position = pageRef.current.scrollTop;
+    if (position) {
+      window.requestAnimationFrame(() => {
+        pageRef.current.scrollTop = position * 0.8;
+        moveScrollTop();
+      });
+    }
+  };
+
+  const handleClickUpperButton = () => {
+    moveScrollTop();
+  };
   const handleMouseUp = () => {
     setDrag(false);
   };
@@ -194,6 +208,14 @@ export default function PostIDPage() {
           >
             <Modal></Modal>
           </S.ModalBackground>
+          <S.UpperScrollButton onClick={handleClickUpperButton}>
+            <S.UpperImageIcon
+              src={arrowDown}
+              alt="arrow"
+              width={40}
+              height={40}
+            ></S.UpperImageIcon>
+          </S.UpperScrollButton>
         </S.PageWrapper>
       )}
     </PostIDContext.Provider>

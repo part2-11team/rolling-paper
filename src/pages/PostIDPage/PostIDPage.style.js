@@ -91,3 +91,21 @@ export const scrollbarThumb = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
   }
 `;
+
+export const UpperScrollButton = styled.div`
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0px 2px 6px 0px rgb(0, 0, 0, 0.2);
+  background-color: white;
+  bottom: 20px;
+  border-radius: 502px;
+  left: calc(50% - 20px);
+`;
+
+export const UpperImageIcon = styled.img`
+  width: 40px;
+  height: 40px;
+  filter: invert(70%);
+  transform: rotate(180deg);
+`;
