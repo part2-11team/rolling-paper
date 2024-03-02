@@ -3,8 +3,6 @@ import * as S from './PostMessagePage.style.js';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
 import TextEditor from './TextEditor';
-import Man1 from './asset/man1.png';
-import Man2 from './asset/man2.png';
 import DefaultImg from './asset/defaultImg.png';
 import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
@@ -48,21 +46,6 @@ export const PostMessagePage = () => {
     { value: 'Pretendard', label: 'Pretendard' },
     { value: '나눔명조', label: '나눔명조' },
     { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
-  ];
-
-  const samplePicture = [
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
   ];
 
   const handleNameChange = (e) => {
@@ -121,6 +104,17 @@ export const PostMessagePage = () => {
     } else {
       setPassValue(false);
     }
+
+    const fetchImageUrls = async () => {
+      try {
+        const response = await axios.get(IMAGEURL);
+        const imageUrls = response.data.imageUrls;
+        setSamplePicture(imageUrls.map((url) => ({ src: url })));
+      } catch (error) {
+        return []; // 실패할 경우 빈 배열 반환
+      }
+    };
+    fetchImageUrls();
   }, [isName, editorTextContent]);
 
   return (
@@ -133,133 +127,133 @@ export const PostMessagePage = () => {
           }}
         />
       </S.NavController>
-    <S.PostWrapper>
-      <S.PostMessageContainer>
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
+      <S.PostWrapper>
+        <S.PostMessageContainer>
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
             <S.InputContainer>
-            <S.PostMessageInput
-              placeholder="이름을 입력해 주세요."
-              onBlur={handleNameError}
-              style={{
+              <S.PostMessageInput
+                placeholder="이름을 입력해 주세요."
+                onBlur={handleNameError}
+                style={{
                   borderColor: isName
                     ? `${COLORS.ERROR}`
                     : `${COLORS.GRAY_300}`,
-              }}
-              onChange={handleNameChange}
-            ></S.PostMessageInput>
-            {isName && (
-              <S.PostMessageInputError>
-                값을 입력해주세요.
-              </S.PostMessageInputError>
-            )}
+                }}
+                onChange={handleNameChange}
+              ></S.PostMessageInput>
+              {isName && (
+                <S.PostMessageInputError>
+                  값을 입력해주세요.
+                </S.PostMessageInputError>
+              )}
             </S.InputContainer>
-        </S.PostMessageContent>
+          </S.PostMessageContent>
 
-        <S.PostMessageContent>
+          <S.PostMessageContent>
             <S.PostMessageContentHeader>
               프로필 이미지
             </S.PostMessageContentHeader>
 
-          <S.SelectPictureContain>
-            <S.SelectedPicture src={profileImg} />
+            <S.SelectPictureContain>
+              <S.SelectedPicture src={profileImg} />
 
-            <S.SelectPictureListContain>
+              <S.SelectPictureListContain>
                 <S.SubContain>
-                <S.SelectPictureListInfo>
-                  프로필 이미지를 선택해주세요!
-                </S.SelectPictureListInfo>
+                  <S.SelectPictureListInfo>
+                    프로필 이미지를 선택해주세요!
+                  </S.SelectPictureListInfo>
 
-                <S.InputLabel
-                  htmlFor="fileInput" //라벨을 이용한 커스텀 버튼
-                >
+                  <S.InputLabel
+                    htmlFor="fileInput" //라벨을 이용한 커스텀 버튼
+                  >
                     이미지 추가하기
-                </S.InputLabel>
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImportProfileImg}
-                  style={{ display: 'none' }}
-                />
+                  </S.InputLabel>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImportProfileImg}
+                    style={{ display: 'none' }}
+                  />
                 </S.SubContain>
 
-              <S.SelectPictureList>
-                {samplePicture.slice(0, 10).map((samplePicture, index) => (
-                  <S.SelectPictures
-                    key={index}
-                    src={samplePicture.src}
-                    onClick={() => handleSetProfileImg(samplePicture.src)}
-                  ></S.SelectPictures>
-                ))}
-              </S.SelectPictureList>
-            </S.SelectPictureListContain>
-          </S.SelectPictureContain>
-        </S.PostMessageContent>
+                <S.SelectPictureList>
+                  {samplePicture.slice(0, 10).map((samplePicture, index) => (
+                    <S.SelectPictures
+                      key={index}
+                      src={samplePicture.src}
+                      onClick={() => handleSetProfileImg(samplePicture.src)}
+                    ></S.SelectPictures>
+                  ))}
+                </S.SelectPictureList>
+              </S.SelectPictureListContain>
+            </S.SelectPictureContain>
+          </S.PostMessageContent>
 
-        <S.PostMessageContent>
+          <S.PostMessageContent>
             <S.PostMessageContentHeader>
               상대와의 관계
             </S.PostMessageContentHeader>
-          <S.PostMessageDropdownList onClick={handleToggleDropdown}>
-            <S.DropdownIcon
-              src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
+            <S.PostMessageDropdownList onClick={handleToggleDropdown}>
+              <S.DropdownIcon
+                src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
+              />
+
+              <S.PostMessageDropdownListButton>
+                {selectedRelationOption}
+              </S.PostMessageDropdownListButton>
+              <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
+                {dropdownRelationOptions.map((DropOption) => (
+                  <S.DropdownListContentOption
+                    key={DropOption.value}
+                    onClick={() => handleSelectRelation(DropOption.value)}
+                  >
+                    {DropOption.label}
+                  </S.DropdownListContentOption>
+                ))}
+              </S.PostMessageDropdownListContent>
+            </S.PostMessageDropdownList>
+          </S.PostMessageContent>
+
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>
+              내용을 입력해 주세요
+            </S.PostMessageContentHeader>
+            <TextEditor
+              value={editorTextContent}
+              onChange={(content) => setEditorTextContent(content)}
+              fontFamily={selectedFontOption}
             />
+          </S.PostMessageContent>
 
-            <S.PostMessageDropdownListButton>
-              {selectedRelationOption}
-            </S.PostMessageDropdownListButton>
-            <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
-              {dropdownRelationOptions.map((DropOption) => (
-                <S.DropdownListContentOption
-                  key={DropOption.value}
-                  onClick={() => handleSelectRelation(DropOption.value)}
-                >
-                  {DropOption.label}
-                </S.DropdownListContentOption>
-              ))}
-            </S.PostMessageDropdownListContent>
-          </S.PostMessageDropdownList>
-        </S.PostMessageContent>
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
 
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>
-            내용을 입력해 주세요
-          </S.PostMessageContentHeader>
-          <TextEditor
-            value={editorTextContent}
-            onChange={(content) => setEditorTextContent(content)}
-            fontFamily={selectedFontOption}
-          />
-        </S.PostMessageContent>
+            <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
+              <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
 
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
+              <S.PostMessageDropdownListButton>
+                {selectedFontOption}
+              </S.PostMessageDropdownListButton>
+              <S.PostMessageDropdownListContent isOpen={isOpenFont}>
+                {dropdownFontOptions.map((DropOption) => (
+                  <S.DropdownListContentOption
+                    key={DropOption.value}
+                    onClick={() => handleSelectFont(DropOption.value)}
+                  >
+                    {DropOption.label}
+                  </S.DropdownListContentOption>
+                ))}
+              </S.PostMessageDropdownListContent>
+            </S.PostMessageDropdownList>
+          </S.PostMessageContent>
+        </S.PostMessageContainer>
 
-          <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
-            <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
-
-            <S.PostMessageDropdownListButton>
-              {selectedFontOption}
-            </S.PostMessageDropdownListButton>
-            <S.PostMessageDropdownListContent isOpen={isOpenFont}>
-              {dropdownFontOptions.map((DropOption) => (
-                <S.DropdownListContentOption
-                  key={DropOption.value}
-                  onClick={() => handleSelectFont(DropOption.value)}
-                >
-                  {DropOption.label}
-                </S.DropdownListContentOption>
-              ))}
-            </S.PostMessageDropdownListContent>
-          </S.PostMessageDropdownList>
-        </S.PostMessageContent>
-      </S.PostMessageContainer>
-
-      <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
-        생성하기
-      </S.SubmitButton>
-    </S.PostWrapper>
+        <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
+          생성하기
+        </S.SubmitButton>
+      </S.PostWrapper>
     </>
   );
 };
