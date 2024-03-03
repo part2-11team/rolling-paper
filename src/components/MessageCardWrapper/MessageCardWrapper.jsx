@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './MessageCardWrapper.style';
 import { AddMessageCard } from '../AddMessageCard/AddMessageCard';
-import { getMessageCardData } from '../../API';
+import { getMessageCardData, deleteMessageCardData } from '../../API';
 import loadingIcon from '../../assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
-import { deleteMessageCardData } from '../../API';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 
@@ -13,24 +12,24 @@ export const MessageCardWrapper = ({
   messageCardData,
   setMessageCardData,
   setCurrentCardData,
+  dataError,
+  setDataError,
 }) => {
-  const [offset, setOffset] = useState(0);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const target = useRef(null);
   const { userID } = useParams();
-  const [dataError, setDataError] = useState(null);
-  const [endData, setEndData] = useState(false);
-  const [deleteCount, setDeleteCount] = useState(0);
-  const [messageCount, setMessageCount] = useState(0);
+  const offset = useRef(0);
+  const target = useRef(null);
+  const endData = useRef(false);
+  const deleteCount = useRef(0);
+  const messageCount = useRef(0);
+  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const options = {
     threshold: 0.3,
   };
-
   const handleScroll = (entry) => {
     if (entry[0].isIntersecting && !initialLoading) {
       setLoading(true);
-      setOffset(messageCardData.length);
+      offset.current = messageCardData.length;
     }
   };
 
@@ -42,9 +41,9 @@ export const MessageCardWrapper = ({
     );
     if (!error) {
       setMessageCardData([...data]);
-      setMessageCount(count);
+      messageCount.current = count;
       if (data.length < INITIAL_PAGE_LOADING) {
-        setEndData(true);
+        endData.current = true;
       }
     } else {
       if (error) {
@@ -61,8 +60,8 @@ export const MessageCardWrapper = ({
       offset,
     );
     if (!error) {
-      if (count > messageCount) {
-        const updateCount = count - messageCount;
+      if (count > messageCount.current) {
+        const updateCount = count - messageCount.current;
         const { data: updateData, error: updateError } =
           await getMessageCardData(userID, updateCount, 0);
         if (!updateError) {
@@ -70,7 +69,7 @@ export const MessageCardWrapper = ({
             ...updateData,
             ...prevCardData,
           ]);
-          setMessageCount(count);
+          messageCount.current = count;
         } else {
           setDataError(updateError);
         }
@@ -81,7 +80,7 @@ export const MessageCardWrapper = ({
       }
 
       if (data.length < PAGE_LOADING) {
-        setEndData(true);
+        endData.current = true;
       }
     } else {
       if (error) {
@@ -89,7 +88,7 @@ export const MessageCardWrapper = ({
       }
     }
     setLoading(false);
-    setDeleteCount(0);
+    deleteCount.current = 0;
   };
 
   const deleteCardData = useCallback(async (cardID) => {
@@ -97,21 +96,21 @@ export const MessageCardWrapper = ({
     if (error) {
       setDataError(error);
     } else {
-      setOffset((prevOffset) => prevOffset - 1);
-      setDeleteCount((prevCount) => (prevCount + 1) % 3);
+      offset.current -= 1;
+      deleteCount.current = (deleteCount.current + 1) % 3;
       setMessageCardData((prevCardData) =>
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
-      setMessageCount((prevCount) => prevCount - 1);
+      messageCount.current -= 1;
     }
   }, []);
 
   const dataLoad = () => {
     if (loading && !dataError) {
       if (initialLoading) {
-        InitialGetCardData(INITIAL_PAGE_LOADING, offset);
+        InitialGetCardData(INITIAL_PAGE_LOADING, offset.current);
       } else {
-        getCardData(PAGE_LOADING + deleteCount, offset);
+        getCardData(PAGE_LOADING + deleteCount.current, offset.current);
       }
     }
   };
@@ -127,25 +126,24 @@ export const MessageCardWrapper = ({
 
   return (
     <S.GridWrapper>
-      {!initialLoading && <AddMessageCard></AddMessageCard>}
+      {!initialLoading && <AddMessageCard />}
       {messageCardData.map((cardData, index) => (
         <MessageCard
           cardData={cardData}
           key={index}
           handleCurrentCardData={setCurrentCardData}
           deleteCardData={deleteCardData}
-        ></MessageCard>
+        />
       ))}
-      {loading ? (
+      {loading && !endData.current ? (
         <S.LoadingIcon
           src={loadingIcon}
           alt="loading"
           $initialLoading={initialLoading}
-          $endData={endData}
           onLoad={dataLoad}
-        ></S.LoadingIcon>
+        />
       ) : (
-        !endData && <div ref={target}></div>
+        !endData.current && <div ref={target}></div>
       )}
     </S.GridWrapper>
   );

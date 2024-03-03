@@ -8,12 +8,7 @@ const BACKGROUND_COLOR = {
   blue: COLORS.BLUE_200,
   green: COLORS.GREEN_200,
 };
-const DRAG = `
--webkit-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
-`;
+
 export const PageWrapper = styled.div`
   position: relative;
   height: 100vh;
@@ -24,7 +19,10 @@ export const PageWrapper = styled.div`
   background-size: cover;
   background-attachment: fixed;
   overflow: auto;
-  ${({ $drag }) => $drag && DRAG};
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
 
 export const Header = styled.div`

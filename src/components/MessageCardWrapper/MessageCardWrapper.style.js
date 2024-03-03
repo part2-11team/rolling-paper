@@ -34,7 +34,6 @@ const loading = keyframes`
 `;
 
 export const LoadingIcon = styled.img`
-  visibility: ${({ $endData }) => ($endData ? 'hidden' : 'visible')};
   position: absolute;
   ${({ $initialLoading }) => ($initialLoading ? 'top: 40vh' : 'bottom: 30px')};
   left: calc(50% - 15px);
