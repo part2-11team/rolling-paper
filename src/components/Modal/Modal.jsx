@@ -6,7 +6,7 @@ export const Modal = () => {
   const { currentCardData: cardData, handleCurrentCardData } =
     useContext(PostIDContext);
   const handleModalButton = () => {
-    handleCurrentCardData();
+    handleCurrentCardData({ id: null });
   };
   const CreatedDateComponent = () => {
     const formattedDate = getFormattedDate(cardData.createdAt);

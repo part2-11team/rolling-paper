@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
 import {
@@ -12,16 +12,6 @@ import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
 import arrowDown from '../../assets/icon/arrow_down.svg';
 
-const DEFAULT = {
-  id: null,
-  recipientId: null,
-  sender: null,
-  profileImageURL: null,
-  relationship: null,
-  content: null,
-  font: null,
-  createdAt: null,
-};
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
@@ -33,7 +23,7 @@ export default function PostIDPage() {
   const [dataError, setDataError] = useState(null);
   const [messageCount, setMessageCount] = useState(0);
   const [scrollVisible, setScrollVisible] = useState(false);
-  const [currentCardData, setCurrentCardData] = useState(DEFAULT);
+  const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [messageCardData, setMessageCardData] = useState([]);
   const [userData, setUserData] = useState({
     name: null,
@@ -42,18 +32,16 @@ export default function PostIDPage() {
     recentMessages: [],
   });
   //update currentData when click message card or delete button to determine viewing modal component.
-  const handleCurrentCardData = (cardData = null) => {
-    if (currentCardData.id) {
-      setCurrentCardData(DEFAULT);
-    } else {
-      setCurrentCardData(cardData);
-    }
-  };
+  const handleCurrentCardData = useCallback((cardData) => {
+    setCurrentCardData(cardData);
+  }, []);
+
   // update currentData when click other part, viewing modal.
   const handleClickOutter = (e) => {
     e.stopPropagation();
-    setCurrentCardData(DEFAULT);
+    setCurrentCardData({ id: null });
   };
+
   //update userdata for header, background image
   const getUserData = async (userID) => {
     const {
@@ -181,7 +169,7 @@ export default function PostIDPage() {
               messageCardData={messageCardData}
               setMessageCardData={handleMessageCardData}
               currentCardData={currentCardData}
-              setCurrentCardData={handleCurrentCardData}
+              handleCurrentCardData={handleCurrentCardData}
               dataError={dataError}
               setDataError={setDataError}
             ></MessageCardWrapper>

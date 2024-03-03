@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useRef, useState } from 'react';
 import * as S from './MessageCard.style';
 import { getFormattedDate, Deleted } from './index';
@@ -17,7 +16,6 @@ export const MessageCard = React.memo(
       deleteCardData(cardData.id);
       alert(`삭제되었습니다.`);
     };
-
     const DeleteButtonComponent = () => {
       if (!hoverStatus) return <></>;
       return (
@@ -32,19 +30,19 @@ export const MessageCard = React.memo(
       );
     };
 
-    const handleMouseOut = () => {
+    const handleMouseOutCard = () => {
       setHoverStatus(false);
     };
 
-    const handleMouseOver = () => {
+    const handleMouseEnterCard = () => {
       setHoverStatus(true);
     };
 
     return (
       <S.Wrapper
         onClick={handleCardWrapper}
-        onMouseLeave={handleMouseOut}
-        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseOutCard}
+        onMouseEnter={handleMouseEnterCard}
         ref={cardRef}
       >
         <MessageCardHeader
