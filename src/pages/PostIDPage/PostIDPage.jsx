@@ -11,15 +11,12 @@ import {
 import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
 import arrowDown from '../../assets/icon/arrow_down.svg';
+import { Scrollbar } from '../../components/Scrollbar/Scrollbar';
 
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
   const scrollWrapperRef = useRef(null);
-  const drag = useRef(false);
-  const scrollbarStartY = useRef(0);
-  const scrollThumbRef = useRef(null);
-  const startScrollHeight = useRef(0);
   const [dataError, setDataError] = useState(null);
   const [messageCount, setMessageCount] = useState(0);
   const [scrollVisible, setScrollVisible] = useState(false);
@@ -75,28 +72,6 @@ export default function PostIDPage() {
     setMessageCardData(value);
   };
 
-  //drag scrollbar
-  const handleMouseDownScroll = (e) => {
-    scrollbarStartY.current = e.clientY;
-    startScrollHeight.current = pageRef.current.scrollTop;
-    drag.current = true;
-    scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-  };
-  const handleMouseMoveScroll = (e) => {
-    if (drag.current) {
-      const deltaH = e.clientY - scrollbarStartY.current;
-      const pageHeight = pageRef.current.scrollHeight;
-      const deltaScrollPosition =
-        startScrollHeight.current +
-        (deltaH / (window.innerHeight - 16)) * pageHeight;
-      pageRef.current.scrollTop = deltaScrollPosition;
-    }
-  };
-  const handleMouseUpScroll = () => {
-    drag.current = false;
-    scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-  };
-
   //scroll up button event
   const scrollUp = () => {
     const position = pageRef.current.scrollTop;
@@ -118,7 +93,6 @@ export default function PostIDPage() {
 
   //set scrollbar position, height when load new message data
   useEffect(() => {
-    drag.current = false;
     const pageFullHeight = pageRef.current.scrollHeight;
     const pageviewHeight = pageRef.current.clientHeight;
     if (pageFullHeight - pageviewHeight > 0) {
@@ -154,8 +128,6 @@ export default function PostIDPage() {
           $color={userData.backgroundColor}
           $url={userData.backgroundImageURL}
           onScroll={handleScrollPage}
-          onMouseMove={handleMouseMoveScroll}
-          onMouseUp={handleMouseUpScroll}
         >
           <Header page="post" />
           <SubHeader
@@ -167,21 +139,15 @@ export default function PostIDPage() {
           >
             <MessageCardWrapper
               messageCardData={messageCardData}
-              setMessageCardData={handleMessageCardData}
-              currentCardData={currentCardData}
+              handleMessageCardData={handleMessageCardData}
               handleCurrentCardData={handleCurrentCardData}
-              dataError={dataError}
               setDataError={setDataError}
             ></MessageCardWrapper>
           </S.MessageWrapper>
-          <S.ScrollbarTrack>
-            <S.scrollbarWrapper
-              ref={scrollWrapperRef}
-              onMouseDown={handleMouseDownScroll}
-            >
-              <S.scrollbarThumb ref={scrollThumbRef}></S.scrollbarThumb>
-            </S.scrollbarWrapper>
-          </S.ScrollbarTrack>
+          <Scrollbar
+            pageRef={pageRef}
+            scrollWrapperRef={scrollWrapperRef}
+          ></Scrollbar>
           <S.ModalBackground
             $currentCardData={currentCardData.id}
             onClick={handleClickOutter}

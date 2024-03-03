@@ -13,9 +13,8 @@ const options = {
 
 export const MessageCardWrapper = ({
   messageCardData,
-  setMessageCardData,
+  handleMessageCardData,
   handleCurrentCardData,
-  dataError,
   setDataError,
 }) => {
   const { userID } = useParams();
@@ -42,7 +41,7 @@ export const MessageCardWrapper = ({
       offset,
     );
     if (!error) {
-      setMessageCardData([...data]);
+      handleMessageCardData([...data]);
       messageCount.current = count;
       if (data.length < INITIAL_PAGE_LOADING) {
         endData.current = true;
@@ -77,12 +76,12 @@ export const MessageCardWrapper = ({
         setDataError(updateError);
         return;
       }
-      setMessageCardData((prevCardData) => [...updateData, ...prevCardData]);
+      handleMessageCardData((prevCardData) => [...updateData, ...prevCardData]);
       messageCount.current = newMessageCount;
       const restData = data.slice(updateCount);
-      setMessageCardData((prevCardData) => [...prevCardData, ...restData]);
+      handleMessageCardData((prevCardData) => [...prevCardData, ...restData]);
     } else {
-      setMessageCardData((prev) => [...prev, ...data]);
+      handleMessageCardData((prev) => [...prev, ...data]);
     }
 
     if (data.length < PAGE_LOADING) {
@@ -100,7 +99,7 @@ export const MessageCardWrapper = ({
     } else {
       offset.current -= 1;
       deleteCount.current = (deleteCount.current + 1) % 3;
-      setMessageCardData((prevCardData) =>
+      handleMessageCardData((prevCardData) =>
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
       messageCount.current -= 1;
@@ -108,7 +107,7 @@ export const MessageCardWrapper = ({
   }, []);
   //data load function, loaded loading Icon
   const dataLoad = () => {
-    if (loading && !dataError) {
+    if (loading) {
       if (initialLoading) {
         initialGetCardData(INITIAL_PAGE_LOADING, offset.current);
       } else {
@@ -116,7 +115,7 @@ export const MessageCardWrapper = ({
       }
     }
   };
-  //regist intersectionObserver to check reaching the end of page
+  //regist intersectionObserver to check reaching theend of page
   useEffect(() => {
     const observer = new IntersectionObserver(
       handleIntersectionObserver,
