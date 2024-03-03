@@ -17,18 +17,17 @@ const DEFAULT = {
   createdAt: null,
 };
 export default function PostIDPage() {
-  const [pageHeight, setPageHeight] = useState(0);
-  const [scrollStatus, setScrollStatus] = useState(false);
-  const [currentCardData, setCurrentCardData] = useState(DEFAULT);
-  const [messageCardData, setMessageCardData] = useState([]);
-  const [drag, setDrag] = useState(false);
-  const [startY, setStartY] = useState(0);
-  const [startScrollHeight, setStartScrollHeight] = useState(0);
+  const { userID } = useParams();
+  const drag = useRef(false);
+  const startY = useRef(0);
   const pageRef = useRef(null);
   const scrollRef = useRef(null);
   const scrollThumbRef = useRef(null);
-  const { userID } = useParams();
+  const startScrollHeight = useRef(0);
   const [dataError, setDataError] = useState(null);
+  const [scrollStatus, setScrollStatus] = useState(false);
+  const [currentCardData, setCurrentCardData] = useState(DEFAULT);
+  const [messageCardData, setMessageCardData] = useState([]);
   const [userData, setUserData] = useState({
     name: null,
     backgroundColor: 'beige',
@@ -36,17 +35,25 @@ export default function PostIDPage() {
     recentMessages: [],
   });
   const [messageCount, setMessageCount] = useState(0);
+  //update Scrollbar Height, Position
+  const setScrollBarHeightPosition = () => {
+    const scrollTop = pageRef.current.scrollTop;
+    const viewPortHeight = window.innerHeight;
+    const pageHeight = pageRef.current.scrollHeight;
+    const scrollbarHeight =
+      ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
+    const ScrollbarTop = (scrollTop / pageHeight) * (viewPortHeight - 16);
+    scrollRef.current.style.top = `${ScrollbarTop}px`;
+    scrollRef.current.style.height = `${scrollbarHeight}px`;
+  };
 
-  const handleCurrentCardData = useCallback(
-    (cardData = null) => {
-      if (currentCardData.id) {
-        setCurrentCardData(DEFAULT);
-      } else {
-        setCurrentCardData(cardData);
-      }
-    },
-    [currentCardData],
-  );
+  const handleCurrentCardData = (cardData = null) => {
+    if (currentCardData.id) {
+      setCurrentCardData(DEFAULT);
+    } else {
+      setCurrentCardData(cardData);
+    }
+  };
 
   const clickOutterEvent = (e) => {
     e.stopPropagation();
@@ -70,35 +77,30 @@ export default function PostIDPage() {
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
     setMessageCount(messageCountData);
   };
-
+  //scroll bar position when page scroll
   const handlePageScroll = () => {
-    const scrollTop = pageRef.current.scrollTop;
-    const viewPortHeight = window.innerHeight;
-    const scrollbarHeight =
-      ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
-    const ScrollbarTop = (scrollTop / pageHeight) * (viewPortHeight - 16);
-    scrollRef.current.style.top = `${ScrollbarTop}px`;
-    scrollRef.current.style.height = `${scrollbarHeight}px`;
-    if (scrollTop === 0) {
-      setScrollStatus(false);
-    } else {
+    setScrollBarHeightPosition();
+    if (pageRef.current.scrollTop > 0 && !scrollStatus) {
       setScrollStatus(true);
+    } else if (pageRef.current.scrollTop === 0) {
+      setScrollStatus(false);
     }
   };
 
   const handleMessageCardData = useCallback((value) => {
     setMessageCardData(value);
   }, []);
-
+  //drag scrollbar mouse down
   const handleMouseDown = (e) => {
-    setStartY(e.clientY);
-    setStartScrollHeight(pageRef.current.scrollTop);
-    setDrag(true);
+    startY.current = e.clientY;
+    startScrollHeight.current = pageRef.current.scrollTop;
+    drag.current = true;
     scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
   };
-
+  //drag height range
   const calculateHeight = (height) => {
     const viewPortHeight = window.innerHeight;
+    const pageHeight = pageRef.current.scrollHeight;
     const scrollbarHeight =
       ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
     const ScrollbarTop = (height / pageHeight) * (viewPortHeight - 16);
@@ -111,21 +113,23 @@ export default function PostIDPage() {
     }
     return height;
   };
-
+  //drag scrollbar mouse move
   const handleMouseMove = (e) => {
-    if (drag) {
-      const deltaH = e.clientY - startY;
-      const deltaScrollHeight =
-        startScrollHeight + (deltaH / (window.innerHeight - 16)) * pageHeight;
-      pageRef.current.scrollTop = calculateHeight(deltaScrollHeight);
+    if (drag.current) {
+      const deltaH = e.clientY - startY.current;
+      const pageHeight = pageRef.current.scrollHeight;
+      const deltaScrollPosition =
+        startScrollHeight.current +
+        (deltaH / (window.innerHeight - 16)) * pageHeight;
+      pageRef.current.scrollTop = calculateHeight(deltaScrollPosition);
     }
   };
-
+  //drag scrollbar mouse up
   const handleMouseUp = () => {
-    setDrag(false);
+    drag.current = false;
     scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
   };
-
+  //button effect scroll top
   const moveScrollTop = () => {
     const position = pageRef.current.scrollTop;
     if (position) {
@@ -144,32 +148,19 @@ export default function PostIDPage() {
     getUserData(userID);
   }, []);
 
+  //set scroll bar position, height when load new message data
   useEffect(() => {
-    setDrag(false);
-    setPageHeight(pageRef.current.scrollHeight);
-    if (pageRef.current.scrollHeight - pageRef.current.clientHeight <= 0) {
-      scrollRef.current.style.height = `0px`;
-    } else {
-      const pageScrollHeight = pageRef.current.scrollHeight;
-      const scrollTop = pageRef.current.scrollTop;
-      const viewPortHeight = window.innerHeight;
-      const scrollbarHeight =
-        ((viewPortHeight - 16) / pageScrollHeight) * viewPortHeight;
-      const ScrollbarTop =
-        (scrollTop / pageScrollHeight) * (viewPortHeight - 16);
-      scrollRef.current.style.top = `${ScrollbarTop}px`;
-      scrollRef.current.style.height = `${scrollbarHeight}px`;
+    drag.current = false;
+    const pageFullHeight = pageRef.current.scrollHeight;
+    const pageviewHeight = pageRef.current.clientHeight;
+    if (pageFullHeight - pageviewHeight > 0) {
+      setScrollBarHeightPosition();
     }
   }, [messageCardData]);
 
   useEffect(() => {
-    const viewPortHeight = window.innerHeight;
-    const scrollbarHeight =
-      ((viewPortHeight - 16) / pageHeight) * viewPortHeight;
-    scrollRef.current.style.height = `${scrollbarHeight}px`;
-
     const handleResize = () => {
-      setPageHeight(pageRef.current.scrollHeight);
+      setScrollBarHeightPosition();
     };
 
     window.addEventListener('resize', handleResize);
@@ -193,7 +184,7 @@ export default function PostIDPage() {
           ref={pageRef}
           $color={userData.backgroundColor}
           $url={userData.backgroundImageURL}
-          $drag={drag}
+          $drag={drag.current}
           onScroll={handlePageScroll}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -202,17 +193,6 @@ export default function PostIDPage() {
           <SubHeader
             value={{ messageCardData, currentCardData, messageCount }}
           />
-          {/*
-          <S.Header>
-            이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
-            {messageCount} &nbsp;&nbsp; ID1:
-            {userData.recentMessages[0] && userData.recentMessages[0].id}{' '}
-            &nbsp;&nbsp; ID2:
-            {userData.recentMessages[1] && userData.recentMessages[1].id}{' '}
-            &nbsp;&nbsp; ID3:
-            {userData.recentMessages[2] && userData.recentMessages[2].id}{' '}
-          </S.Header>
-          */}
           <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
