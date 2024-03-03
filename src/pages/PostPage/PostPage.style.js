@@ -11,7 +11,7 @@ export const PostPage = styled.div`
 `;
 
 export const PostPageForm = styled.form`
-  margin: 12.2rem 0 20rem;
+  margin: 5.7rem 0 20rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +34,7 @@ export const PostPageH1 = styled.h1`
 
 export const ToInput = styled.input`
   margin-top: 1.2rem;
-  border: 0.1rem solid ${({ hasError }) => hasError ? COLORS.ERROR : COLORS.GRAY_300};
+  border: 0.1rem solid ${({ $hasError }) => $hasError ? COLORS.ERROR : COLORS.GRAY_300};
   border-radius: 0.8rem;  
   padding: 1.2rem 1.6rem;  
   width: 72rem;
@@ -47,7 +47,7 @@ export const ToInput = styled.input`
 export const ErrorMessage = styled.div`
   color: ${COLORS.ERROR};
   ${FONT_STYLE.REGULAR_14};
-  display: ${({ hasError }) => hasError ? 'block' : 'none'};
+  display: ${({ $hasError }) => $hasError ? 'block' : 'none'};
 `;
 
 export const BackgroundSelectWrapper = styled.div`
@@ -84,6 +84,7 @@ export const ColorSelectorDiv = styled.div`
 `;
 
 export const SelectBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,47 +92,48 @@ export const SelectBox = styled.div`
   height: 16.8rem;
   cursor: pointer;
   border-radius: 1.6rem;
-  background-color: ${({ selectedValue, selectedIndex }) => {
-    if (selectedValue === '컬러') {
-      switch (selectedIndex) {
-        case 'orange':
-          return COLORS.ORANGE_200;
-        case 'purple':
-          return COLORS.PURPLE_200;
-        case 'blue':
-          return COLORS.BLUE_200;
-        case 'green':
-          return COLORS.GREEN_200;
-        default:
-          return COLORS.ORANGE_200;
-      }
-    }
-    if (selectedValue === '이미지') {
-      switch (selectedIndex) {
-        case 'orange':
-          return COLORS.ORANGE_500;
-        case 'purple':
-          return COLORS.PURPLE_900;
-        case 'blue':
-          return COLORS.BLUE_500;
-        case 'green':
-          return COLORS.GREEN_500;
-        default:
-          return COLORS.ORANGE_500;
-      }
-    }
-  }};
 
   @media (max-width: 768px) {
     width: 100%;
     height: 15.4rem;
   }
+
+  &::before {
+    position: absolute;
+    content: "";
+    top:0px;
+    left:0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.4);
+    display: ${({ $index, $clickedIndex, $selectedValue }) => $index === $clickedIndex && $selectedValue === '이미지' ? 'block' : 'none'};
+  }
+  
+  background: ${({ $selectedValue, $index, $imageUrl }) => {
+    if ($selectedValue === '컬러') {
+      switch ($index) {
+        case 1:
+          return COLORS.ORANGE_200;
+        case 2:
+          return COLORS.PURPLE_200;
+        case 3:
+          return COLORS.BLUE_200;
+        case 4:
+          return COLORS.GREEN_200;
+        default:
+          return COLORS.ORANGE_200;
+      }
+    }
+      return `url(${$imageUrl}) lightgray 50% / cover no-repeat`;
+    }
+  }};
 `;
 
 export const SelectedImg = styled.img`
   width: 4.4rem;
   height: 4.4rem;
-  display: ${({ value, index }) => value === index ? 'block' : 'none'};
+  z-index: 1;
+  display: ${({ value, $clickedIndex }) => value === $clickedIndex ? 'block' : 'none'};
 `;
 
 export const ColorImageButton = styled.div`
@@ -145,8 +147,8 @@ export const ColorImageButton = styled.div`
   color: ${COLORS.GRAY_900};
   cursor: pointer;
   
-  ${({ selectedValue, value }) =>
-    selectedValue === value && css`
+  ${({ $selectedValue, value }) =>
+    $selectedValue === value && css`
       background-color: ${COLORS.WHITE};
       border: 0.2rem solid ${COLORS.PURPLE_600};
       box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);
@@ -154,4 +156,3 @@ export const ColorImageButton = styled.div`
       ${FONT_STYLE.BOLD_16}
     `}
 `;
-
