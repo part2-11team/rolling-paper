@@ -22,7 +22,7 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
         const pageHeight = pageRef.current.scrollHeight;
         const deltaScrollPosition =
           startScrollHeight.current +
-          (deltaH / (window.innerHeight - 16)) * pageHeight;
+          (deltaH / (window.innerHeight - 76)) * pageHeight;
         pageRef.current.scrollTop = deltaScrollPosition;
       }
     };
