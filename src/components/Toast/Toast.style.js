@@ -9,8 +9,8 @@ export const ToastWrapper = styled.div`
   align-items: center;
   width: 524px;
   height: 64px;
-  background-color: rgba(0, 0, 0, 0.8);
-  ${({ $type }) => ($type === 'load' ? 'top: 50px' : 'bottom: 50px')};
+  background-color: rgb(0, 0, 0);
+  ${({ $type }) => ($type === 'load' ? 'top: 120px' : 'bottom: 120px')};
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -25,11 +25,13 @@ export const ToastWrapper = styled.div`
 export const FlexWrapper = styled.div`
   display: flex;
   gap: 12px;
+  align-items: center;
 `;
 
 export const ToastIcon = styled.img`
   width: 24px;
   height: 24px;
+  ${({ $delete }) => $delete && 'cursor: pointer'};
 `;
 
 export const ToastText = styled.p`

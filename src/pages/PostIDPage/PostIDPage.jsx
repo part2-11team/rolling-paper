@@ -18,10 +18,11 @@ export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
   const timerRef = useRef(null);
-  const [toastVisible, setToastVisible] = useState(false);
+  const fadeTimerRef = useRef(null);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [messageCount, setMessageCount] = useState(0);
+  const [toastVisible, setToastVisible] = useState(false);
   const [scrollVisible, setScrollVisible] = useState(false);
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [messageCardData, setMessageCardData] = useState([]);
@@ -147,6 +148,7 @@ export default function PostIDPage() {
             toastVisible={toastVisible}
             handleToastvisible={handleToastvisible}
             timerRef={timerRef}
+            fadeTimerRef={fadeTimerRef}
           ></Toast>
           <S.MessageWrapper
             $color={userData.backgroundColor}

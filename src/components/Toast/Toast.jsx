@@ -1,10 +1,16 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as S from './Toast.style';
 import close from '../../assets/icon/close.svg';
 import completed from '../../assets/icon/completed.svg';
 import warning from '../../assets/icon/warning.png';
-
-export const Toast = ({ type, toastVisible, handleToastvisible, timerRef }) => {
+/* eslint-disable */
+export const Toast = ({
+  type,
+  toastVisible,
+  handleToastvisible,
+  timerRef,
+  fadeTimerRef,
+}) => {
   const ToastContent = () => {
     if (type === 'load') {
       return (
@@ -35,6 +41,7 @@ export const Toast = ({ type, toastVisible, handleToastvisible, timerRef }) => {
   const handleClickDeleteButton = () => {
     handleToastvisible(false);
     clearTimeout(timerRef.current);
+    clearInterval(fadeTimerRef.current);
   };
 
   if (toastVisible) {
@@ -43,12 +50,28 @@ export const Toast = ({ type, toastVisible, handleToastvisible, timerRef }) => {
       timerRef.current = null;
     }
     const closeTimer = setTimeout(() => {
-      handleToastvisible(false);
       clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }, 5000);
+      const fadeTimer = setInterval(() => {
+        wrapperRef.current.style.opacity =
+          parseFloat(wrapperRef.current.style.opacity) * 0.94;
+      }, 10);
+      fadeTimerRef.current = fadeTimer;
+      const fadeCloseTimer = setTimeout(() => {
+        clearInterval(fadeTimer);
+        clearTimeout(fadeCloseTimer);
+        timerRef.current = null;
+        handleToastvisible(false);
+      }, 500);
+      timerRef.current = fadeCloseTimer;
+    }, 4500);
     timerRef.current = closeTimer;
   }
+
+  useEffect(() => {
+    if (wrapperRef.current) {
+      wrapperRef.current.style.opacity = '0.8';
+    }
+  }, [timerRef.current]);
 
   return (
     <>
@@ -61,6 +84,7 @@ export const Toast = ({ type, toastVisible, handleToastvisible, timerRef }) => {
             width={24}
             height={24}
             onClick={handleClickDeleteButton}
+            $delete
           ></S.ToastIcon>
         </S.ToastWrapper>
       )}

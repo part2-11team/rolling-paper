@@ -24,6 +24,7 @@ export const MessageCardWrapper = ({
   const gridWrapperRef = useRef(null);
   const target = useRef(null);
   const timerRef = useRef(null);
+  const fadeTimerRef = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
   const [loading, setLoading] = useState(true);
@@ -101,6 +102,7 @@ export const MessageCardWrapper = ({
     if (data.length === 0) {
       if (toastVisible) {
         clearTimeout(timerRef.current);
+        clearInterval(fadeTimerRef.current);
       }
       setToastVisible(true);
     }
@@ -174,6 +176,7 @@ export const MessageCardWrapper = ({
         toastVisible={toastVisible}
         handleToastvisible={handleToastvisible}
         timerRef={timerRef}
+        fadeTimerRef={fadeTimerRef}
       ></Toast>
     </>
   );
