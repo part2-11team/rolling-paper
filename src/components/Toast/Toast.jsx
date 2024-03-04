@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as S from './Toast.style';
 import close from '../../assets/icon/close.svg';
 import completed from '../../assets/icon/completed.svg';
-import warning from '../../assets/icon/warning.png';
+import warning from '../../assets/icon/warning.svg';
 /* eslint-disable */
 export const Toast = ({
   type,

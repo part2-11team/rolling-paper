@@ -24,6 +24,7 @@ export const scrollbarThumb = styled.div`
   height: 100%;
   top: 0px;
   border-radius: 10px;
+  border: 0.7px solid rgba(256, 256, 256, 0.5);
   @media (max-width: 768px) {
     right: 8px;
   }

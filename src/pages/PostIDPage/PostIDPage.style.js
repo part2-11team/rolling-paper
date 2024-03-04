@@ -88,6 +88,9 @@ export const UpperScrollButton = styled.div`
   border-radius: 502px;
   right: 5px;
   cursor: pointer;
+  border: 0.7px solid rgba(0, 0, 0, 0.5);
+  opacity: 0.7;
+  text-align: center;
 
   &:hover {
     background-color: ${COLORS.GRAY_100};
@@ -101,6 +104,6 @@ export const UpperImageIcon = styled.img`
   width: 25px;
   height: 25px;
   filter: invert(70%);
-  transform: rotate(180deg);
+  transform: rotate(180deg) translateX(1px);
   opacity: 1;
 `;
