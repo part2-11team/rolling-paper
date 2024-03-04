@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as S from './Scrollbar.style';
 import { setScrollBarHeightPosition } from '../../pages/PostIDPage';
+import { COLORS } from '../../style/colorPalette';
 
 export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
   const scrollThumbRef = useRef(null);
@@ -13,7 +14,7 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
     scrollbarStartY.current = e.clientY;
     startScrollHeight.current = pageRef.current.scrollTop;
     drag.current = true;
-    scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    scrollThumbRef.current.style.backgroundColor = COLORS.GRAY_500;
   };
   useEffect(() => {
     const handleMouseMoveScroll = (e) => {
@@ -22,13 +23,13 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
         const pageHeight = pageRef.current.scrollHeight;
         const deltaScrollPosition =
           startScrollHeight.current +
-          (deltaH / (window.innerHeight - 76)) * pageHeight;
+          (deltaH / (window.innerHeight - 62)) * pageHeight;
         pageRef.current.scrollTop = deltaScrollPosition;
       }
     };
     const handleMouseUpScroll = () => {
       drag.current = false;
-      scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+      scrollThumbRef.current.style.backgroundColor = COLORS.GRAY_400;
     };
     document.addEventListener('mousemove', handleMouseMoveScroll);
     document.addEventListener('mouseup', handleMouseUpScroll);
@@ -50,7 +51,7 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
   useEffect(() => {
     drag.current = false;
     if (scrollWrapperRef.current) {
-      scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+      scrollThumbRef.current.style.backgroundColor = COLORS.GRAY_400;
     }
   }, [scrollWrapperRef.current && scrollWrapperRef.current.style.height]);
 

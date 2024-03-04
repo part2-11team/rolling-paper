@@ -30,7 +30,6 @@ export const MessageCardWrapper = ({
   const [toastVisible, setToastVisible] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  /* eslint-disable */
   const handleToastvisible = () => {
     setToastVisible(false);
   };

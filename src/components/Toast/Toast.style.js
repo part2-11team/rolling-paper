@@ -16,6 +16,10 @@ export const ToastWrapper = styled.div`
   z-index: 100;
   border-radius: 8px;
   padding: 0 30px;
+
+  @media (max-width: 600px) {
+    width: 90%;
+  }
 `;
 
 export const FlexWrapper = styled.div`

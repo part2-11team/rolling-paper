@@ -14,12 +14,12 @@ export const GridWrapper = styled.div`
   }
   @media (max-width: 1200px) {
     grid-template-columns: 1fr 1fr;
-    max-width: 1020px;
+    max-width: 1000px;
   }
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    max-width: 495px;
+    max-width: 480px;
     min-width: 360px;
   }
 `;
