@@ -3,7 +3,6 @@ import * as S from './PostMessagePage.style.js';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
 import TextEditor from './TextEditor';
-import DefaultImg from './asset/defaultImg.png';
 import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
 import axios from 'axios';
@@ -15,7 +14,7 @@ export const PostMessagePage = () => {
   const [isName, setIsName] = useState();
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
-  const [profileImg, setProfileImg] = useState(DefaultImg); //프로필 사진
+  const [profileImg, setProfileImg] = useState(); //프로필 사진
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
   const [name, setName] = useState(''); //이름
@@ -27,6 +26,8 @@ export const PostMessagePage = () => {
   const url = `https://rolling-api.vercel.app/0-3/recipients/${userID}/messages/`;
 
   let data = {
+    team: 11,
+    recipientId: userID,
     sender: name,
     profileImageURL: profileImg,
     relationship: selectedRelationOption,
@@ -58,6 +59,14 @@ export const PostMessagePage = () => {
   };
 
   const handleSetProfileImg = (src) => {
+    /*try {
+      const response = await axios.get(src, { responseType: 'blob' });
+      const blob = new Blob([response.data]);
+      const objectURL = URL.createObjectURL(blob);
+      setProfileImg(objectURL);
+    } catch (error) {
+      return;
+    }*/
     setProfileImg(src);
   };
 
@@ -99,6 +108,17 @@ export const PostMessagePage = () => {
     }
   };
 
+  const loadingImageUrls = async () => {
+    try {
+      const response = await axios.get(IMAGEURL);
+      const imageUrls = response.data.imageUrls;
+      setSamplePicture(imageUrls.map((url) => ({ src: url })));
+      setProfileImg(imageUrls[0]);
+    } catch (error) {
+      return []; // 실패할 경우 빈 배열 반환
+    }
+  };
+
   useEffect(() => {
     if (isName === false && editorTextContent.trim() !== '') {
       setPassValue(true);
@@ -106,16 +126,7 @@ export const PostMessagePage = () => {
       setPassValue(false);
     }
 
-    const fetchImageUrls = async () => {
-      try {
-        const response = await axios.get(IMAGEURL);
-        const imageUrls = response.data.imageUrls;
-        setSamplePicture(imageUrls.map((url) => ({ src: url })));
-      } catch (error) {
-        return []; // 실패할 경우 빈 배열 반환
-      }
-    };
-    fetchImageUrls();
+    loadingImageUrls();
   }, [isName, editorTextContent]);
 
   return (
@@ -157,7 +168,7 @@ export const PostMessagePage = () => {
             </S.PostMessageContentHeader>
 
             <S.SelectPictureContain>
-              <S.SelectedPicture src={profileImg} />
+              <S.SelectedPicture src={profileImg} alt="선택된 프로필 이미지" />
 
               <S.SelectPictureListContain>
                 <S.SubContain>
@@ -180,10 +191,13 @@ export const PostMessagePage = () => {
                 </S.SubContain>
 
                 <S.SelectPictureList>
-                  {samplePicture.slice(0, 10).map((samplePicture, index) => (
+                  {samplePicture.map((samplePicture, index) => (
                     <S.SelectPictures
                       key={index}
                       src={samplePicture.src}
+                      alt={`샘플 이미지 no${index + 1}`}
+                      width={`56px`}
+                      height={`56px`}
                       onClick={() => handleSetProfileImg(samplePicture.src)}
                     ></S.SelectPictures>
                   ))}
