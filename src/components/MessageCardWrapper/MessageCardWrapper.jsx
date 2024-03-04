@@ -16,17 +16,18 @@ export const MessageCardWrapper = ({
   handleMessageCardData,
   handleCurrentCardData,
   setDataError,
+  pageRef,
 }) => {
   const { userID } = useParams();
   const offset = useRef(0);
+  const gridWrapperRef = useRef(null);
   const target = useRef(null);
-  const endData = useRef(false);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
   const [loading, setLoading] = useState(true);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  //update loading station to load data when reach the end of page
+  //update loading state to load data when reach the end of page
   const handleIntersectionObserver = (entry) => {
     if (entry[0].isIntersecting && !initialLoading) {
       setLoading(true);
@@ -44,7 +45,11 @@ export const MessageCardWrapper = ({
       handleMessageCardData([...data]);
       messageCount.current = count;
       if (data.length < INITIAL_PAGE_LOADING) {
-        endData.current = true;
+        const pageFullHeight = pageRef.current.scrollHeight;
+        const pageviewHeight = pageRef.current.clientHeight;
+        if (pageFullHeight - pageviewHeight < 90) {
+          gridWrapperRef.current.style.height = '95vh';
+        }
       }
     } else {
       if (error) {
@@ -85,7 +90,7 @@ export const MessageCardWrapper = ({
     }
 
     if (data.length < PAGE_LOADING) {
-      endData.current = true;
+      pageRef.current.scrollTop -= 90;
     }
     setLoading(false);
     deleteCount.current = 0;
@@ -130,17 +135,19 @@ export const MessageCardWrapper = ({
   }, [handleIntersectionObserver]);
 
   return (
-    <S.GridWrapper>
-      {!initialLoading && <AddMessageCard />}
-      {messageCardData.map((cardData, index) => (
-        <MessageCard
-          cardData={cardData}
-          key={index}
-          handleCurrentCardData={handleCurrentCardData}
-          deleteCardData={deleteCardData}
-        />
-      ))}
-      {loading && !endData.current ? (
+    <>
+      <S.GridWrapper ref={gridWrapperRef}>
+        {!initialLoading && <AddMessageCard />}
+        {messageCardData.map((cardData, index) => (
+          <MessageCard
+            cardData={cardData}
+            key={index}
+            handleCurrentCardData={handleCurrentCardData}
+            deleteCardData={deleteCardData}
+          />
+        ))}
+      </S.GridWrapper>
+      {loading ? (
         <S.LoadingIcon
           src={loadingIcon}
           alt="loading"
@@ -148,8 +155,8 @@ export const MessageCardWrapper = ({
           onLoad={dataLoad}
         />
       ) : (
-        !endData.current && <div ref={target}></div>
+        <div ref={target}></div>
       )}
-    </S.GridWrapper>
+    </>
   );
 };

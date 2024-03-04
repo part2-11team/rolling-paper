@@ -142,6 +142,7 @@ export default function PostIDPage() {
               handleMessageCardData={handleMessageCardData}
               handleCurrentCardData={handleCurrentCardData}
               setDataError={setDataError}
+              pageRef={pageRef}
             ></MessageCardWrapper>
           </S.MessageWrapper>
           <Scrollbar
