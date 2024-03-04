@@ -12,10 +12,13 @@ import Header from '../../components/Common/Header/Header';
 import SubHeader from '../../components/SubHeader/SubHeader';
 import arrowDown from '../../assets/icon/arrow_down.svg';
 import { Scrollbar } from '../../components/Scrollbar/Scrollbar';
+import { Toast } from '../../components/Toast/Toast';
 
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
+  const timerRef = useRef(null);
+  const [toastVisible, setToastVisible] = useState(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [messageCount, setMessageCount] = useState(0);
@@ -32,6 +35,11 @@ export default function PostIDPage() {
   const handleCurrentCardData = useCallback((cardData) => {
     setCurrentCardData(cardData);
   }, []);
+
+  //update toastVisible state for invisible.
+  const handleToastvisible = (value) => {
+    setToastVisible(value);
+  };
 
   // update currentData when click other part, viewing modal.
   const handleClickOutter = (e) => {
@@ -58,6 +66,7 @@ export default function PostIDPage() {
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
     setMessageCount(messageCountData);
   };
+
   //update scrollbar position when scroll page
   const handleScrollPage = () => {
     setScrollBarHeightPosition(pageRef, scrollWrapperRef);
@@ -133,6 +142,12 @@ export default function PostIDPage() {
           <SubHeader
             value={{ messageCardData, currentCardData, messageCount }}
           />
+          <Toast
+            type="url"
+            toastVisible={toastVisible}
+            handleToastvisible={handleToastvisible}
+            timerRef={timerRef}
+          ></Toast>
           <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}

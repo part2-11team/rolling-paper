@@ -5,6 +5,7 @@ import { AddMessageCard } from '../AddMessageCard/AddMessageCard';
 import { getMessageCardData, deleteMessageCardData } from '../../API';
 import loadingIcon from '../../assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
+import { Toast } from '../Toast/Toast';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 const options = {
@@ -22,11 +23,17 @@ export const MessageCardWrapper = ({
   const offset = useRef(0);
   const gridWrapperRef = useRef(null);
   const target = useRef(null);
+  const timerRef = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
   const [loading, setLoading] = useState(true);
+  const [toastVisible, setToastVisible] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
+  /* eslint-disable */
+  const handleToastvisible = () => {
+    setToastVisible(false);
+  };
   //update loading state to load data when reach the end of page
   const handleIntersectionObserver = (entry) => {
     if (entry[0].isIntersecting && !initialLoading) {
@@ -92,6 +99,12 @@ export const MessageCardWrapper = ({
     if (data.length < PAGE_LOADING) {
       pageRef.current.scrollTop -= 90;
     }
+    if (data.length === 0) {
+      if (toastVisible) {
+        clearTimeout(timerRef.current);
+      }
+      setToastVisible(true);
+    }
     setLoading(false);
     deleteCount.current = 0;
   };
@@ -155,8 +168,14 @@ export const MessageCardWrapper = ({
           onLoad={dataLoad}
         />
       ) : (
-        <div ref={target}></div>
+        <div ref={target} style={{ width: '100%', height: '1px' }}></div>
       )}
+      <Toast
+        type="load"
+        toastVisible={toastVisible}
+        handleToastvisible={handleToastvisible}
+        timerRef={timerRef}
+      ></Toast>
     </>
   );
 };
