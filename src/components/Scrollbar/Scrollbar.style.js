@@ -12,14 +12,14 @@ export const ScrollbarTrack = styled.div`
 export const scrollbarWrapper = styled.div`
   position: absolute;
   right: -8px;
-  width: 33px;
+  width: 25px;
   margin: 8px 0;
   cursor: pointer;
 `;
 
 export const scrollbarThumb = styled.div`
   position: absolute;
-  right: 15px;
+  right: 9px;
   width: 8px;
   height: 100%;
   top: 0px;

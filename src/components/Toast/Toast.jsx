@@ -3,13 +3,12 @@ import * as S from './Toast.style';
 import close from '../../assets/icon/close.svg';
 import completed from '../../assets/icon/completed.svg';
 import warning from '../../assets/icon/warning.svg';
-/* eslint-disable */
+
 export const Toast = ({
   type,
   toastVisible,
   handleToastvisible,
-  timerRef,
-  fadeTimerRef,
+  toastUpdate,
 }) => {
   const ToastContent = () => {
     if (type === 'load') {
@@ -37,6 +36,8 @@ export const Toast = ({
       </S.FlexWrapper>
     );
   };
+  const timerRef = useRef(null);
+  const fadeTimerRef = useRef(null);
   const wrapperRef = useRef(null);
   const handleClickDeleteButton = () => {
     handleToastvisible(false);
@@ -44,11 +45,14 @@ export const Toast = ({
     clearInterval(fadeTimerRef.current);
   };
 
-  if (toastVisible) {
+  if (toastVisible && toastUpdate.current) {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
+      clearInterval(fadeTimerRef.current);
       timerRef.current = null;
+      fadeTimerRef.current = null;
     }
+    toastUpdate.current = false;
     const closeTimer = setTimeout(() => {
       clearTimeout(timerRef.current);
       const fadeTimer = setInterval(() => {

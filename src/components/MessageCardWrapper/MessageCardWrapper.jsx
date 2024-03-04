@@ -23,17 +23,16 @@ export const MessageCardWrapper = ({
   const offset = useRef(0);
   const gridWrapperRef = useRef(null);
   const target = useRef(null);
-  const timerRef = useRef(null);
-  const fadeTimerRef = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
+  const toastUpdate = useRef(false);
   const [loading, setLoading] = useState(true);
   const [toastVisible, setToastVisible] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
 
-  const handleToastvisible = () => {
-    setToastVisible(false);
-  };
+  const handleToastvisible = useCallback((value) => {
+    setToastVisible(value);
+  }, []);
   //update loading state to load data when reach the end of page
   const handleIntersectionObserver = (entry) => {
     if (entry[0].isIntersecting && !initialLoading) {
@@ -100,11 +99,8 @@ export const MessageCardWrapper = ({
       pageRef.current.scrollTop -= 90;
     }
     if (data.length === 0) {
-      if (toastVisible) {
-        clearTimeout(timerRef.current);
-        clearInterval(fadeTimerRef.current);
-      }
       setToastVisible(true);
+      toastUpdate.current = true;
     }
     setLoading(false);
     deleteCount.current = 0;
@@ -175,8 +171,7 @@ export const MessageCardWrapper = ({
         type="load"
         toastVisible={toastVisible}
         handleToastvisible={handleToastvisible}
-        timerRef={timerRef}
-        fadeTimerRef={fadeTimerRef}
+        toastUpdate={toastUpdate}
       ></Toast>
     </>
   );

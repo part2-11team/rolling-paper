@@ -78,32 +78,17 @@ export const ScrollbarTrack = styled.div`
   z-index: 50;
 `;
 
-export const UpperScrollButton = styled.div`
-  position: fixed;
-  width: 25px;
-  height: 25px;
-  box-shadow: 0px 2px 6px 0px rgb(0, 0, 0, 0.2);
-  background-color: rgba(256, 256, 256, 0.7);
-  bottom: 10px;
-  border-radius: 502px;
-  right: 5px;
-  cursor: pointer;
-  border: 0.7px solid rgba(0, 0, 0, 0.5);
-  opacity: 0.7;
-  text-align: center;
-
-  &:hover {
-    background-color: ${COLORS.GRAY_100};
-  }
-  &:active {
-    background-color: ${COLORS.GRAY_200};
-  }
-`;
-
 export const UpperImageIcon = styled.img`
-  width: 25px;
-  height: 25px;
-  filter: invert(70%);
-  transform: rotate(180deg) translateX(1px);
-  opacity: 1;
+  position: fixed;
+  width: 35px;
+  height: 35px;
+  bottom: 10px;
+  right: 9px;
+  filter: invert(0.15);
+  border-radius: 35px;
+  border: 1px solid ${COLORS.WHITE};
+  cursor: pointer;
+  &:hover {
+    filter: invert(0.9);
+  }
 `;

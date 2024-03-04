@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as S from './Scrollbar.style';
-import { setScrollBarHeightPosition } from '../../pages/PostIDPage';
+import { setScrollBarHeightPosition } from '../../assets/utils/setScrollBarHeightPosition';
 
 export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
   const scrollThumbRef = useRef(null);
@@ -22,7 +22,7 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
         const pageHeight = pageRef.current.scrollHeight;
         const deltaScrollPosition =
           startScrollHeight.current +
-          (deltaH / (window.innerHeight - 62)) * pageHeight;
+          (deltaH / (window.innerHeight - 65)) * pageHeight;
         pageRef.current.scrollTop = deltaScrollPosition;
       }
     };

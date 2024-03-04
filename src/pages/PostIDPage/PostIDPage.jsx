@@ -2,23 +2,22 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
 import {
-  PostIDContext,
   Modal,
   MessageCardWrapper,
-  setScrollBarHeightPosition,
-  getRecipientData,
+  Scrollbar,
+  Toast,
+  Header,
+  SubHeader,
 } from './index';
-import Header from '../../components/Common/Header/Header';
-import SubHeader from '../../components/SubHeader/SubHeader';
-import arrowDown from '../../assets/icon/arrow_down.svg';
-import { Scrollbar } from '../../components/Scrollbar/Scrollbar';
-import { Toast } from '../../components/Toast/Toast';
+import { PostIDContext } from '../../context/PostIDContext';
+import { setScrollBarHeightPosition } from '../../assets/utils/setScrollBarHeightPosition';
+import { getRecipientData } from '../../API';
+import arrow_up from '../../assets/icon/arrow_up.svg';
 
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
-  const timerRef = useRef(null);
-  const fadeTimerRef = useRef(null);
+  const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [messageCount, setMessageCount] = useState(0);
@@ -38,9 +37,9 @@ export default function PostIDPage() {
   }, []);
 
   //update toastVisible state for invisible.
-  const handleToastvisible = (value) => {
+  const handleToastvisible = useCallback((value) => {
     setToastVisible(value);
-  };
+  }, []);
 
   // update currentData when click other part, viewing modal.
   const handleClickOutter = (e) => {
@@ -147,8 +146,7 @@ export default function PostIDPage() {
             type="url"
             toastVisible={toastVisible}
             handleToastvisible={handleToastvisible}
-            timerRef={timerRef}
-            fadeTimerRef={fadeTimerRef}
+            toastUpdate={toastUpdate}
           ></Toast>
           <S.MessageWrapper
             $color={userData.backgroundColor}
@@ -173,14 +171,13 @@ export default function PostIDPage() {
             <Modal></Modal>
           </S.ModalBackground>
           {scrollVisible && (
-            <S.UpperScrollButton onClick={handleClickScrollUpButton}>
-              <S.UpperImageIcon
-                src={arrowDown}
-                alt="arrow"
-                width={30}
-                height={30}
-              ></S.UpperImageIcon>
-            </S.UpperScrollButton>
+            <S.UpperImageIcon
+              src={arrow_up}
+              alt="arrow"
+              width={35}
+              height={35}
+              onClick={handleClickScrollUpButton}
+            ></S.UpperImageIcon>
           )}
         </S.PageWrapper>
       )}
