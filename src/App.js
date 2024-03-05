@@ -6,7 +6,6 @@ import GlobalStyle from './style/GlobalStyle';
 import PostPage from './pages/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
 import PaperListPage from './pages/PaperListPage/PaperListPage';
-import '../src/style/font.css';
 
 function App() {
   return (

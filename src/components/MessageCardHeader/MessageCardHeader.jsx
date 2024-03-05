@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './MessageCardHeader.style';
 import { CardBadage } from '../CardBadage/CardBadage';
+
 export const MessageCardHeader = ({ cardData, Component }) => {
   return (
     <>
