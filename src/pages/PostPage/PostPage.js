@@ -77,7 +77,6 @@ const PostPage = () => {
     };
   
     try {
-      /*eslint-disable*/
       const response = await axios.post(url, data);
       navigate(`/post/${response.data.id}`);
       
