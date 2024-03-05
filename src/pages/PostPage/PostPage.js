@@ -72,24 +72,20 @@ const PostPage = () => {
     const url = "https://rolling-api.vercel.app/4-11/recipients/";
     const data = {
       name: value.trim(),
-      backgroundColor: backgroundValue === '컬러' ? COLOR_VALUE[clickedIndex -1] : null,
-      backgroundImageURL: backgroundValue === '이미지' ? imageUrls[clickedIndex -1] : null
+      backgroundColor: backgroundValue === '컬러' ? COLOR_VALUE[clickedIndex -1] : "beige",
+      backgroundImageURL: backgroundValue === '이미지' ? imageUrls[clickedIndex -1].url : null
     };
   
     try {
-      const response = await axios.post(url, data, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+      /*eslint-disable*/
+      const response = await axios.post(url, data);
+      navigate(`/post/${response.data.id}`);
       
       if (!response.status === 200) {
         throw new Error("Failed to post data");
       }
     } catch (error) {
       throw new Error(error);
-    } finally {
-      navigate(`/postid`);
     }
 }
 
