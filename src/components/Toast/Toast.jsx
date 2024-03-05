@@ -9,8 +9,8 @@ export const Toast = ({
   toastVisible,
   handleToastvisible,
   toastUpdate,
+  timerRef,
 }) => {
-  const timerRef = useRef(null);
   const wrapperRef = useRef(null);
 
   const handleClickCloseButton = () => {
@@ -30,14 +30,25 @@ export const Toast = ({
       if (time === 0) {
         timerRef.current = toastTimer;
         wrapperRef.current.style.opacity = 0;
+        wrapperRef.current.style.top = '100px';
       }
       if (time < 50) {
         wrapperRef.current.style.opacity =
           parseFloat(wrapperRef.current.style.opacity) + 0.016;
+        if (type === 'load') {
+          wrapperRef.current.style.top = `${
+            parseFloat(wrapperRef.current.style.top) + 1
+          }px`;
+        }
       }
       if (time > 450 && time <= 500) {
         wrapperRef.current.style.opacity =
           parseFloat(wrapperRef.current.style.opacity) - 0.016;
+        if (type === 'load') {
+          wrapperRef.current.style.top = `${
+            parseFloat(wrapperRef.current.style.top) - 1
+          }px`;
+        }
       }
       if (time === 500) {
         clearInterval(toastTimer);

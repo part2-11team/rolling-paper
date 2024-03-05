@@ -17,6 +17,7 @@ import arrow_up from '../../assets/icon/arrow_up.svg';
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
+  const timerRef = useRef(null);
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
@@ -147,6 +148,7 @@ export default function PostIDPage() {
             toastVisible={toastVisible}
             handleToastvisible={handleToastvisible}
             toastUpdate={toastUpdate}
+            timerRef={timerRef}
           ></Toast>
           <S.MessageWrapper
             $color={userData.backgroundColor}

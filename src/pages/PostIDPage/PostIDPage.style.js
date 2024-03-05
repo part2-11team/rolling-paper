@@ -12,12 +12,6 @@ const BACKGROUND_COLOR = {
 export const PageWrapper = styled.div`
   position: relative;
   height: 100vh;
-  ${({ $url, $color }) =>
-    $url
-      ? `background: url(${$url}) no-repeat center rgba(0, 0, 0, 0.5);`
-      : `background-color: ${BACKGROUND_COLOR[$color]}`};
-  background-size: cover;
-  background-attachment: fixed;
   overflow: auto;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -34,6 +28,10 @@ export const Header = styled.div`
 
 export const MessageWrapper = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   width: 100%;
   height: fit-content;
   ${({ $url, $color }) =>

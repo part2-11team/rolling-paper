@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as S from './MessageCardWrapper.style';
 import { AddMessageCard } from '../AddMessageCard/AddMessageCard';
-import { getMessageCardData, deleteMessageCardData } from '../../API';
+import {
+  getMessageCardData,
+  deleteMessageCardData,
+  deleteRecipient,
+} from '../../API';
 import loadingIcon from '../../assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
 import { Toast } from '../Toast/Toast';
@@ -22,6 +26,7 @@ export const MessageCardWrapper = ({
   const { userID } = useParams();
   const offset = useRef(0);
   const gridWrapperRef = useRef(null);
+  const timerRef = useRef(null);
   const target = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
@@ -29,6 +34,7 @@ export const MessageCardWrapper = ({
   const [loading, setLoading] = useState(true);
   const [toastVisible, setToastVisible] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleToastvisible = useCallback((value) => {
     setToastVisible(value);
@@ -40,6 +46,21 @@ export const MessageCardWrapper = ({
       offset.current = messageCardData.length;
     }
   };
+  /* eslint-disable */
+  const deleteRecipientData = async () => {
+    const { error } = await deleteRecipient(userID);
+    if (error) {
+      setDataError(error);
+      return;
+    }
+    //delete timer
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    alert('삭제되었습니다');
+    navigate('/list');
+  };
+
   //load cardData at initial rendering
   const initialGetCardData = async (limit = null, offset = null) => {
     const { data, count, error } = await getMessageCardData(
@@ -54,7 +75,7 @@ export const MessageCardWrapper = ({
         const pageFullHeight = pageRef.current.scrollHeight;
         const pageviewHeight = pageRef.current.clientHeight;
         if (pageFullHeight - pageviewHeight < 90) {
-          gridWrapperRef.current.style.height = '95vh';
+          gridWrapperRef.current.style.height = '80vh';
         }
       }
     } else {
@@ -145,7 +166,8 @@ export const MessageCardWrapper = ({
   }, [handleIntersectionObserver]);
 
   return (
-    <>
+    <S.Wrpaper>
+      <S.DeleteButton onClick={deleteRecipientData}>삭제하기</S.DeleteButton>
       <S.GridWrapper ref={gridWrapperRef}>
         {!initialLoading && <AddMessageCard />}
         {messageCardData.map((cardData, index) => (
@@ -172,7 +194,8 @@ export const MessageCardWrapper = ({
         toastVisible={toastVisible}
         handleToastvisible={handleToastvisible}
         toastUpdate={toastUpdate}
+        timerRef={timerRef}
       ></Toast>
-    </>
+    </S.Wrpaper>
   );
 };

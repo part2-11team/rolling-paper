@@ -10,7 +10,7 @@ export const ToastWrapper = styled.div`
   width: 524px;
   height: 64px;
   background-color: rgb(0, 0, 0);
-  ${({ $type }) => ($type === 'load' ? 'top: 120px' : 'bottom: 120px')};
+  ${({ $type }) => ($type === 'load' ? 'top: 0px' : 'bottom: 0px')};
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
