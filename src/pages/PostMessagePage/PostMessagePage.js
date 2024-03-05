@@ -6,7 +6,7 @@ import TextEditor from './TextEditor';
 import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -20,6 +20,7 @@ export const PostMessagePage = () => {
   const [name, setName] = useState(''); //이름
   const { userID, teamId } = useParams();
   const [samplePicture, setSamplePicture] = useState([]); // 이미지 URL 배열 상태
+  const navigate = useNavigate();
 
   const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
 
@@ -47,8 +48,8 @@ export const PostMessagePage = () => {
   const dropdownFontOptions = [
     { value: 'Noto Sans', label: 'Noto Sans' },
     { value: 'Pretendard', label: 'Pretendard' },
-    { value: '나눔명조', label: '나눔명조' },
-    { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
+    { value: 'Nanum Myeongjo', label: 'Nanum Myeongjo' },
+    { value: 'NanumLetter', label: 'NanumLetter' },
   ];
 
   const handleNameChange = (e) => {
@@ -109,6 +110,7 @@ export const PostMessagePage = () => {
   const handleSendData = async () => {
     try {
       const response = await axios.post(url, data);
+      navigate(`/post/${userID}`); //페이지 이동
       return { success: true, data: response.data }; //성공시 데이터 출력
     } catch (error) {
       return { success: false, error: error }; //실패시 에러 데이터 출력
