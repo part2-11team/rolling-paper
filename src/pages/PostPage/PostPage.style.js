@@ -2,11 +2,17 @@ import styled, { css } from 'styled-components';
 import { FONT_STYLE } from '../../style/fontStyle';
 import { COLORS } from '../../style/colorPalette';
 
+export const HeaderWrapper = styled.div`
+  @media (max-width: 767px) {
+    display: none;
+  }
+`
+
 export const PostPage = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     padding: 0 2rem;
 `;
 
@@ -16,14 +22,14 @@ export const PostPageForm = styled.form`
   flex-direction: column;
   align-items: center;
   width: 72rem;
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     width: 100%;
     margin: 5rem 0 3rem;
 `;
 
 export const ToInputWrapper = styled.div`
     width: 72rem;
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
       width: 100%;
 `;
 
@@ -40,7 +46,7 @@ export const ToInput = styled.input`
   width: 72rem;
   color: ${COLORS.GRAY_500};
   ${FONT_STYLE.REGULAR_16};
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     width: 100%;
 `;
 
@@ -54,7 +60,7 @@ export const BackgroundSelectWrapper = styled.div`
   margin-top: 5rem;
   margin-bottom: 7rem;
   width: 72rem;
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
     width: 100%;
 `;
 export const PostPageH2 = styled.h2`
@@ -75,7 +81,7 @@ export const ColorSelectorDiv = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 1.6rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     grid-template-columns: 1fr 1fr;
     margin-top: 2.8rem;
     width: 100%;
@@ -93,7 +99,7 @@ export const SelectBox = styled.div`
   cursor: pointer;
   border-radius: 1.6rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     width: 100%;
     height: 15.4rem;
   }

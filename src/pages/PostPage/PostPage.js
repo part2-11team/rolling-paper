@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './PostPage.style.js';
 import Button from '../../components/MainButton';
 import SelectedImg from '../../assets/icon/background-selected.png'
 import Header from '../../components/Common/Header/Header';
-import axios from 'axios';
 
 const PostPage = () => {
+  const navigate = useNavigate();
   const [clickedIndex, setClickedIndex] = useState(1)
   const [backgroundValue, setBackgroundValue] = useState('컬러')
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
 
-  //배경화면 이미지 데이터 받아오기
-  useEffect(() => {
-    const fetchBackgroundImages = async () => {
-      try {
-        const response = await axios.get('https://rolling-api.vercel.app/background-images/');
-        // 이미지 배열을 객체 배열로 변환
-        const imageObjects = response.data.imageUrls.map((url, index) => ({
-          id: index + 1,
-          url: url
-        }));
-        setImageUrls(imageObjects);
-      } catch (error) {
-        alert(error);
-      }
-    };
-  
-    fetchBackgroundImages();
-  }, []);
+  const COLOR_VALUE = [
+    'beige', 'purple', 'blue', 'green'
+  ]
 
-  //배경화면 컬러인지 이미지인지 배열로 저장
   const COLOR_OR_IMAGE = [
     {
       id: 1,
@@ -43,25 +28,27 @@ const PostPage = () => {
     }
   ]
 
-  // //배경화면 색깔, 배열로 저장
-  // const BACKGROUND_DATA = [
-  //   {
-  //     id: 1,
-  //     color: 'orange',
-  //   },
-  //   {
-  //     id: 2,
-  //     color: 'purple',
-  //   },
-  //   {
-  //     id: 3,
-  //     color: 'blue',
-  //   },
-  //   {
-  //     id: 4,
-  //     color: 'green',
-  //   }
-  // ]
+  //배경화면 이미지 데이터 받아오기
+  useEffect(() => {
+    const fetchBackgroundImages = async () => {
+      try {
+        const response = await fetch('https://rolling-api.vercel.app/background-images/');
+        if (!response.ok) {
+          throw new Error('Failed to fetch background images');
+        }
+        const responseData = await response.json();
+        const imageObjects = responseData.imageUrls.map((url, index) => ({
+          id: index + 1,
+          url: url
+        }));
+        setImageUrls(imageObjects);
+      } catch (error) {
+        throw new Error(error)
+      }
+    };
+
+    fetchBackgroundImages();
+  }, []);
 
   //클릭한 인덱스 몇번째인지 저장
   const handleClickedIndex = (id) => {
@@ -81,21 +68,50 @@ const PostPage = () => {
     return setError(false);
   }
 
-  //생성하기 버튼을 눌렀을때 => 아직 구현안함
-  const handleMovetoListClick = () => {
-    alert("미완성입니다!")
+  //완성된 폼 데이터 전송
+  const handleMovetoListClick = async (e) => {
+    e.preventDefault();
+    const url = "https://rolling-api.vercel.app/0-3/recipients/";
+    const data = {
+      name: value.trim(),
+      backgroundColor: backgroundValue === '컬러' ? COLOR_VALUE[clickedIndex -1] : null,
+      backgroundImageURL: backgroundValue === '이미지' ? imageUrls[clickedIndex -1] : null
+    };
+  
+    const requestPost = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    };
+  
+    try {
+      const response = await fetch(url, requestPost);
+    
+      if (!response.ok) {
+        throw new Error(error);
+      }
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+    navigate(`/postid`);
+    }
   }
 
   return (
     <>
-  <Header page="post" />
+  <S.HeaderWrapper>
+    <Header page="post" />
+  </S.HeaderWrapper>
   <S.PostPage>
     <S.PostPageForm>
       <S.ToInputWrapper>
         <S.PostPageH1>
           To.
         </S.PostPageH1>
-        <S.ToInput 
+        <S.ToInput
+          id="recipientName" 
           type="text"
           placeholder="받는 사람 이름을 입력해 주세요" 
           value={value} 
@@ -146,7 +162,7 @@ const PostPage = () => {
       <Button 
       disabled={!value} 
       size="full" 
-      onClick={handleMovetoListClick}>
+      onClick={(e) => handleMovetoListClick(e)}>
         생성하기
       </Button>
       </S.PostPageForm>
