@@ -22,7 +22,7 @@ export const Toast = ({
       if (time === 0) {
         deleteTimerRef.current = toastTimer;
       }
-      if (time === 50 || wrapperRef.current.style.opacity === 0) {
+      if (time === 50 || !wrapperRef.current || wrapperRef.current.style.opacity === 0) {
         clearInterval(toastTimer);
         deleteTimerRef.current = null;
         updateToastvisible(false);
@@ -93,7 +93,7 @@ export const Toast = ({
           }px`;
         }
       }
-      if (time === 500) {
+      if (time === 500 || !wrapperRef.current) {
         clearInterval(toastTimer);
         toastUpdate.current = true;
         timerRef.current = null;
