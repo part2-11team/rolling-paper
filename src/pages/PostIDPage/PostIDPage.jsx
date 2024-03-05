@@ -209,9 +209,7 @@ export default function PostIDPage() {
           $url={userData.backgroundImageURL}
         >
           <Header page="post" />
-          <SubHeader
-            value={{ messageCardData, currentCardData, messageCount }}
-          />
+          <SubHeader value={{ userID, messageCardData }} />
           {/*
           <S.Header>
             이름:{userData.name} &nbsp;&nbsp; 메세지 개수:
