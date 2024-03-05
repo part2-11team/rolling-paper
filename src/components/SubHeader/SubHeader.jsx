@@ -3,14 +3,16 @@ import * as S from './SubHeader.style';
 import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
 import Share from '../../assets/icon/share-24.svg';
-import { getRecipientData } from './api';
+import { getRecipientData, getEmojiData } from './api';
 import Emoji from '../PaperListEmojiBadge/PaperListEmojiBadge';
+import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 
 const SubHeader = ({ value }) => {
   // const ProfileBedge = value.messageCardData.slice(0, 3);
   const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
   const [emojiData, setEmojiData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const [userData, setUserData] = useState({
     name: null,
     messageCount: 0,
@@ -39,14 +41,27 @@ const SubHeader = ({ value }) => {
       topReactions,
     });
     setProfileData(recentMessages);
-    setEmojiData(topReactions);
-    console.log(profileData);
+  };
+
+  const getAllEmojiData = async (userID) => {
+    const { results, error } = await getEmojiData(userID);
+    if (error) {
+      setDataError(error);
+      return;
+    }
+    setEmojiData(results);
+  };
+
+  const showModal = () => {
+    setModalOpen(true);
   };
 
   useEffect(() => {
     getUserData(value.userID);
+    getAllEmojiData(value.userID);
   }, []);
-  console.log(userData);
+
+  console.log(emojiData);
   return (
     <S.SubHeader>
       <S.HeaderContent>
@@ -85,17 +100,22 @@ const SubHeader = ({ value }) => {
             <S.EmojiCnt>
               <S.Emoji>
                 {emojiData.length != 0 &&
-                  emojiData?.map((reaction) => (
-                    <Emoji
-                      key={reaction.id}
-                      emoji={reaction.emoji}
-                      count={reaction.count}
-                    />
-                  ))}
+                  emojiData
+                    .slice(0, 3)
+                    .map((reaction) => (
+                      <Emoji
+                        key={reaction.id}
+                        emoji={reaction.emoji}
+                        count={reaction.count}
+                      />
+                    ))}
               </S.Emoji>
-              <S.AllEmojiButton>
+              <S.AllEmojiButton onClick={showModal}>
                 <S.EmojiImage src={AllEmoji} />
               </S.AllEmojiButton>
+              {modalOpen && (
+                <EmojiModal setModalOpen={setModalOpen} value={emojiData} />
+              )}
             </S.EmojiCnt>
             <S.Service>
               <S.AddEmojiButton>

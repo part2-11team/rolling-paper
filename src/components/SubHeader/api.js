@@ -19,3 +19,18 @@ export const getRecipientData = async (userID) => {
     return { error: error };
   }
 };
+
+export const getEmojiData = async (userID) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}recipients/${userID}/reactions/`,
+    );
+    const { results } = response.data;
+    return {
+      results,
+      error: null,
+    };
+  } catch (error) {
+    return { error: error };
+  }
+};

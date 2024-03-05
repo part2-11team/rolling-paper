@@ -59,7 +59,6 @@ export const ProfileBedge = styled.img`
 export const AllProfile = styled.div`
   display: flex;
   position: absolute;
-  left: 42px;
   border-radius: 140px;
   border: 1.4px solid #fff;
   background: ${COLORS.WHITE};
@@ -68,7 +67,6 @@ export const AllProfile = styled.div`
   width: 28px;
   height: 28px;
   flex-shrink: 0;
-  z-index: 4;
   color: #484848;
   ${FONT_STYLE.REGULAR_12}
 `;
@@ -100,6 +98,7 @@ export const HeaderService = styled.div`
 
 export const EmojiCnt = styled.div`
   display: flex;
+  position: relative;
   align-items: flex-start;
   gap: 2px;
 `;
