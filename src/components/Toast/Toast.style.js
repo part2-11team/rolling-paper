@@ -31,7 +31,7 @@ export const FlexWrapper = styled.div`
 export const ToastIcon = styled.img`
   width: 24px;
   height: 24px;
-  ${({ $delete }) => $delete && 'cursor: pointer'};
+  ${({ $close }) => $close && 'cursor: pointer'};
 `;
 
 export const ToastText = styled.p`
