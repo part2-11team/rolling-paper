@@ -5,7 +5,7 @@ const mock = {
   results: [
     {
       id: 826,
-      name: '박지윤',
+      name: '박지윤!!!',
       backgroundColor: 'green',
       backgroundImageURL: null,
       createdAt: '2023-12-04T01:45:16.017197Z',
