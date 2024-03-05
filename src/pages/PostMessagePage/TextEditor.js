@@ -123,6 +123,13 @@ const TextEditor = ({ onChange, fontFamily }) => {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // 기본 동작인 줄 바꿈을 막음
+      document.execCommand('insertHTML', false, '<br><br>'); // 줄 바꿈 처리
+    }
+  };
+
   const handleInput = (e) => {
     const text = e.target.innerHTML;
     const content = editorRef.current.innerHTML;
@@ -181,7 +188,12 @@ const TextEditor = ({ onChange, fontFamily }) => {
           </S.ToolBarIcons>
         </S.ToolBar>
       </S.ToolBarBackground>
-      <S.TextAreaContainer className="target-div">
+      <S.TextAreaContainer
+        className="target-div"
+        style={{
+          fontFamily: fontFamily,
+        }}
+      >
         <S.TextArea
           ref={editorRef}
           contentEditable={true}
@@ -192,6 +204,7 @@ const TextEditor = ({ onChange, fontFamily }) => {
             fontFamily: fontFamily, //폰트 프롭
           }}
           onInput={handleInput}
+          onKeyDown={handleKeyPress}
         ></S.TextArea>
       </S.TextAreaContainer>
       {content.trim() ? (
