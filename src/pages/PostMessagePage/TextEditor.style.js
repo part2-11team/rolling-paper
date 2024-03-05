@@ -3,7 +3,7 @@ import { COLORS } from '../../style/colorPalette';
 
 export const TextEditorWrapper = styled.div`
   display: flex;
-  width: 720px;
+  width: 100%;
   height: 260px;
   justify-content: center;
   align-items: center;
@@ -13,7 +13,7 @@ export const TextEditorWrapper = styled.div`
   position: relative;
 `;
 export const ToolBarBackground = styled.div`
-  width: 718px;
+  width: 100%;
   height: 49px;
   flex-shrink: 0;
   border-radius: 8px 8px 0px 0px;
@@ -59,7 +59,6 @@ export const ToolBarIconColor = styled.input`
 `;
 
 export const TextArea = styled.div`
-  width: 688px;
   height: 178px;
   flex-shrink: 0;
   margin: 16px;
@@ -67,7 +66,7 @@ export const TextArea = styled.div`
 
   color: ${COLORS.GRAY_900};
 
-  font-family: Pretendard;
+  font-family: serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -75,6 +74,12 @@ export const TextArea = styled.div`
   letter-spacing: -0.16px;
 
   overflow: auto;
+  * {
+    font-family: inherit;
+  }
+`;
+export const TextAreaContainer = styled.div`
+  width: 100%;
 `;
 
 export const CustomBulletList = styled.ul`
@@ -85,7 +90,7 @@ export const CustomBulletList = styled.ul`
 export const PlaceHolder = styled.p`
   position: absolute;
   top: 29%;
-  left: 3.5%;
+  left: 24px;
 
   color: ${COLORS.GRAY_300};
 
