@@ -7,7 +7,7 @@ import warning from '../../assets/icon/warning.svg';
 export const Toast = ({
   type,
   toastVisible,
-  handleToastvisible,
+  updateToastvisible,
   toastUpdate,
   timerRef,
   deleteTimerRef,
@@ -25,7 +25,7 @@ export const Toast = ({
       if (time === 50 || wrapperRef.current.style.opacity === 0) {
         clearInterval(toastTimer);
         deleteTimerRef.current = null;
-        handleToastvisible(false);
+        updateToastvisible(false);
       }
       if (type === 'load') {
         wrapperRef.current.style.top = `${
@@ -97,7 +97,7 @@ export const Toast = ({
         clearInterval(toastTimer);
         toastUpdate.current = true;
         timerRef.current = null;
-        handleToastvisible(false);
+        updateToastvisible(false);
       }
       time += 1;
     }, 10);

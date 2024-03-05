@@ -18,8 +18,8 @@ const options = {
 
 export const MessageCardWrapper = ({
   messageCardData,
-  handleMessageCardData,
-  handleCurrentCardData,
+  updateMessageCardData,
+  updateCurrentCardData,
   setDataError,
   pageRef,
 }) => {
@@ -37,7 +37,7 @@ export const MessageCardWrapper = ({
   const [initialLoading, setInitialLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleToastvisible = useCallback((value) => {
+  const updateToastvisible = useCallback((value) => {
     setToastVisible(value);
   }, []);
   //update loading state to load data when reach the end of page
@@ -72,13 +72,13 @@ export const MessageCardWrapper = ({
       offset,
     );
     if (!error) {
-      handleMessageCardData([...data]);
+      updateMessageCardData([...data]);
       messageCount.current = count;
       if (data.length < INITIAL_PAGE_LOADING) {
         const pageFullHeight = pageRef.current.scrollHeight;
         const pageviewHeight = pageRef.current.clientHeight;
         if (pageFullHeight - pageviewHeight < 90) {
-          gridWrapperRef.current.style.height = '80vh';
+          gridWrapperRef.current.style.height = '75vh';
         }
       }
     } else {
@@ -111,12 +111,12 @@ export const MessageCardWrapper = ({
         setDataError(updateError);
         return;
       }
-      handleMessageCardData((prevCardData) => [...updateData, ...prevCardData]);
+      updateMessageCardData((prevCardData) => [...updateData, ...prevCardData]);
       messageCount.current = newMessageCount;
       const restData = data.slice(updateCount);
-      handleMessageCardData((prevCardData) => [...prevCardData, ...restData]);
+      updateMessageCardData((prevCardData) => [...prevCardData, ...restData]);
     } else {
-      handleMessageCardData((prev) => [...prev, ...data]);
+      updateMessageCardData((prevCardData) => [...prevCardData, ...data]);
     }
 
     if (data.length < PAGE_LOADING) {
@@ -138,7 +138,7 @@ export const MessageCardWrapper = ({
     } else {
       offset.current -= 1;
       deleteCount.current = (deleteCount.current + 1) % 3;
-      handleMessageCardData((prevCardData) =>
+      updateMessageCardData((prevCardData) =>
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
       messageCount.current -= 1;
@@ -179,7 +179,7 @@ export const MessageCardWrapper = ({
           <MessageCard
             cardData={cardData}
             key={index}
-            handleCurrentCardData={handleCurrentCardData}
+            updateCurrentCardData={updateCurrentCardData}
             deleteCardData={deleteCardData}
           />
         ))}
@@ -197,7 +197,7 @@ export const MessageCardWrapper = ({
       <Toast
         type="load"
         toastVisible={toastVisible}
-        handleToastvisible={handleToastvisible}
+        updateToastvisible={updateToastvisible}
         toastUpdate={toastUpdate}
         timerRef={timerRef}
         deleteTimerRef={deleteTimerRef}

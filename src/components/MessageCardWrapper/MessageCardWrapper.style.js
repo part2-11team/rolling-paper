@@ -4,7 +4,7 @@ import { COLORS } from '../../style/colorPalette';
 
 export const Wrpaper = styled.div`
   position: relative;
-  padding: 113px 0 0;
+  padding: 113px 0;
   width: 1200px;
 
   @media (max-width: 1248px) {

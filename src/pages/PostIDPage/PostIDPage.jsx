@@ -34,17 +34,17 @@ export default function PostIDPage() {
     recentMessages: [],
   });
   //update currentData when click message card or delete button to determine viewing modal component.
-  const handleCurrentCardData = useCallback((cardData) => {
+  const updateCurrentCardData = useCallback((cardData) => {
     setCurrentCardData(cardData);
   }, []);
 
   //update toastVisible state for invisible.
-  const handleToastvisible = useCallback((value) => {
+  const updateToastvisible = useCallback((value) => {
     setToastVisible(value);
   }, []);
 
   // update currentData when click other part, viewing modal.
-  const handleClickOutter = (e) => {
+  const focusOutModal = (e) => {
     e.stopPropagation();
     setCurrentCardData({ id: null });
   };
@@ -70,7 +70,7 @@ export default function PostIDPage() {
   };
 
   //update scrollbar position when scroll page
-  const handleScrollPage = () => {
+  const updateScrollbarPosition = () => {
     setScrollBarHeightPosition(pageRef, scrollWrapperRef);
     if (pageRef.current.scrollTop > 0 && !scrollVisible) {
       setScrollVisible(true);
@@ -79,23 +79,23 @@ export default function PostIDPage() {
     }
   };
 
-  const handleMessageCardData = (value) => {
+  const updateMessageCardData = (value) => {
     setMessageCardData(value);
   };
 
   //scroll up button event
-  const scrollUp = () => {
+  const updateScrollTop = () => {
     const position = pageRef.current.scrollTop;
     if (position) {
       window.requestAnimationFrame(() => {
         pageRef.current.scrollTop = position * 0.8;
-        scrollUp();
+        updateScrollTop();
       });
     }
   };
 
-  const handleClickScrollUpButton = () => {
-    scrollUp();
+  const scrollToTop = () => {
+    updateScrollTop();
   };
   //get UserData initial loading
   useEffect(() => {
@@ -125,7 +125,7 @@ export default function PostIDPage() {
     <PostIDContext.Provider
       value={{
         currentCardData,
-        handleCurrentCardData,
+        updateCurrentCardData,
       }}
     >
       {dataError ? (
@@ -138,7 +138,7 @@ export default function PostIDPage() {
           ref={pageRef}
           $color={userData.backgroundColor}
           $url={userData.backgroundImageURL}
-          onScroll={handleScrollPage}
+          onScroll={updateScrollbarPosition}
         >
           <Header page="post" />
           <SubHeader
@@ -147,7 +147,7 @@ export default function PostIDPage() {
           <Toast
             type="url"
             toastVisible={toastVisible}
-            handleToastvisible={handleToastvisible}
+            updateToastvisible={updateToastvisible}
             toastUpdate={toastUpdate}
             timerRef={timerRef}
             deleteTimerRef={deleteTimerRef}
@@ -158,8 +158,8 @@ export default function PostIDPage() {
           >
             <MessageCardWrapper
               messageCardData={messageCardData}
-              handleMessageCardData={handleMessageCardData}
-              handleCurrentCardData={handleCurrentCardData}
+              updateMessageCardData={updateMessageCardData}
+              updateCurrentCardData={updateCurrentCardData}
               setDataError={setDataError}
               pageRef={pageRef}
             ></MessageCardWrapper>
@@ -170,7 +170,7 @@ export default function PostIDPage() {
           ></Scrollbar>
           <S.ModalBackground
             $currentCardData={currentCardData.id}
-            onClick={handleClickOutter}
+            onClick={focusOutModal}
           >
             <Modal></Modal>
           </S.ModalBackground>
@@ -180,7 +180,7 @@ export default function PostIDPage() {
               alt="arrow"
               width={35}
               height={35}
-              onClick={handleClickScrollUpButton}
+              onClick={scrollToTop}
             ></S.UpperImageIcon>
           )}
         </S.PageWrapper>

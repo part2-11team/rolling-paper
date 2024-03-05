@@ -4,22 +4,22 @@ import { getFormattedDate, Deleted } from './index';
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
 
 export const MessageCard = React.memo(
-  ({ cardData, handleCurrentCardData, deleteCardData }) => {
+  ({ cardData, updateCurrentCardData, deleteCardData }) => {
     const cardRef = useRef(null);
-    const [hoverStatus, setHoverStatus] = useState(false);
+    const [isHover, setIsHover] = useState(false);
     const formattedDate = getFormattedDate(cardData.createdAt);
-    const handleCardWrapper = () => {
-      handleCurrentCardData(cardData);
+    const ChangeCurrentCardData = () => {
+      updateCurrentCardData(cardData);
     };
-    const handleClickDeleteButton = (e) => {
+    const deleteMessageCard = (e) => {
       e.stopPropagation();
       deleteCardData(cardData.id);
       alert(`삭제되었습니다.`);
     };
     const DeleteButtonComponent = () => {
-      if (!hoverStatus) return <></>;
+      if (!isHover) return <></>;
       return (
-        <S.DeleteButton onClick={handleClickDeleteButton}>
+        <S.DeleteButton onClick={deleteMessageCard}>
           <S.DeleteIcon
             src={Deleted}
             alt="delete"
@@ -31,16 +31,16 @@ export const MessageCard = React.memo(
     };
 
     const handleMouseOutCard = () => {
-      setHoverStatus(false);
+      setIsHover(false);
     };
 
     const handleMouseEnterCard = () => {
-      setHoverStatus(true);
+      setIsHover(true);
     };
 
     return (
       <S.Wrapper
-        onClick={handleCardWrapper}
+        onClick={ChangeCurrentCardData}
         onMouseLeave={handleMouseOutCard}
         onMouseEnter={handleMouseEnterCard}
         ref={cardRef}
