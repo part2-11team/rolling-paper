@@ -14,6 +14,8 @@ export const PostMessagePage = () => {
   const [isName, setIsName] = useState();
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
+  const [selectedFontOptionLabel, setSelectedFontOptionLabel] =
+    useState('Noto Sans'); // 폰트
   const [profileImg, setProfileImg] = useState(); //프로필 사진
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
@@ -48,8 +50,8 @@ export const PostMessagePage = () => {
   const dropdownFontOptions = [
     { value: 'Noto Sans', label: 'Noto Sans' },
     { value: 'Pretendard', label: 'Pretendard' },
-    { value: 'Nanum Myeongjo', label: 'Nanum Myeongjo' },
-    { value: 'NanumLetter', label: 'NanumLetter' },
+    { value: 'NanumMyeongjo', label: '나눔 명조' },
+    { value: 'NanumLetter', label: '나눔손글씨 손편지체' },
   ];
 
   const handleNameChange = (e) => {
@@ -102,8 +104,9 @@ export const PostMessagePage = () => {
     setIsOpen(false); // 드롭다운 닫기
   };
 
-  const handleSelectFont = (font) => {
+  const handleSelectFont = (font, label) => {
     setSelectedFontOption(font);
+    setSelectedFontOptionLabel(label);
     setIsOpenFont(false); // 드롭다운 닫기
   };
 
@@ -139,6 +142,7 @@ export const PostMessagePage = () => {
 
     loadingImageUrls();
   }, []);
+
   return (
     <>
       <S.NavController>
@@ -259,13 +263,15 @@ export const PostMessagePage = () => {
               <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
 
               <S.PostMessageDropdownListButton>
-                {selectedFontOption}
+                {selectedFontOptionLabel}
               </S.PostMessageDropdownListButton>
               <S.PostMessageDropdownListContent isOpen={isOpenFont}>
                 {dropdownFontOptions.map((DropOption) => (
                   <S.DropdownListContentOption
                     key={DropOption.value}
-                    onClick={() => handleSelectFont(DropOption.value)}
+                    onClick={() =>
+                      handleSelectFont(DropOption.value, DropOption.label)
+                    }
                   >
                     {DropOption.label}
                   </S.DropdownListContentOption>

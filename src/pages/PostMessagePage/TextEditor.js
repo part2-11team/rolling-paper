@@ -34,16 +34,31 @@ const TextEditor = ({ onChange, fontFamily }) => {
   const handleTextColorChange = (color) => {
     const selection = window.getSelection();
 
-    if (selection.isCollapsed) {
-      document.execCommand('foreColor', false, color); //선택범위가 있을 때
-    } else {
-      const range = selection.getRangeAt(0);
-      const collapsedRange = range.cloneRange();
+    if (!selection) {
+      return; // 선택된 텍스트가 없을 때
+    }
+
+    const range = selection.getRangeAt(0);
+    const collapsedRange = range.cloneRange();
+
+    if (!collapsedRange.collapsed) {
+      // 선택된 텍스트가 있는 경우
       collapsedRange.setStart(range.endContainer, range.endOffset);
       selection.removeAllRanges();
       selection.addRange(collapsedRange);
-      document.execCommand('foreColor', false, color); //없을 때
+    } else {
+      // 커서 위치에 텍스트가 없는 경우
+      const newNode = document.createElement('span');
+      newNode.style.color = color;
+      newNode.appendChild(document.createTextNode('\uFEFF')); // Zero-width space character
+      range.insertNode(newNode);
+      range.setStartAfter(newNode);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
+
+    document.execCommand('foreColor', false, color); // 텍스트 색상 변경
   };
 
   //글 정렬
@@ -123,12 +138,13 @@ const TextEditor = ({ onChange, fontFamily }) => {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault(); // 기본 동작인 줄 바꿈을 막음
-      document.execCommand('insertHTML', false, '<br><br>'); // 줄 바꿈 처리
-    }
-  };
+  //고민중인 부분
+  // const handleKeyPress = (e) => {
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault(); // 기본 동작인 줄 바꿈을 막음
+  //     document.execCommand('insertHTML', false, '<br><br>'); // 줄 바꿈 처리
+  //   }
+  // };
 
   const handleInput = (e) => {
     const text = e.target.innerHTML;
@@ -204,7 +220,6 @@ const TextEditor = ({ onChange, fontFamily }) => {
             fontFamily: fontFamily, //폰트 프롭
           }}
           onInput={handleInput}
-          onKeyDown={handleKeyPress}
         ></S.TextArea>
       </S.TextAreaContainer>
       {content.trim() ? (

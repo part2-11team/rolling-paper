@@ -66,7 +66,7 @@ export const TextArea = styled.div`
 
   color: ${COLORS.GRAY_900};
 
-  font-family: Pretendard;
+  font-family: serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -74,6 +74,9 @@ export const TextArea = styled.div`
   letter-spacing: -0.16px;
 
   overflow: auto;
+  * {
+    font-family: inherit;
+  }
 `;
 export const TextAreaContainer = styled.div`
   width: 100%;
