@@ -20,9 +20,11 @@ export const PostMessagePage = () => {
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
   const [name, setName] = useState(''); //이름
-  const { userID, teamId } = useParams();
+  const { userID } = useParams();
   const [samplePicture, setSamplePicture] = useState([]); // 이미지 URL 배열 상태
   const navigate = useNavigate();
+
+  const teamId = '4-11';
 
   const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
 
