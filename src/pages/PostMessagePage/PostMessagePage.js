@@ -108,27 +108,28 @@ export const PostMessagePage = () => {
     }
   };
 
-  const loadingImageUrls = async () => {
-    try {
-      const response = await axios.get(IMAGEURL);
-      const imageUrls = response.data.imageUrls;
-      setSamplePicture(imageUrls.map((url) => ({ src: url })));
-      setProfileImg(imageUrls[0]);
-    } catch (error) {
-      return []; // 실패할 경우 빈 배열 반환
-    }
-  };
-
   useEffect(() => {
     if (isName === false && editorTextContent.trim() !== '') {
       setPassValue(true);
     } else {
       setPassValue(false);
     }
-
-    loadingImageUrls();
   }, [isName, editorTextContent]);
 
+  useEffect(() => {
+    const loadingImageUrls = async () => {
+      try {
+        const response = await axios.get(IMAGEURL);
+        const imageUrls = response.data.imageUrls;
+        setSamplePicture(imageUrls.map((url) => ({ src: url })));
+        setProfileImg(imageUrls[0]);
+      } catch (error) {
+        return []; // 실패할 경우 빈 배열 반환
+      }
+    };
+
+    loadingImageUrls();
+  }, []);
   return (
     <>
       <S.NavController>
