@@ -3,10 +3,10 @@ import * as S from './Modal.style';
 import { MessageCardHeader, PostIDContext, getFormattedDate } from './index';
 
 export const Modal = () => {
-  const { currentCardData: cardData, updateCurrentCardData } =
+  const { currentCardData: cardData, handleCurrentCardData } =
     useContext(PostIDContext);
   const handleModalButton = () => {
-    updateCurrentCardData({ id: null });
+    handleCurrentCardData();
   };
   const CreatedDateComponent = () => {
     const formattedDate = getFormattedDate(cardData.createdAt);
