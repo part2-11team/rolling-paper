@@ -122,6 +122,7 @@ export const EmojiImage = styled.img``;
 
 export const Service = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   gap: 13px;
 `;

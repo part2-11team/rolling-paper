@@ -3,16 +3,18 @@ import * as S from './SubHeader.style';
 import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
 import Share from '../../assets/icon/share-24.svg';
-import { getRecipientData, getEmojiData } from './api';
+import { getRecipientData, getEmojiData, postEmoji } from './api';
 import Emoji from '../PaperListEmojiBadge/PaperListEmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
+import EmojiPicker from 'emoji-picker-react';
 
 const SubHeader = ({ value }) => {
-  // const ProfileBedge = value.messageCardData.slice(0, 3);
   const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
   const [emojiData, setEmojiData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [resultPostEmoji, setResultPostEmoji] = useState(null);
   const [userData, setUserData] = useState({
     name: null,
     messageCount: 0,
@@ -52,16 +54,34 @@ const SubHeader = ({ value }) => {
     setEmojiData(results);
   };
 
+  const handleEmojiSelect = (emoji) => {
+    const result = postEmojitoServer(value.userID, emoji);
+    setResultPostEmoji(result);
+    setPickerOpen(false);
+  };
+
+  const postEmojitoServer = async (userID, emoji) => {
+    const { result, error } = await postEmoji(userID, emoji.emoji);
+    if (error) {
+      setDataError(error);
+      return;
+    }
+    return result;
+  };
+
   const showModal = () => {
     setModalOpen(true);
+  };
+
+  const showEmojiPicker = () => {
+    setPickerOpen(true);
   };
 
   useEffect(() => {
     getUserData(value.userID);
     getAllEmojiData(value.userID);
-  }, []);
+  }, [resultPostEmoji]);
 
-  console.log(emojiData);
   return (
     <S.SubHeader>
       <S.HeaderContent>
@@ -118,10 +138,21 @@ const SubHeader = ({ value }) => {
               )}
             </S.EmojiCnt>
             <S.Service>
-              <S.AddEmojiButton>
+              <S.AddEmojiButton onClick={showEmojiPicker}>
                 <S.EmojiImage src={AddEmoji} />
                 추가
               </S.AddEmojiButton>
+              {pickerOpen && (
+                <EmojiPicker
+                  onEmojiClick={handleEmojiSelect}
+                  style={{
+                    width: '150%',
+                    position: 'absolute',
+                    top: '50px',
+                    zIndex: '999',
+                  }}
+                />
+              )}
               <S.Border />
               <S.ShareButton>
                 <S.EmojiImage src={Share} />
