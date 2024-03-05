@@ -18,15 +18,17 @@ export const PostMessagePage = () => {
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
   const [name, setName] = useState(''); //이름
-  const { userID } = useParams();
+  const { userID, teamId } = useParams();
   const [samplePicture, setSamplePicture] = useState([]); // 이미지 URL 배열 상태
 
   const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
 
-  const url = `https://rolling-api.vercel.app/0-3/recipients/${userID}/messages/`;
+  const CLIENT_ID = '4c8db1c88e920c2';
+
+  const url = `https://rolling-api.vercel.app/${teamId}/recipients/${userID}/messages/`;
 
   let data = {
-    team: 11,
+    team: teamId,
     recipientId: userID,
     sender: name,
     profileImageURL: profileImg,
@@ -59,25 +61,30 @@ export const PostMessagePage = () => {
   };
 
   const handleSetProfileImg = (src) => {
-    /*try {
-      const response = await axios.get(src, { responseType: 'blob' });
-      const blob = new Blob([response.data]);
-      const objectURL = URL.createObjectURL(blob);
-      setProfileImg(objectURL);
-    } catch (error) {
-      return;
-    }*/
     setProfileImg(src);
   };
 
-  const handleImportProfileImg = (src) => {
-    const file = src.target.files[0]; //파일 선택 처음 꺼
-    if (file) {
-      const readerImg = new FileReader(); //이미지 파일 읽는 뭐시기냐 그 이벤트 객체 생성
-      readerImg.onloadend = () => {
-        setProfileImg(readerImg.result); // 비동기적으로 작동하는 로드가 밑에 파일을 변환하면 그것을 프로필 이미지로
-      };
-      readerImg.readAsDataURL(file); //선택된 이미지 파일을 URL로 변환
+  //이미지그루를 이용한 이미지파일 url 형성api
+  const handleImportProfileImg = async (src) => {
+    try {
+      const file = src.target.files[0]; //파일 선택 처음 꺼
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await axios.post(
+        'https://api.imgur.com/3/image',
+        formData,
+        {
+          headers: {
+            Authorization: `Client-ID ${CLIENT_ID}`,
+          },
+        },
+      );
+
+      const imageUrl = response.data.data.link;
+      setProfileImg(imageUrl);
+    } catch (error) {
+      return;
     }
   };
 
@@ -99,7 +106,7 @@ export const PostMessagePage = () => {
     setIsOpenFont(false); // 드롭다운 닫기
   };
 
-  const handleSendData = async (url, data) => {
+  const handleSendData = async () => {
     try {
       const response = await axios.post(url, data);
       return { success: true, data: response.data }; //성공시 데이터 출력
