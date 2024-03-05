@@ -27,6 +27,7 @@ export const MessageCardWrapper = ({
   const offset = useRef(0);
   const gridWrapperRef = useRef(null);
   const timerRef = useRef(null);
+  const deleteTimerRef = useRef(null);
   const target = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
@@ -46,7 +47,6 @@ export const MessageCardWrapper = ({
       offset.current = messageCardData.length;
     }
   };
-  /* eslint-disable */
   const deleteRecipientData = async () => {
     const { error } = await deleteRecipient(userID);
     if (error) {
@@ -56,6 +56,9 @@ export const MessageCardWrapper = ({
     //delete timer
     if (timerRef.current) {
       clearInterval(timerRef.current);
+    }
+    if (deleteTimerRef.current) {
+      clearInterval(deleteTimerRef.current);
     }
     alert('삭제되었습니다');
     navigate('/list');
@@ -169,7 +172,9 @@ export const MessageCardWrapper = ({
     <S.Wrpaper>
       <S.DeleteButton onClick={deleteRecipientData}>삭제하기</S.DeleteButton>
       <S.GridWrapper ref={gridWrapperRef}>
-        {!initialLoading && <AddMessageCard />}
+        {!initialLoading && (
+          <AddMessageCard timerRef={timerRef} deleteTimerRef={deleteTimerRef} />
+        )}
         {messageCardData.map((cardData, index) => (
           <MessageCard
             cardData={cardData}
@@ -195,6 +200,7 @@ export const MessageCardWrapper = ({
         handleToastvisible={handleToastvisible}
         toastUpdate={toastUpdate}
         timerRef={timerRef}
+        deleteTimerRef={deleteTimerRef}
       ></Toast>
     </S.Wrpaper>
   );

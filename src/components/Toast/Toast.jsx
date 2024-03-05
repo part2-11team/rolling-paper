@@ -10,13 +10,37 @@ export const Toast = ({
   handleToastvisible,
   toastUpdate,
   timerRef,
+  deleteTimerRef,
 }) => {
   const wrapperRef = useRef(null);
 
   const handleClickCloseButton = () => {
-    handleToastvisible(false);
     clearInterval(timerRef.current);
     timerRef.current = null;
+    let time = 0;
+    const toastTimer = setInterval(() => {
+      if (time === 0) {
+        deleteTimerRef.current = toastTimer;
+      }
+      if (time === 50 || wrapperRef.current.style.opacity === 0) {
+        clearInterval(toastTimer);
+        deleteTimerRef.current = null;
+        handleToastvisible(false);
+      }
+      if (type === 'load') {
+        wrapperRef.current.style.top = `${
+          parseFloat(wrapperRef.current.style.top) - 1
+        }px`;
+      }
+      if (type === 'url') {
+        wrapperRef.current.style.bottom = `${
+          parseFloat(wrapperRef.current.style.bottom) - 1
+        }px`;
+      }
+      wrapperRef.current.style.opacity =
+        parseFloat(wrapperRef.current.style.opacity) - 0.016;
+      time += 1;
+    }, 10);
   };
 
   if (toastVisible && toastUpdate.current) {
@@ -25,12 +49,21 @@ export const Toast = ({
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    if (deleteTimerRef.current) {
+      clearInterval(deleteTimerRef.current);
+      deleteTimerRef.current = null;
+    }
     toastUpdate.current = false;
     const toastTimer = setInterval(() => {
       if (time === 0) {
         timerRef.current = toastTimer;
         wrapperRef.current.style.opacity = 0;
-        wrapperRef.current.style.top = '100px';
+        if (type === 'load') {
+          wrapperRef.current.style.top = '50px';
+        }
+        if (type === 'url') {
+          wrapperRef.current.style.bottom = '50px';
+        }
       }
       if (time < 50) {
         wrapperRef.current.style.opacity =
@@ -40,6 +73,11 @@ export const Toast = ({
             parseFloat(wrapperRef.current.style.top) + 1
           }px`;
         }
+        if (type === 'url') {
+          wrapperRef.current.style.bottom = `${
+            parseFloat(wrapperRef.current.style.bottom) + 1
+          }px`;
+        }
       }
       if (time > 450 && time <= 500) {
         wrapperRef.current.style.opacity =
@@ -47,6 +85,11 @@ export const Toast = ({
         if (type === 'load') {
           wrapperRef.current.style.top = `${
             parseFloat(wrapperRef.current.style.top) - 1
+          }px`;
+        }
+        if (type === 'url') {
+          wrapperRef.current.style.bottom = `${
+            parseFloat(wrapperRef.current.style.bottom) - 1
           }px`;
         }
       }
