@@ -10,11 +10,16 @@ export const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const Image = styled.img`
+export const Image = styled.div`
   width: 56px;
   height: 56px;
   border-radius: 100px;
   border: 1px solid ${COLORS.WHITE};
+  ${({ $load, src }) =>
+    $load
+      ? `background-color: ${COLORS.GRAY_300}`
+      : `background-image: url(${src})`};
+  background-size: cover;
 `;
 
 export const ProfileWrapper = styled.div`

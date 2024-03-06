@@ -5,13 +5,13 @@
 }
 
 @font-face {
-  font-family: 'NanumLetter';
+  font-family: '나눔손글씨 손편지체';
   font-weight: normal;
   src: url('../assets//fonts/Nanum-letter.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'NanumMyeongjo';
+  font-family: '나눔명조';
   font-weight: normal;
   src: url('../assets/fonts/NanumMyeongjo.otf') format('truetype');
 }

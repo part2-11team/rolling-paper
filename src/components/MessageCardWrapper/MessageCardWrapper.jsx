@@ -13,7 +13,7 @@ import { Toast } from '../Toast/Toast';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 const options = {
-  threshold: 0.3,
+  threshold: 0.5,
 };
 
 export const MessageCardWrapper = ({
@@ -74,13 +74,6 @@ export const MessageCardWrapper = ({
     if (!error) {
       updateMessageCardData([...data]);
       messageCount.current = count;
-      if (data.length < INITIAL_PAGE_LOADING) {
-        const pageFullHeight = pageRef.current.scrollHeight;
-        const pageviewHeight = pageRef.current.clientHeight;
-        if (pageFullHeight - pageviewHeight < 90) {
-          gridWrapperRef.current.style.height = '75vh';
-        }
-      }
     } else {
       if (error) {
         setDataError(error);
@@ -119,10 +112,8 @@ export const MessageCardWrapper = ({
       updateMessageCardData((prevCardData) => [...prevCardData, ...data]);
     }
 
-    if (data.length < PAGE_LOADING) {
-      pageRef.current.scrollTop -= 90;
-    }
     if (data.length === 0) {
+      pageRef.current.scrollTop -= 30;
       setToastVisible(true);
       toastUpdate.current = true;
     }
@@ -192,7 +183,7 @@ export const MessageCardWrapper = ({
           onLoad={dataLoad}
         />
       ) : (
-        <div ref={target} style={{ width: '100%', height: '1px' }}></div>
+        <S.intersectionBar ref={target}></S.intersectionBar>
       )}
       <Toast
         type="load"

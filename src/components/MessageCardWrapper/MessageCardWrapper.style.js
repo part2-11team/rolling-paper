@@ -24,6 +24,7 @@ export const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
+  min-height: calc(100vh - 284px);
   margin: 0 auto;
   @media (max-width: 1248px) {
     width: auto;
@@ -80,4 +81,11 @@ export const DeleteButton = styled.div`
   &:active {
     background-color: ${COLORS.PURPLE_800};
   }
+`;
+
+export const intersectionBar = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  bottom: 30px;
 `;

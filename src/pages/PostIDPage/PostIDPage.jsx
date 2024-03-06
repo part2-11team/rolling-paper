@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
 import {
-  Modal,
+  MessageCardModal,
   MessageCardWrapper,
   Scrollbar,
   Toast,
@@ -25,8 +25,9 @@ export default function PostIDPage() {
   const [messageCount, setMessageCount] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);
   const [scrollVisible, setScrollVisible] = useState(false);
-  const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [messageCardData, setMessageCardData] = useState([]);
+  const [pageBackgroundLoad, setPageBackgroundLoad] = useState(true);
+  const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
     backgroundColor: 'beige',
@@ -67,6 +68,14 @@ export default function PostIDPage() {
 
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
     setMessageCount(messageCountData);
+    const img = new Image();
+    img.src = backgroundImageURL;
+    img.onload = () => {
+      setPageBackgroundLoad(false);
+    };
+    return () => {
+      img.onload = null;
+    };
   };
 
   //update scrollbar position when scroll page
@@ -134,12 +143,7 @@ export default function PostIDPage() {
           <S.ErrorContent>{dataError.message}</S.ErrorContent>
         </S.ErrorWrapper>
       ) : (
-        <S.PageWrapper
-          ref={pageRef}
-          $color={userData.backgroundColor}
-          $url={userData.backgroundImageURL}
-          onScroll={updateScrollbarPosition}
-        >
+        <S.PageWrapper ref={pageRef} onScroll={updateScrollbarPosition}>
           <Header page="post" />
 
           <SubHeader value={{ userID, messageCardData }} />
@@ -155,6 +159,7 @@ export default function PostIDPage() {
           <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
+            $load={pageBackgroundLoad}
           >
             <MessageCardWrapper
               messageCardData={messageCardData}
@@ -172,7 +177,7 @@ export default function PostIDPage() {
             $currentCardData={currentCardData.id}
             onClick={focusOutModal}
           >
-            <Modal></Modal>
+            <MessageCardModal />
           </S.ModalBackground>
           {scrollVisible && (
             <S.UpperImageIcon
