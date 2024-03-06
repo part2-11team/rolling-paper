@@ -30,7 +30,7 @@ export default function PostIDPage() {
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
-    backgroundColor: 'beige',
+    backgroundColor: '#eeeeee',
     backgroundImageURL: null,
     recentMessages: [],
   });
