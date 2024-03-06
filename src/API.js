@@ -61,3 +61,12 @@ export const getRecipientData = async (userID) => {
     return { error: error };
   }
 };
+
+export const deleteRecipient = async (userID) => {
+  try {
+    await axios.delete(`${BASE_URL}recipients/${userID}/`);
+    return { error: null };
+  } catch (error) {
+    return { error: error };
+  }
+};

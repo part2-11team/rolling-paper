@@ -3,10 +3,10 @@ import * as S from './PostMessagePage.style.js';
 import arrowDownIcon from './asset/arrow_down.png';
 import arrowUpIcon from './asset/arrow_top.png';
 import TextEditor from './TextEditor';
-import Man1 from './asset/man1.png';
-import Man2 from './asset/man2.png';
-import DefaultImg from './asset/defaultImg.png';
 import { COLORS } from '../../style/colorPalette';
+import Header from '../../components/Common/Header/Header.jsx';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -14,21 +14,32 @@ export const PostMessagePage = () => {
   const [isName, setIsName] = useState();
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
-  const [profileImg, setProfileImg] = useState(DefaultImg); //프로필 사진
+  const [selectedFontOptionLabel, setSelectedFontOptionLabel] =
+    useState('Noto Sans'); // 폰트
+  const [profileImg, setProfileImg] = useState(); //프로필 사진
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
-  const [currentTime, setCurrentTime] = useState(''); //생성날짜
   const [name, setName] = useState(''); //이름
+  const { userID } = useParams();
+  const [samplePicture, setSamplePicture] = useState([]); // 이미지 URL 배열 상태
+  const navigate = useNavigate();
 
-  let DATA = {
-    //id: 'data.id',
-    //recipientId: 'data.recipient_id',
+  const teamId = '4-11';
+
+  const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
+
+  const CLIENT_ID = '4c8db1c88e920c2';
+
+  const url = `https://rolling-api.vercel.app/${teamId}/recipients/${userID}/messages/`;
+
+  let data = {
+    team: teamId,
+    recipientId: userID,
     sender: name,
     profileImageURL: profileImg,
     relationship: selectedRelationOption,
     content: editorTextContent,
     font: selectedFontOption,
-    createdAt: currentTime,
   };
 
   const dropdownRelationOptions = [
@@ -41,23 +52,8 @@ export const PostMessagePage = () => {
   const dropdownFontOptions = [
     { value: 'Noto Sans', label: 'Noto Sans' },
     { value: 'Pretendard', label: 'Pretendard' },
-    { value: '나눔명조', label: '나눔명조' },
-    { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
-  ];
-
-  const samplePicture = [
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
-    { src: Man1 },
-    { src: Man2 },
+    { value: 'NanumMyeongjo', label: '나눔 명조' },
+    { value: 'NanumLetter', label: '나눔손글씨 손편지체' },
   ];
 
   const handleNameChange = (e) => {
@@ -73,14 +69,27 @@ export const PostMessagePage = () => {
     setProfileImg(src);
   };
 
-  const handleImportProfileImg = (src) => {
-    const file = src.target.files[0]; //파일 선택 처음 꺼
-    if (file) {
-      const readerImg = new FileReader(); //이미지 파일 읽는 뭐시기냐 그 이벤트 객체 생성
-      readerImg.onloadend = () => {
-        setProfileImg(readerImg.result); // 비동기적으로 작동하는 로드가 밑에 파일을 변환하면 그것을 프로필 이미지로
-      };
-      readerImg.readAsDataURL(file); //선택된 이미지 파일을 URL로 변환
+  //이미지그루를 이용한 이미지파일 url 형성api
+  const handleImportProfileImg = async (src) => {
+    try {
+      const file = src.target.files[0]; //파일 선택 처음 꺼
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await axios.post(
+        'https://api.imgur.com/3/image',
+        formData,
+        {
+          headers: {
+            Authorization: `Client-ID ${CLIENT_ID}`,
+          },
+        },
+      );
+
+      const imageUrl = response.data.data.link;
+      setProfileImg(imageUrl);
+    } catch (error) {
+      return;
     }
   };
 
@@ -97,17 +106,20 @@ export const PostMessagePage = () => {
     setIsOpen(false); // 드롭다운 닫기
   };
 
-  const handleSelectFont = (font) => {
+  const handleSelectFont = (font, label) => {
     setSelectedFontOption(font);
+    setSelectedFontOptionLabel(label);
     setIsOpenFont(false); // 드롭다운 닫기
   };
 
-  const handleSetTime = () => {
-    const now = new Date();
-    const dateOption = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const time = now.toLocaleDateString('ko-KR', dateOption);
-    const timeNow = time.slice(0, -1);
-    setCurrentTime(timeNow);
+  const handleSendData = async () => {
+    try {
+      const response = await axios.post(url, data);
+      navigate(`/post/${userID}`); //페이지 이동
+      return { success: true, data: response.data }; //성공시 데이터 출력
+    } catch (error) {
+      return { success: false, error: error }; //실패시 에러 데이터 출력
+    }
   };
 
   useEffect(() => {
@@ -118,129 +130,167 @@ export const PostMessagePage = () => {
     }
   }, [isName, editorTextContent]);
 
+  useEffect(() => {
+    const loadingImageUrls = async () => {
+      try {
+        const response = await axios.get(IMAGEURL);
+        const imageUrls = response.data.imageUrls;
+        setSamplePicture(imageUrls.map((url) => ({ src: url })));
+        setProfileImg(imageUrls[0]);
+      } catch (error) {
+        return []; // 실패할 경우 빈 배열 반환
+      }
+    };
+
+    loadingImageUrls();
+  }, []);
+
   return (
-    <S.PostWrapper>
-      <S.PostMessageContainer>
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
-          <div>
-            <S.PostMessageInput
-              placeholder="이름을 입력해 주세요."
-              onBlur={handleNameError}
-              style={{
-                borderColor: isName ? `${COLORS.ERROR}` : `${COLORS.GRAY_300}`,
-              }}
-              onChange={handleNameChange}
-            ></S.PostMessageInput>
-            {isName && (
-              <S.PostMessageInputError>
-                값을 입력해주세요.
-              </S.PostMessageInputError>
-            )}
-          </div>
-        </S.PostMessageContent>
+    <>
+      <S.NavController>
+        <Header
+          page="main"
+          style={{
+            borderColor: isName ? `${COLORS.ERROR}` : `${COLORS.GRAY_300}`,
+          }}
+        />
+      </S.NavController>
+      <S.PostWrapper>
+        <S.PostMessageContainer>
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
+            <S.InputContainer>
+              <S.PostMessageInput
+                placeholder="이름을 입력해 주세요."
+                onBlur={handleNameError}
+                style={{
+                  borderColor: isName
+                    ? `${COLORS.ERROR}`
+                    : `${COLORS.GRAY_300}`,
+                }}
+                onChange={handleNameChange}
+              ></S.PostMessageInput>
+              {isName && (
+                <S.PostMessageInputError>
+                  값을 입력해주세요.
+                </S.PostMessageInputError>
+              )}
+            </S.InputContainer>
+          </S.PostMessageContent>
 
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>프로필 이미지</S.PostMessageContentHeader>
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>
+              프로필 이미지
+            </S.PostMessageContentHeader>
 
-          <S.SelectPictureContain>
-            <S.SelectedPicture src={profileImg} />
+            <S.SelectPictureContain>
+              <S.SelectedPicture src={profileImg} alt="선택된 프로필 이미지" />
 
-            <S.SelectPictureListContain>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <S.SelectPictureListInfo>
-                  프로필 이미지를 선택해주세요!
-                </S.SelectPictureListInfo>
+              <S.SelectPictureListContain>
+                <S.SubContain>
+                  <S.SelectPictureListInfo>
+                    프로필 이미지를 선택해주세요!
+                  </S.SelectPictureListInfo>
 
-                <S.InputLabel
-                  htmlFor="fileInput" //라벨을 이용한 커스텀 버튼
-                >
-                  <S.InputButton>이미지 추가하기</S.InputButton>
-                </S.InputLabel>
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImportProfileImg}
-                  style={{ display: 'none' }}
-                />
-              </div>
+                  <S.InputLabel
+                    htmlFor="fileInput" //라벨을 이용한 커스텀 버튼
+                  >
+                    이미지 추가하기
+                  </S.InputLabel>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImportProfileImg}
+                    style={{ display: 'none' }}
+                  />
+                </S.SubContain>
 
-              <S.SelectPictureList>
-                {samplePicture.slice(0, 10).map((samplePicture, index) => (
-                  <S.SelectPictures
-                    key={index}
-                    src={samplePicture.src}
-                    onClick={() => handleSetProfileImg(samplePicture.src)}
-                  ></S.SelectPictures>
+                <S.SelectPictureList>
+                  {samplePicture.map((samplePicture, index) => (
+                    <S.SelectPictures
+                      key={index}
+                      src={samplePicture.src}
+                      alt={`샘플 이미지 no${index + 1}`}
+                      width={`56px`}
+                      height={`56px`}
+                      onClick={() => handleSetProfileImg(samplePicture.src)}
+                    ></S.SelectPictures>
+                  ))}
+                </S.SelectPictureList>
+              </S.SelectPictureListContain>
+            </S.SelectPictureContain>
+          </S.PostMessageContent>
+
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>
+              상대와의 관계
+            </S.PostMessageContentHeader>
+            <S.PostMessageDropdownList onClick={handleToggleDropdown}>
+              <S.DropdownIcon
+                src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
+              />
+
+              <S.PostMessageDropdownListButton>
+                {selectedRelationOption}
+              </S.PostMessageDropdownListButton>
+              <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
+                {dropdownRelationOptions.map((DropOption) => (
+                  <S.DropdownListContentOption
+                    key={DropOption.value}
+                    onClick={() => handleSelectRelation(DropOption.value)}
+                  >
+                    {DropOption.label}
+                  </S.DropdownListContentOption>
                 ))}
-              </S.SelectPictureList>
-            </S.SelectPictureListContain>
-          </S.SelectPictureContain>
-        </S.PostMessageContent>
+              </S.PostMessageDropdownListContent>
+            </S.PostMessageDropdownList>
+          </S.PostMessageContent>
 
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>상대와의 관계</S.PostMessageContentHeader>
-          <S.PostMessageDropdownList onClick={handleToggleDropdown}>
-            <S.DropdownIcon
-              src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>
+              내용을 입력해 주세요
+            </S.PostMessageContentHeader>
+            <TextEditor
+              value={editorTextContent}
+              onChange={(content) => setEditorTextContent(content)}
+              fontFamily={selectedFontOption}
             />
+          </S.PostMessageContent>
 
-            <S.PostMessageDropdownListButton>
-              {selectedRelationOption}
-            </S.PostMessageDropdownListButton>
-            <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
-              {dropdownRelationOptions.map((DropOption) => (
-                <S.DropdownListContentOption
-                  key={DropOption.value}
-                  onClick={() => handleSelectRelation(DropOption.value)}
-                >
-                  {DropOption.label}
-                </S.DropdownListContentOption>
-              ))}
-            </S.PostMessageDropdownListContent>
-          </S.PostMessageDropdownList>
-        </S.PostMessageContent>
+          <S.PostMessageContent>
+            <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
 
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>
-            내용을 입력해 주세요
-          </S.PostMessageContentHeader>
-          <TextEditor
-            value={editorTextContent}
-            onChange={(content) => setEditorTextContent(content)}
-            fontFamily={selectedFontOption}
-          />
-        </S.PostMessageContent>
+            <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
+              <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
 
-        <S.PostMessageContent>
-          <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
+              <S.PostMessageDropdownListButton>
+                {selectedFontOptionLabel}
+              </S.PostMessageDropdownListButton>
+              <S.PostMessageDropdownListContent isOpen={isOpenFont}>
+                {dropdownFontOptions.map((DropOption) => (
+                  <S.DropdownListContentOption
+                    key={DropOption.value}
+                    onClick={() =>
+                      handleSelectFont(DropOption.value, DropOption.label)
+                    }
+                  >
+                    {DropOption.label}
+                  </S.DropdownListContentOption>
+                ))}
+              </S.PostMessageDropdownListContent>
+            </S.PostMessageDropdownList>
+          </S.PostMessageContent>
+        </S.PostMessageContainer>
 
-          <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
-            <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
-
-            <S.PostMessageDropdownListButton>
-              {selectedFontOption}
-            </S.PostMessageDropdownListButton>
-            <S.PostMessageDropdownListContent isOpen={isOpenFont}>
-              {dropdownFontOptions.map((DropOption) => (
-                <S.DropdownListContentOption
-                  key={DropOption.value}
-                  onClick={() => handleSelectFont(DropOption.value)}
-                >
-                  {DropOption.label}
-                </S.DropdownListContentOption>
-              ))}
-            </S.PostMessageDropdownListContent>
-          </S.PostMessageDropdownList>
-        </S.PostMessageContent>
-      </S.PostMessageContainer>
-
-      <S.SubmitButton disabled={!passValue} onClick={handleSetTime}>
-        생성하기
-      </S.SubmitButton>
-      {DATA ? '' : ''}
-    </S.PostWrapper>
+        <S.SubmitButton
+          disabled={!passValue}
+          onClick={() => handleSendData(url, data)}
+        >
+          생성하기
+        </S.SubmitButton>
+      </S.PostWrapper>
+    </>
   );
 };
 

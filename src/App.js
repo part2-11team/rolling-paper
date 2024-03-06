@@ -6,6 +6,7 @@ import GlobalStyle from './style/GlobalStyle';
 import PostPage from './pages/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
 import PaperListPage from './pages/PaperListPage/PaperListPage';
+import '../src/style/font.css';
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
-            <Route path="userID/message" element={<PostMessagePage />} />
+            <Route path=":userID/message" element={<PostMessagePage />} />
           </Route>
         </Routes>
       </BrowserRouter>
