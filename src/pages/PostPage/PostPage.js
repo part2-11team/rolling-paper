@@ -86,7 +86,7 @@ const PostPage = () => {
     } catch (error) {
       throw new Error(error);
     }
-}
+  }
 
   return (
     <>
