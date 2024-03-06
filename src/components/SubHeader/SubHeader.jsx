@@ -8,6 +8,7 @@ import Emoji from '../PaperListEmojiBadge/PaperListEmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
 import KakaoModal from '../subHeaderModal/SubHeaderKaKao/KakaoModal';
+import PaperListFromBadge from '../PaperListFromBadge';
 
 const SubHeader = ({ value }) => {
   const [profileData, setProfileData] = useState([]);
@@ -44,7 +45,13 @@ const SubHeader = ({ value }) => {
       reactionCount,
       topReactions,
     });
-    setProfileData(recentMessages);
+
+    const url = [
+      recentMessages?.[0]?.profileImageURL,
+      recentMessages?.[1]?.profileImageURL,
+      recentMessages?.[2]?.profileImageURL,
+    ];
+    setProfileData(url);
   };
 
   const getAllEmojiData = async (userID) => {
@@ -104,26 +111,10 @@ const SubHeader = ({ value }) => {
         <S.UserInfo>
           <S.PaperCnt>
             <S.ProfileCnt>
-              {profileData.length != 0 &&
-                profileData.map((data, index) => (
-                  <S.ProfileBedge
-                    key={index}
-                    src={data.profileImageURL}
-                    alt={`Profile ${index}`}
-                    style={{ left: `${index * 14}px`, zIndex: `${index}` }}
-                  />
-                ))}
-
-              {userData.messageCount > 3 && (
-                <S.AllProfile
-                  style={{
-                    left: `${profileData.length * 14}px`,
-                    zIndex: `${profileData.length}`,
-                  }}
-                >
-                  +{userData.messageCount - 3}
-                </S.AllProfile>
-              )}
+              <PaperListFromBadge
+                imgUrls={profileData}
+                count={userData.messageCount}
+              />
             </S.ProfileCnt>
             <S.CntText>
               <S.Strong>{userData.messageCount}</S.Strong> 개의 카드가
