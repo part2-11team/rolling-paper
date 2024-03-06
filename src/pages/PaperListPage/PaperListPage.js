@@ -5,6 +5,7 @@ import useRequest from './useRequest';
 import { Link } from 'react-router-dom';
 import PaperCard from '../../components/PaperCard';
 import ArrowButton from '../../components/ArrowButton';
+import PaperListSkeleton from '../../components/Skeleton/PaperListSkeleton';
 
 const PaperListPage = () => {
   const { data: recentPaper, isLoading: isLoadingRecent } = useRequest({
@@ -60,7 +61,7 @@ function PaperSection({ title, papers, isLoading }) {
   );
 }
 
-function CardList({ papers }) {
+function CardList({ papers, isLoading }) {
   const [slideIndex, setSlideIndex] = useState(0);
 
   const slideLeft = () => {
@@ -71,6 +72,8 @@ function CardList({ papers }) {
     if (slideIndex - 1 >= papers?.results?.length - 4) return;
     setSlideIndex((prev) => prev + 1);
   };
+
+  if (isLoading) return <PaperListSkeleton />;
 
   return (
     <>
