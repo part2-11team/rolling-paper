@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import PaperCard from '../../components/PaperCard';
 import ArrowButton from '../../components/ArrowButton';
 import PaperListSkeleton from '../../components/Skeleton/PaperListSkeleton';
+import Header from '../../components/Common/Header/Header';
 
 const PaperListPage = () => {
   const { data: recentPaper, isLoading: isLoadingRecent } = useRequest({
@@ -27,6 +28,7 @@ const PaperListPage = () => {
 
   return (
     <>
+      <Header page="main" />
       <S.Container>
         <PaperSection
           title="인기 롤링 페이퍼 🔥"
