@@ -34,8 +34,10 @@ export const MessageWrapper = styled.div`
 
   width: 100%;
   height: fit-content;
-  ${({ $url, $color }) =>
-    $url
+  ${({ $url, $color, $load }) =>
+    $load
+      ? `background-color: ${COLORS.GRAY_300}`
+      : $url
       ? `background: url(${$url}) no-repeat center rgba(0, 0, 0, 0.5);`
       : `background-color: ${BACKGROUND_COLOR[$color]}`};
   background-size: cover;
