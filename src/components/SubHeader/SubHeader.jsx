@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState, useRef } from 'react';
 import * as S from './SubHeader.style';
 import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
@@ -22,6 +22,8 @@ const SubHeader = ({ value }) => {
     reactionCount: 0,
     topReactions: [],
   });
+
+  const pickerRef = useRef(null);
 
   const getUserData = async (userID) => {
     const {
@@ -72,24 +74,27 @@ const SubHeader = ({ value }) => {
   };
 
   const showEmojiPicker = () => {
-    if (pickerOpen == true) {
-      setPickerOpen(false);
-    } else {
-      setPickerOpen(true);
-    }
+    setPickerOpen(!pickerOpen);
   };
 
   const showKakao = () => {
-    if (kakaoOpen == true) {
-      setKakaoOpen(false);
-    } else {
-      setKakaoOpen(true);
-    }
+    setKakaoOpen(!kakaoOpen);
   };
 
   useEffect(() => {
     getUserData(value.userID);
     getAllEmojiData(value.userID);
+
+    const handleClickOutside = (event) => {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setPickerOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [resultPostEmoji]);
 
   return (
@@ -153,15 +158,15 @@ const SubHeader = ({ value }) => {
                 추가
               </S.AddEmojiButton>
               {pickerOpen && (
-                <EmojiPicker
-                  onEmojiClick={handleEmojiSelect}
-                  style={{
-                    width: '150%',
-                    position: 'absolute',
-                    top: '50px',
-                    zIndex: '999',
-                  }}
-                />
+                <S.EmojiWapper ref={pickerRef}>
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiSelect}
+                    style={{
+                      width: '100%',
+                      zIndex: '999',
+                    }}
+                  />
+                </S.EmojiWapper>
               )}
               <S.Border />
               <S.ShareButton onClick={showKakao}>

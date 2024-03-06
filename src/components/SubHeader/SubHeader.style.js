@@ -139,7 +139,12 @@ export const AddEmojiButton = styled.button`
   color: ${COLORS.GRAY_900};
   ${FONT_STYLE.REGULAR_16}
 `;
-
+export const EmojiWapper = styled.div`
+  width: 150%;
+  position: absolute;
+  top: 50px;
+  zindex: 999;
+`;
 export const ShareButton = styled.button`
   display: flex;
   padding: 6px 16px;
