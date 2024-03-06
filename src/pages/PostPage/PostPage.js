@@ -4,6 +4,7 @@ import * as S from './PostPage.style.js';
 import Button from '../../components/MainButton';
 import SelectedImg from '../../assets/icon/background-selected.png'
 import Header from '../../components/Common/Header/Header';
+import axios from 'axios';
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -32,12 +33,9 @@ const PostPage = () => {
   useEffect(() => {
     const fetchBackgroundImages = async () => {
       try {
-        const response = await fetch('https://rolling-api.vercel.app/background-images/');
-        if (!response.ok) {
-          throw new Error('Failed to fetch background images');
-        }
-        const responseData = await response.json();
-        const imageObjects = responseData.imageUrls.map((url, index) => ({
+        const response = await axios.get('https://rolling-api.vercel.app/background-images/');
+        // 이미지 배열을 객체 배열로 변환
+        const imageObjects = response.data.imageUrls.map((url, index) => ({
           id: index + 1,
           url: url
         }));
@@ -71,33 +69,24 @@ const PostPage = () => {
   //완성된 폼 데이터 전송
   const handleMovetoListClick = async (e) => {
     e.preventDefault();
-    const url = "https://rolling-api.vercel.app/0-3/recipients/";
+    const url = "https://rolling-api.vercel.app/4-11/recipients/";
     const data = {
       name: value.trim(),
-      backgroundColor: backgroundValue === '컬러' ? COLOR_VALUE[clickedIndex -1] : null,
-      backgroundImageURL: backgroundValue === '이미지' ? imageUrls[clickedIndex -1] : null
-    };
-  
-    const requestPost = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+      backgroundColor: backgroundValue === '컬러' ? COLOR_VALUE[clickedIndex -1] : "beige",
+      backgroundImageURL: backgroundValue === '이미지' ? imageUrls[clickedIndex -1].url : null
     };
   
     try {
-      const response = await fetch(url, requestPost);
-    
-      if (!response.ok) {
-        throw new Error(error);
+      const response = await axios.post(url, data);
+      navigate(`/post/${response.data.id}`);
+      
+      if (!response.status === 200) {
+        throw new Error("Failed to post data");
       }
     } catch (error) {
       throw new Error(error);
-    } finally {
-    navigate(`/postid`);
     }
-  }
+}
 
   return (
     <>
