@@ -102,7 +102,7 @@ const SubHeader = ({ value }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [resultPostEmoji]);
+  }, [resultPostEmoji, value]);
 
   return (
     <S.SubHeader>
