@@ -163,8 +163,7 @@ export const Section = styled.section`
     padding: 6rem 6rem;
     width: 100%;
     max-width: 114rem;
-    flex-direction: ${(props) =>
-      props.flexdirection ? props.flexdirection : 'row'};
+    flex-direction: ${(props) => (props.direction ? props.direction : 'row')};
     gap: 10rem;
     justify-content: left;
   }
