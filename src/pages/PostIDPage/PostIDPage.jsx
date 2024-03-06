@@ -141,9 +141,8 @@ export default function PostIDPage() {
           onScroll={updateScrollbarPosition}
         >
           <Header page="post" />
-          <SubHeader
-            value={{ messageCardData, currentCardData, messageCount }}
-          />
+
+          <SubHeader value={{ userID, messageCardData }} />
           <Toast
             type="url"
             toastVisible={toastVisible}
@@ -152,6 +151,7 @@ export default function PostIDPage() {
             timerRef={timerRef}
             deleteTimerRef={deleteTimerRef}
           ></Toast>
+
           <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
