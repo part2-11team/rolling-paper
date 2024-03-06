@@ -10,7 +10,6 @@ import EmojiPicker from 'emoji-picker-react';
 import KakaoModal from '../subHeaderModal/SubHeaderKaKao/KakaoModal';
 
 const SubHeader = ({ value }) => {
-  const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
   const [emojiData, setEmojiData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,7 +33,6 @@ const SubHeader = ({ value }) => {
       error,
     } = await getRecipientData(userID);
     if (error) {
-      setDataError(error);
       return;
     }
 
@@ -50,7 +48,6 @@ const SubHeader = ({ value }) => {
   const getAllEmojiData = async (userID) => {
     const { results, error } = await getEmojiData(userID);
     if (error) {
-      setDataError(error);
       return;
     }
     setEmojiData(results);
@@ -65,7 +62,6 @@ const SubHeader = ({ value }) => {
   const postEmojitoServer = async (userID, emoji) => {
     const { result, error } = await postEmoji(userID, emoji.emoji);
     if (error) {
-      setDataError(error);
       return;
     }
     return result;
@@ -89,11 +85,6 @@ const SubHeader = ({ value }) => {
     } else {
       setKakaoOpen(true);
     }
-  };
-
-  const clickOutterEvent = (e) => {
-    e.stopPropagation();
-    setModalOpen(false);
   };
 
   useEffect(() => {
@@ -153,11 +144,7 @@ const SubHeader = ({ value }) => {
                 <S.EmojiImage src={AllEmoji} />
               </S.AllEmojiButton>
               {modalOpen && (
-                <EmojiModal
-                  setModalOpen={setModalOpen}
-                  value={emojiData}
-                  setOutterClick={clickOutterEvent}
-                />
+                <EmojiModal setModalOpen={setModalOpen} value={emojiData} />
               )}
             </S.EmojiCnt>
             <S.Service>
