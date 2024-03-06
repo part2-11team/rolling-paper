@@ -23,6 +23,7 @@ export default function PostIDPage() {
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [toastVisible, setToastVisible] = useState(false);
+  const [visibleHeader, setVisibleHeader] = useState(true);
   const [scrollVisible, setScrollVisible] = useState(false);
   const [messageCardData, setMessageCardData] = useState([]);
   const [pageBackgroundLoad, setPageBackgroundLoad] = useState(true);
@@ -116,12 +117,22 @@ export default function PostIDPage() {
   useEffect(() => {
     const handleResize = () => {
       setScrollBarHeightPosition(pageRef, scrollWrapperRef);
+      if (window.innerWidth < 768) {
+        setVisibleHeader(false);
+      } else {
+        setVisibleHeader(true);
+      }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setVisibleHeader(false);
+    }
+  }, []);
   return (
     <PostIDContext.Provider
       value={{
@@ -136,7 +147,7 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <S.PageWrapper ref={pageRef} onScroll={updateScrollbarPosition}>
-          <Header page="post" />
+          {visibleHeader && <Header page="post" />}
 
           <SubHeader value={{ userID, messageCardData }} />
           <Toast
