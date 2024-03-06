@@ -37,7 +37,6 @@ export const MessageCard = React.memo(
     const handleMouseEnterCard = () => {
       setIsHover(true);
     };
-
     return (
       <S.Wrapper
         onClick={ChangeCurrentCardData}

@@ -25,6 +25,7 @@ export const TextWrapper = styled.div`
   margin-top: 15px;
   overflow: hidden;
   ${FONT_STYLE.REGULAR_18};
+  font-family: ${({ $font }) => $font};
   color: ${COLORS.GRAY_600};
   display: -webkit-box;
   -webkit-line-clamp: 3;
