@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import * as S from './Modal.style';
+import * as S from './MessageCardModal.style';
 import { MessageCardHeader, PostIDContext, getFormattedDate } from './index';
 
-export const Modal = () => {
+export const MessageCardModal = () => {
   const { currentCardData: cardData, updateCurrentCardData } =
     useContext(PostIDContext);
   const handleModalButton = () => {
@@ -24,7 +24,10 @@ export const Modal = () => {
             Component={CreatedDateComponent}
           ></MessageCardHeader>
           <S.TextWrapper>
-            <S.Text $font={cardData.font}>{cardData.content}</S.Text>
+            <S.Text
+              $font={cardData.font}
+              dangerouslySetInnerHTML={{ __html: cardData.content }}
+            ></S.Text>
           </S.TextWrapper>
           <S.ModalButton onClick={handleModalButton}>확인</S.ModalButton>
         </S.Wrapper>

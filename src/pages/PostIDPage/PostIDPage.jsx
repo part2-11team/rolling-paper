@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
 import {
-  Modal,
+  MessageCardModal,
   MessageCardWrapper,
   Scrollbar,
   Toast,
@@ -172,7 +172,7 @@ export default function PostIDPage() {
             $currentCardData={currentCardData.id}
             onClick={focusOutModal}
           >
-            <Modal></Modal>
+            <MessageCardModal />
           </S.ModalBackground>
           {scrollVisible && (
             <S.UpperImageIcon

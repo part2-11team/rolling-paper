@@ -49,7 +49,10 @@ export const MessageCard = React.memo(
           cardData={cardData}
           Component={DeleteButtonComponent}
         ></MessageCardHeader>
-        <S.TextWrapper $font={cardData.font}>{cardData.content}</S.TextWrapper>
+        <S.TextWrapper
+          $font={cardData.font}
+          dangerouslySetInnerHTML={{ __html: cardData.content }}
+        ></S.TextWrapper>
         <S.CreatedDate>{formattedDate}</S.CreatedDate>
       </S.Wrapper>
     );
