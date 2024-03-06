@@ -1,25 +1,34 @@
 ﻿import React, { useEffect, useRef } from 'react';
 import * as S from './KakaoModal.style';
 
-const KakaoModal = ({ setKakaoOpen }) => {
+const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
+
+const KakaoModal = ({ setKakaoOpen, setToastOpen, value }) => {
   const modalRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setKakaoOpen(false);
-      }
-    };
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setKakaoOpen(false);
+    }
+  };
 
+  const copyToClipboard = () => {
+    const url = `${BASE_URL}recipients/${value}/`;
+    navigator.clipboard.writeText(url);
+    setKakaoOpen(false);
+    setToastOpen(true);
+  };
+
+  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setKakaoOpen]);
-
   return (
     <S.ModalWrap ref={modalRef}>
-      <h1>카카오 모달</h1>
+      <S.ShareButton>카카오톡 공유</S.ShareButton>
+      <S.ShareButton onClick={copyToClipboard}>URL 공유</S.ShareButton>
     </S.ModalWrap>
   );
 };

@@ -164,7 +164,11 @@ const SubHeader = ({ value }) => {
                 <S.EmojiImage src={Share} />
               </S.ShareButton>
               {kakaoOpen && (
-                <KakaoModal setKakaoOpen={setKakaoOpen} value={value.userID} />
+                <KakaoModal
+                  setKakaoOpen={setKakaoOpen}
+                  setToastOpen={value.updateToastvisible}
+                  value={value.userID}
+                />
               )}
             </S.Service>
           </S.HeaderService>
