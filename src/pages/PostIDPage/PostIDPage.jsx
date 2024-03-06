@@ -22,7 +22,6 @@ export default function PostIDPage() {
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
-  const [messageCount, setMessageCount] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);
   const [scrollVisible, setScrollVisible] = useState(false);
   const [messageCardData, setMessageCardData] = useState([]);
@@ -52,14 +51,8 @@ export default function PostIDPage() {
 
   //update userdata for header, background image
   const getUserData = async (userID) => {
-    const {
-      name,
-      backgroundColor,
-      backgroundImageURL,
-      messageCount: messageCountData,
-      recentMessages,
-      error,
-    } = await getRecipientData(userID);
+    const { name, backgroundColor, backgroundImageURL, recentMessages, error } =
+      await getRecipientData(userID);
 
     if (error) {
       setDataError(error);
@@ -67,7 +60,6 @@ export default function PostIDPage() {
     }
 
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
-    setMessageCount(messageCountData);
     const img = new Image();
     img.src = backgroundImageURL;
     img.onload = () => {
