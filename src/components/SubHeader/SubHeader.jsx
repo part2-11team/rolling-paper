@@ -7,6 +7,7 @@ import { getRecipientData, getEmojiData, postEmoji } from './api';
 import Emoji from '../PaperListEmojiBadge/PaperListEmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
+import KakaoModal from '../subHeaderModal/SubHeaderKaKao/KakaoModal';
 
 const SubHeader = ({ value }) => {
   const [dataError, setDataError] = useState(null);
@@ -14,6 +15,7 @@ const SubHeader = ({ value }) => {
   const [emojiData, setEmojiData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [kakaoOpen, setKakaoOpen] = useState(false);
   const [resultPostEmoji, setResultPostEmoji] = useState(null);
   const [userData, setUserData] = useState({
     name: null,
@@ -74,7 +76,24 @@ const SubHeader = ({ value }) => {
   };
 
   const showEmojiPicker = () => {
-    setPickerOpen(true);
+    if (pickerOpen == true) {
+      setPickerOpen(false);
+    } else {
+      setPickerOpen(true);
+    }
+  };
+
+  const showKakao = () => {
+    if (kakaoOpen == true) {
+      setKakaoOpen(false);
+    } else {
+      setKakaoOpen(true);
+    }
+  };
+
+  const clickOutterEvent = (e) => {
+    e.stopPropagation();
+    setModalOpen(false);
   };
 
   useEffect(() => {
@@ -134,7 +153,11 @@ const SubHeader = ({ value }) => {
                 <S.EmojiImage src={AllEmoji} />
               </S.AllEmojiButton>
               {modalOpen && (
-                <EmojiModal setModalOpen={setModalOpen} value={emojiData} />
+                <EmojiModal
+                  setModalOpen={setModalOpen}
+                  value={emojiData}
+                  setOutterClick={clickOutterEvent}
+                />
               )}
             </S.EmojiCnt>
             <S.Service>
@@ -154,9 +177,12 @@ const SubHeader = ({ value }) => {
                 />
               )}
               <S.Border />
-              <S.ShareButton>
+              <S.ShareButton onClick={showKakao}>
                 <S.EmojiImage src={Share} />
               </S.ShareButton>
+              {kakaoOpen && (
+                <KakaoModal setKakaoOpen={setKakaoOpen} value={value.userID} />
+              )}
             </S.Service>
           </S.HeaderService>
         </S.UserInfo>

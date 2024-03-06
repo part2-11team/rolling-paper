@@ -2,15 +2,13 @@
 import * as S from './EmojiModal.style';
 import Emoji from '../../PaperListEmojiBadge';
 
-const EmojiModal = ({ setModalOpen, value }) => {
-  // 모달 끄기
-  console.log('here');
+const EmojiModal = ({ setModalOpen, value, setOutterClick }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-  console.log(value);
+
   return (
-    <S.ModalWrap>
+    <S.ModalWrap onClick={setOutterClick}>
       <S.closeButton onClick={closeModal}>X</S.closeButton>
       <S.emojiWrap>
         {value.length != 0 &&
