@@ -159,7 +159,7 @@ const SubHeader = ({ value }) => {
                   />
                 </S.EmojiWapper>
               )}
-              <S.Border />
+              <S.ButtonBorder />
               <S.ShareButton onClick={showKakao}>
                 <S.EmojiImage src={Share} />
               </S.ShareButton>

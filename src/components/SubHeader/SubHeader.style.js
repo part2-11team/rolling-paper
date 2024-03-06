@@ -5,8 +5,7 @@ import { FONT_STYLE } from '../../style/fontStyle';
 export const SubHeader = styled.div`
   display: flex;
   width: 100%;
-  padding: 0 2.4rem;
-  height: 68px;
+  padding: 2.4rem;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -20,6 +19,12 @@ export const HeaderContent = styled.div`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
 `;
 
 export const UserName = styled.div`
@@ -31,12 +36,23 @@ export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 28px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const PaperCnt = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 11px;
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const ProfileCnt = styled.div`
@@ -88,12 +104,29 @@ export const Border = styled.div`
   width: 1px;
   height: 28px;
   background: ${COLORS.GRAY_200};
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+export const ButtonBorder = styled.div`
+  width: 1px;
+  height: 28px;
+  background: ${COLORS.GRAY_200};
 `;
 
 export const HeaderService = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 8px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const EmojiCnt = styled.div`
@@ -125,6 +158,11 @@ export const Service = styled.div`
   position: relative;
   align-items: center;
   gap: 13px;
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    width: 100%;
+  }
 `;
 
 export const AddEmojiButton = styled.button`
