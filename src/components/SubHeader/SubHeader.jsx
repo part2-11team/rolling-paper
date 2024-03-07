@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState, useRef } from 'react';
 import * as S from './SubHeader.style';
 import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
@@ -8,9 +8,9 @@ import Emoji from '../PaperListEmojiBadge/PaperListEmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
 import KakaoModal from '../subHeaderModal/SubHeaderKaKao/KakaoModal';
+import PaperListFromBadge from '../PaperListFromBadge';
 
 const SubHeader = ({ value }) => {
-  const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
   const [emojiData, setEmojiData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,6 +24,8 @@ const SubHeader = ({ value }) => {
     topReactions: [],
   });
 
+  const pickerRef = useRef(null);
+
   const getUserData = async (userID) => {
     const {
       name,
@@ -34,7 +36,6 @@ const SubHeader = ({ value }) => {
       error,
     } = await getRecipientData(userID);
     if (error) {
-      setDataError(error);
       return;
     }
 
@@ -44,13 +45,18 @@ const SubHeader = ({ value }) => {
       reactionCount,
       topReactions,
     });
-    setProfileData(recentMessages);
+
+    const url = [
+      recentMessages?.[0]?.profileImageURL,
+      recentMessages?.[1]?.profileImageURL,
+      recentMessages?.[2]?.profileImageURL,
+    ];
+    setProfileData(url);
   };
 
   const getAllEmojiData = async (userID) => {
     const { results, error } = await getEmojiData(userID);
     if (error) {
-      setDataError(error);
       return;
     }
     setEmojiData(results);
@@ -65,7 +71,6 @@ const SubHeader = ({ value }) => {
   const postEmojitoServer = async (userID, emoji) => {
     const { result, error } = await postEmoji(userID, emoji.emoji);
     if (error) {
-      setDataError(error);
       return;
     }
     return result;
@@ -76,30 +81,28 @@ const SubHeader = ({ value }) => {
   };
 
   const showEmojiPicker = () => {
-    if (pickerOpen == true) {
-      setPickerOpen(false);
-    } else {
-      setPickerOpen(true);
-    }
+    setPickerOpen(!pickerOpen);
   };
 
   const showKakao = () => {
-    if (kakaoOpen == true) {
-      setKakaoOpen(false);
-    } else {
-      setKakaoOpen(true);
-    }
-  };
-
-  const clickOutterEvent = (e) => {
-    e.stopPropagation();
-    setModalOpen(false);
+    setKakaoOpen(!kakaoOpen);
   };
 
   useEffect(() => {
     getUserData(value.userID);
     getAllEmojiData(value.userID);
-  }, [resultPostEmoji]);
+
+    const handleClickOutside = (event) => {
+      if (pickerRef.current && !pickerRef.current.contains(event.target)) {
+        setPickerOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [resultPostEmoji, value]);
 
   return (
     <S.SubHeader>
@@ -108,26 +111,10 @@ const SubHeader = ({ value }) => {
         <S.UserInfo>
           <S.PaperCnt>
             <S.ProfileCnt>
-              {profileData.length != 0 &&
-                profileData.map((data, index) => (
-                  <S.ProfileBedge
-                    key={index}
-                    src={data.profileImageURL}
-                    alt={`Profile ${index}`}
-                    style={{ left: `${index * 14}px`, zIndex: `${index}` }}
-                  />
-                ))}
-
-              {userData.messageCount > 3 && (
-                <S.AllProfile
-                  style={{
-                    left: `${profileData.length * 14}px`,
-                    zIndex: `${profileData.length}`,
-                  }}
-                >
-                  +{userData.messageCount - 3}
-                </S.AllProfile>
-              )}
+              <PaperListFromBadge
+                imgUrls={profileData}
+                count={userData.messageCount}
+              />
             </S.ProfileCnt>
             <S.CntText>
               <S.Strong>{userData.messageCount}</S.Strong> 개의 카드가
@@ -153,11 +140,7 @@ const SubHeader = ({ value }) => {
                 <S.EmojiImage src={AllEmoji} />
               </S.AllEmojiButton>
               {modalOpen && (
-                <EmojiModal
-                  setModalOpen={setModalOpen}
-                  value={emojiData}
-                  setOutterClick={clickOutterEvent}
-                />
+                <EmojiModal setModalOpen={setModalOpen} value={emojiData} />
               )}
             </S.EmojiCnt>
             <S.Service>
@@ -166,22 +149,26 @@ const SubHeader = ({ value }) => {
                 추가
               </S.AddEmojiButton>
               {pickerOpen && (
-                <EmojiPicker
-                  onEmojiClick={handleEmojiSelect}
-                  style={{
-                    width: '150%',
-                    position: 'absolute',
-                    top: '50px',
-                    zIndex: '999',
-                  }}
-                />
+                <S.EmojiWapper ref={pickerRef}>
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiSelect}
+                    style={{
+                      width: '100%',
+                      zIndex: '999',
+                    }}
+                  />
+                </S.EmojiWapper>
               )}
-              <S.Border />
+              <S.ButtonBorder />
               <S.ShareButton onClick={showKakao}>
                 <S.EmojiImage src={Share} />
               </S.ShareButton>
               {kakaoOpen && (
-                <KakaoModal setKakaoOpen={setKakaoOpen} value={value.userID} />
+                <KakaoModal
+                  setKakaoOpen={setKakaoOpen}
+                  setToastOpen={value.updateToastvisible}
+                  value={value.userID}
+                />
               )}
             </S.Service>
           </S.HeaderService>

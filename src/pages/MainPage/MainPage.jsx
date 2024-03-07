@@ -42,7 +42,7 @@ const MainPage = () => {
             </S.ImgBox>
           </S.ImgContainer>
         </S.Section>
-        <S.Section flexdirection="row-reverse">
+        <S.Section direction="row-reverse">
           <S.DescriptionDiv>
             <S.PointDiv>Point. 02</S.PointDiv>
             <S.MainH1>

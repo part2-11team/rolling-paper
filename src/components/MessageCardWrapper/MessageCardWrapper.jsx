@@ -113,7 +113,7 @@ export const MessageCardWrapper = ({
     }
 
     if (data.length === 0) {
-      pageRef.current.scrollTop -= 30;
+      pageRef.current.scrollTop -= 90;
       setToastVisible(true);
       toastUpdate.current = true;
     }

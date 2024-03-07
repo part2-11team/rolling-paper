@@ -1,17 +1,32 @@
-﻿import React from 'react';
+﻿import React, { useRef, useEffect } from 'react';
 import * as S from './EmojiModal.style';
 import Emoji from '../../PaperListEmojiBadge';
 
-const EmojiModal = ({ setModalOpen, value, setOutterClick }) => {
+const EmojiModal = ({ setModalOpen, value }) => {
+  const modalRef = useRef(null);
+
   const closeModal = () => {
     setModalOpen(false);
   };
 
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <S.ModalWrap onClick={setOutterClick}>
+    <S.ModalWrap ref={modalRef}>
       <S.closeButton onClick={closeModal}>X</S.closeButton>
       <S.emojiWrap>
-        {value.length != 0 &&
+        {value.length !== 0 &&
           value
             .slice(0, 8)
             .map((reaction) => (
