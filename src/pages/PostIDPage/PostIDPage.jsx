@@ -149,7 +149,9 @@ export default function PostIDPage() {
         <S.PageWrapper ref={pageRef} onScroll={updateScrollbarPosition}>
           {visibleHeader && <Header page="post" />}
 
-          <SubHeader value={{ userID, messageCardData, updateToastvisible }} />
+          <SubHeader
+            value={{ userID, messageCardData, updateToastvisible, toastUpdate }}
+          />
           <Toast
             type="url"
             toastVisible={toastVisible}
