@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { FONT_STYLE } from '../../style/fontStyle';
 import { COLORS } from '../../style/colorPalette';
 
@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.div`
   @media (max-width: 767px) {
     display: none;
   }
-`
+`;
 
 export const PostPage = styled.div`
   display: flex;
@@ -40,7 +40,8 @@ export const PostPageH1 = styled.h1`
 
 export const ToInput = styled.input`
   margin-top: 1.2rem;
-  border: 0.1rem solid ${({ $hasError }) => $hasError ? COLORS.ERROR : COLORS.GRAY_300};
+  border: 0.1rem solid ${({ $hasError }) =>
+    $hasError ? COLORS.ERROR : COLORS.GRAY_300};
   border-radius: 0.8rem;  
   padding: 1.2rem 1.6rem;  
   width: 72rem;
@@ -53,7 +54,7 @@ export const ToInput = styled.input`
 export const ErrorMessage = styled.div`
   color: ${COLORS.ERROR};
   ${FONT_STYLE.REGULAR_14};
-  display: ${({ $hasError }) => $hasError ? 'block' : 'none'};
+  display: ${({ $hasError }) => ($hasError ? 'block' : 'none')};
 `;
 
 export const BackgroundSelectWrapper = styled.div`
@@ -103,34 +104,21 @@ export const SelectBox = styled.div`
     width: 100%;
     height: 15.4rem;
   }
+`;
 
-  &::before {
-    position: absolute;
-    content: "";
-    top:0px;
-    left:0px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255,255,255,0.4);
-    display: ${({ $index, $clickedIndex, $selectedValue }) => $index === $clickedIndex && $selectedValue === '이미지' ? 'block' : 'none'};
-  }
-  
-  background: ${({ $selectedValue, $index, $imageUrl }) => {
-    if ($selectedValue === '컬러') {
-      switch ($index) {
-        case 1:
-          return COLORS.ORANGE_200;
-        case 2:
-          return COLORS.PURPLE_200;
-        case 3:
-          return COLORS.BLUE_200;
-        case 4:
-          return COLORS.GREEN_200;
-        default:
-          return COLORS.ORANGE_200;
-      }
-    }
-      return `url(${$imageUrl}) lightgray 50% / cover no-repeat`;
+export const ColorSelectBox = styled(SelectBox)`
+  background: ${({ $color }) => {
+    switch ($color) {
+      case 'beige':
+        return COLORS.ORANGE_200;
+      case 'purple':
+        return COLORS.PURPLE_200;
+      case 'blue':
+        return COLORS.BLUE_200;
+      case 'green':
+        return COLORS.GREEN_200;
+      default:
+        return COLORS.ORANGE_200;
     }
   }};
 `;
@@ -139,7 +127,9 @@ export const SelectedImg = styled.img`
   width: 4.4rem;
   height: 4.4rem;
   z-index: 1;
-  display: ${({ value, $clickedIndex }) => value === $clickedIndex ? 'block' : 'none'};
+  opacity: 0.9;
+  display: ${({ $value, $clickedIndex }) =>
+    $value === $clickedIndex ? 'block' : 'none'};
 `;
 
 export const ColorImageButton = styled.div`
@@ -152,9 +142,10 @@ export const ColorImageButton = styled.div`
   background-color: ${COLORS.GRAY_100};
   color: ${COLORS.GRAY_900};
   cursor: pointer;
-  
-  ${({ $selectedValue, value }) =>
-    $selectedValue === value && css`
+
+  ${({ $selectedValue, $value }) =>
+    $selectedValue === $value &&
+    `
       background-color: ${COLORS.WHITE};
       border: 0.2rem solid ${COLORS.PURPLE_600};
       box-shadow: 0 0.4rem 0.4rem 0 rgba(0, 0, 0, 0.25);

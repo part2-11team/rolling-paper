@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import PostMessagePage from './pages/PostMessagePage/PostMessagePage';
 import GlobalStyle from './style/GlobalStyle';
-import PostPage from './pages/PostPage';
+import PostPage from './pages/PostPage/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
 import PaperListPage from './pages/PaperListPage/PaperListPage';
 import '../src/style/font.css';
