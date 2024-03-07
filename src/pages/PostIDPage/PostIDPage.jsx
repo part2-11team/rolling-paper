@@ -22,6 +22,7 @@ export default function PostIDPage() {
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
+  const [profileData, setProfileData] = useState([]);
   const [toastVisible, setToastVisible] = useState(false);
   const [scrollVisible, setScrollVisible] = useState(false);
   const [messageCardData, setMessageCardData] = useState([]);
@@ -32,6 +33,9 @@ export default function PostIDPage() {
     backgroundColor: '#eeeeee',
     backgroundImageURL: null,
     recentMessages: [],
+    messageCount: 0,
+    reactionCount: 0,
+    topReactions: [],
   });
   //update currentData when click message card or delete button to determine viewing modal component.
   const updateCurrentCardData = useCallback((cardData) => {
@@ -51,15 +55,36 @@ export default function PostIDPage() {
 
   //update userdata for header, background image
   const getUserData = async (userID) => {
-    const { name, backgroundColor, backgroundImageURL, recentMessages, error } =
-      await getRecipientData(userID);
+    const {
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      recentMessages,
+      reactionCount,
+      topReactions,
+      error,
+    } = await getRecipientData(userID);
 
     if (error) {
       setDataError(error);
       return;
     }
+    const url = [
+      recentMessages?.[0]?.profileImageURL,
+      recentMessages?.[1]?.profileImageURL,
+      recentMessages?.[2]?.profileImageURL,
+    ];
+    setProfileData(url);
 
-    setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
+    setUserData({
+      name,
+      backgroundColor,
+      backgroundImageURL,
+      messageCount,
+      reactionCount,
+      topReactions,
+    });
     const img = new Image();
     img.src = backgroundImageURL;
     img.onload = () => {
@@ -138,7 +163,13 @@ export default function PostIDPage() {
         <S.PageWrapper ref={pageRef} onScroll={updateScrollbarPosition}>
           <Header page="postID" />
           <SubHeader
-            value={{ userID, messageCardData, updateToastvisible, toastUpdate }}
+            value={{
+              userData,
+              profileData,
+              userID,
+              updateToastvisible,
+              toastUpdate,
+            }}
           />
           <Toast
             type="url"
