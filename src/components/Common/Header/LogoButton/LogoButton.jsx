@@ -8,7 +8,7 @@ const HeaderButton = ({ to }) => {
     <Link to={to}>
       <Style.LogoButton>
         <Style.LogoImage src={logo} alt="logo" />
-        <Style.LogoText>rolling</Style.LogoText>
+        <Style.LogoText>Rolling</Style.LogoText>
       </Style.LogoButton>
     </Link>
   );

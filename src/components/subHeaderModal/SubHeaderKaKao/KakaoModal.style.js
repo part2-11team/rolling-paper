@@ -16,3 +16,13 @@ export const ModalWrap = styled.div`
   border: 1px solid #b6b6b6;
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
 `;
+export const ShareButton = styled.button`
+  display: flex;
+  width: 138px;
+  padding: 12px 16px;
+  align-items: center;
+  gap: 10px;
+  &:hover {
+    background-color: ${COLORS.GRAY_200}; /* 호버 시 배경색을 gray로 변경 */
+  }
+`;
