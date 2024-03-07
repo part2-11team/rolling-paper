@@ -22,15 +22,15 @@ export default function PostIDPage() {
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
-  const [messageCount, setMessageCount] = useState(0);
   const [toastVisible, setToastVisible] = useState(false);
+  const [visibleHeader, setVisibleHeader] = useState(true);
   const [scrollVisible, setScrollVisible] = useState(false);
   const [messageCardData, setMessageCardData] = useState([]);
   const [pageBackgroundLoad, setPageBackgroundLoad] = useState(true);
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
-    backgroundColor: 'beige',
+    backgroundColor: '#eeeeee',
     backgroundImageURL: null,
     recentMessages: [],
   });
@@ -52,14 +52,8 @@ export default function PostIDPage() {
 
   //update userdata for header, background image
   const getUserData = async (userID) => {
-    const {
-      name,
-      backgroundColor,
-      backgroundImageURL,
-      messageCount: messageCountData,
-      recentMessages,
-      error,
-    } = await getRecipientData(userID);
+    const { name, backgroundColor, backgroundImageURL, recentMessages, error } =
+      await getRecipientData(userID);
 
     if (error) {
       setDataError(error);
@@ -67,7 +61,6 @@ export default function PostIDPage() {
     }
 
     setUserData({ name, backgroundColor, backgroundImageURL, recentMessages });
-    setMessageCount(messageCountData);
     const img = new Image();
     img.src = backgroundImageURL;
     img.onload = () => {
@@ -124,12 +117,22 @@ export default function PostIDPage() {
   useEffect(() => {
     const handleResize = () => {
       setScrollBarHeightPosition(pageRef, scrollWrapperRef);
+      if (window.innerWidth < 768) {
+        setVisibleHeader(false);
+      } else {
+        setVisibleHeader(true);
+      }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setVisibleHeader(false);
+    }
+  }, []);
   return (
     <PostIDContext.Provider
       value={{
@@ -144,7 +147,7 @@ export default function PostIDPage() {
         </S.ErrorWrapper>
       ) : (
         <S.PageWrapper ref={pageRef} onScroll={updateScrollbarPosition}>
-          <Header page="post" />
+          {visibleHeader && <Header page="post" />}
 
           <SubHeader value={{ userID, messageCardData, updateToastvisible }} />
           <Toast
