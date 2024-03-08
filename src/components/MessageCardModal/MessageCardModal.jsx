@@ -22,6 +22,7 @@ export const MessageCardModal = () => {
           <MessageCardHeader
             cardData={cardData}
             Component={CreatedDateComponent}
+            type="modal"
           ></MessageCardHeader>
           <S.TextWrapper>
             <S.Text

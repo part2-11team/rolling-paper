@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './MessageCardHeader.style';
 import { CardBadage } from '../CardBadage/CardBadage';
-export const MessageCardHeader = ({ cardData, Component }) => {
+export const MessageCardHeader = ({ cardData, Component, type }) => {
   const [imageLoad, setImageLoad] = useState(true);
   useEffect(() => {
     const img = new Image();
@@ -16,7 +16,7 @@ export const MessageCardHeader = ({ cardData, Component }) => {
   return (
     <>
       <S.Wrapper>
-        <S.FlexWrapper>
+        <S.FlexWrapper $type={type}>
           <S.Image
             src={cardData.profileImageURL}
             alt="프로필 이미지"
