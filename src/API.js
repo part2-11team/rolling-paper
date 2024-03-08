@@ -3,7 +3,7 @@ import axios from 'axios';
 const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
 
 export const getMessageCardData = async (
-  userID = 2719,
+  userID,
   limit = null,
   offset = null,
 ) => {

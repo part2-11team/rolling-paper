@@ -1,6 +1,4 @@
 import { styled, keyframes } from 'styled-components';
-import { FONT_STYLE } from '../../style/fontStyle';
-import { COLORS } from '../../style/colorPalette';
 
 export const Wrpaper = styled.div`
   position: relative;
@@ -61,31 +59,16 @@ export const LoadingIcon = styled.img`
   user-select: none;
 `;
 
-export const DeleteButton = styled.div`
-  position: relative;
-  left: calc(100% - 92px);
-  width: 92px;
-  height: 39px;
-  ${FONT_STYLE.REGULAR_16};
-  color: ${COLORS.WHITE};
-  background-color: ${COLORS.PURPLE_600};
-  border-radius: 6px;
-  padding: 7px 14px;
-  margin-bottom: 20px;
-  text-align: center;
-
-  &:hover {
-    background-color: ${COLORS.PURPLE_700};
-  }
-
-  &:active {
-    background-color: ${COLORS.PURPLE_800};
-  }
-`;
-
 export const intersectionBar = styled.div`
   position: absolute;
   width: 100%;
   height: 30px;
   bottom: 30px;
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  flex-flow: row-reverse;
+  width: 100%;
+  margin-bottom: 20px;
 `;

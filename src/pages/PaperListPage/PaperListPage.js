@@ -7,6 +7,7 @@ import PaperCard from '../../components/PaperCard';
 import ArrowButton from '../../components/ArrowButton';
 import PaperListSkeleton from '../../components/Skeleton/PaperListSkeleton';
 import Header from '../../components/Common/Header/Header';
+import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton';
 
 const PaperListPage = () => {
   const { data: recentPaper, isLoading: isLoadingRecent } = useRequest({
@@ -43,7 +44,9 @@ const PaperListPage = () => {
       </S.Container>
       <S.ButtonContainer>
         <Link to="/post">
-          <S.StyledButton size="lg">나도 만들어보기</S.StyledButton>
+          <PurpleButton width={280} height={50}>
+            나도 만들어보기
+          </PurpleButton>
         </Link>
       </S.ButtonContainer>
     </>

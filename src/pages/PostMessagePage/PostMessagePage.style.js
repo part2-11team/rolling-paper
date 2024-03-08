@@ -224,48 +224,12 @@ export const DropdownListContentOptionText = styled.p`
   letter-spacing: -0.16px;
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButtonWrapper = styled.div`
   display: flex;
-  width: 720px;
-  padding: 14px 24px;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  border-radius: 12px;
-  background: ${COLORS.PURPLE_600};
-  margin: 24px;
-
-  color: ${COLORS.WHITE};
-  text-align: center;
-  font-family: Pretendard;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: -0.18px;
-
-  &:hover {
-    background: ${COLORS.PURPLE_700};
-  }
-
-  &:active {
-    background: ${COLORS.PURPLE_800};
-  }
-
-  &:focus {
-    border: ${COLORS.PURPLE_900};
-    background: ${COLORS.PURPLE_800};
-  }
-
-  &:disabled {
-    border-radius: 12px;
-    border: 1px solid ${COLORS.GRAY_300};
-    background: ${COLORS.GRAY_300};
-    cursor: not-allowed;
-  }
-  @media (max-width: 720px) {
-    width: 100%;
-  }
+  width: 768px;
+  height: 104px;
 `;
 
 export const SubContain = styled.div`

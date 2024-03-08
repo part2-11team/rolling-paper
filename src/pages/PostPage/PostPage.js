@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './PostPage.style.js';
-import Button from '../../components/MainButton';
 import SelectImg from '../../assets/icon/background-selected.png';
 import Header from '../../components/Common/Header/Header';
 import { PostSelectImageButton } from '../../components/PostImageButton/PostImageButton.js';
 import axios from 'axios';
+import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -142,13 +142,14 @@ const PostPage = () => {
                   ))}
             </S.ColorSelectorDiv>
           </S.BackgroundSelectWrapper>
-          <Button
-            disabled={!value}
-            size="full"
+          <PurpleButton
+            width={720}
+            height={56}
+            disable={!value}
             onClick={(e) => handleMovetoListClick(e)}
           >
             생성하기
-          </Button>
+          </PurpleButton>
         </S.PostPageForm>
       </S.PostPage>
     </>

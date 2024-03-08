@@ -34,6 +34,7 @@ export const TextWrapper = styled.div`
   color: #5a5a5a;
   padding-top: 16px;
   overflow: auto;
+  margin-bottom: 30px;
 
   &::-webkit-scrollbar {
     display: block;

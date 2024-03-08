@@ -7,6 +7,7 @@ import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -141,6 +142,8 @@ export const PostMessagePage = () => {
 
     loadingImageUrls();
   }, []);
+  /* eslint-disable */
+  console.log(passValue);
 
   return (
     <>
@@ -277,13 +280,16 @@ export const PostMessagePage = () => {
             </S.PostMessageDropdownList>
           </S.PostMessageContent>
         </S.PostMessageContainer>
-
-        <S.SubmitButton
-          disabled={!passValue}
-          onClick={() => handleSendData(url, data)}
-        >
-          생성하기
-        </S.SubmitButton>
+        <S.SubmitButtonWrapper>
+          <PurpleButton
+            width={720}
+            height={56}
+            disable={!passValue}
+            onClick={() => handleSendData(url, data)}
+          >
+            생성하기
+          </PurpleButton>
+        </S.SubmitButtonWrapper>
       </S.PostWrapper>
     </>
   );

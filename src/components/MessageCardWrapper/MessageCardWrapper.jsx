@@ -10,6 +10,7 @@ import {
 import loadingIcon from '../../assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
 import { Toast } from '../Toast/Toast';
+import { PurpleButton } from '../Common/PurpleButton/PurpleButton';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 const options = {
@@ -163,7 +164,11 @@ export const MessageCardWrapper = ({
 
   return (
     <S.Wrpaper>
-      <S.DeleteButton onClick={deleteRecipientData}>삭제하기</S.DeleteButton>
+      <S.ButtonWrapper>
+        <PurpleButton width={92} height={39} fix onClick={deleteRecipientData}>
+          삭제하기
+        </PurpleButton>
+      </S.ButtonWrapper>
       <S.GridWrapper ref={gridWrapperRef}>
         {!initialLoading && (
           <AddMessageCard timerRef={timerRef} deleteTimerRef={deleteTimerRef} />
