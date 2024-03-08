@@ -7,6 +7,7 @@ import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
 import sampleImg1 from '../../assets/images-message/1.png';
 import sampleImg2 from '../../assets/images-message/2.jpg';
 import sampleImg3 from '../../assets/images-message/3.jpg';

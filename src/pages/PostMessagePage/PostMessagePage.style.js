@@ -230,6 +230,9 @@ export const SubmitButtonWrapper = styled.div`
   align-items: center;
   width: 768px;
   height: 104px;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 export const SubContain = styled.div`
