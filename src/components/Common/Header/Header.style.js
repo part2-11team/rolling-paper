@@ -11,6 +11,9 @@ export const HeaderWrapper = styled.header`
   gap: 1px;
   flex-shrink: 0;
   background-color: ${COLORS.WHITE};
+  @media (max-width: 767px) {
+    ${({ $page }) => $page === 'postID' && `display: none;`}
+  }
 `;
 
 export const HeaderContent = styled.div`

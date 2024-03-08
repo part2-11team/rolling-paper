@@ -15,7 +15,7 @@ const Header = ({ page }) => {
     );
   } else {
     return (
-      <Style.HeaderWrapper>
+      <Style.HeaderWrapper $page={page}>
         <Style.HeaderContent>
           <LogoButton to="/" />
         </Style.HeaderContent>
