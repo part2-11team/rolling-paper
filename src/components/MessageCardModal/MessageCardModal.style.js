@@ -51,6 +51,9 @@ export const TextWrapper = styled.div`
     border-radius: 8px;
     height: 100px;
   }
+  * {
+    font-family: inherit;
+  }
 `;
 
 export const Text = styled.p`

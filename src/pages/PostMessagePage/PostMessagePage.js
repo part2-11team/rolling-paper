@@ -7,7 +7,16 @@ import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
+import sampleImg1 from '../../assets/images-message/1.png';
+import sampleImg2 from '../../assets/images-message/2.jpg';
+import sampleImg3 from '../../assets/images-message/3.jpg';
+import sampleImg4 from '../../assets/images-message/4.jpg';
+import sampleImg5 from '../../assets/images-message/5.jpg';
+import sampleImg6 from '../../assets/images-message/6.jpg';
+import sampleImg7 from '../../assets/images-message/7.jpg';
+import sampleImg8 from '../../assets/images-message/8.jpg';
+import sampleImg9 from '../../assets/images-message/9.jpg';
+import sampleImg10 from '../../assets/images-message/10.jpg';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
@@ -15,13 +24,25 @@ export const PostMessagePage = () => {
   const [isName, setIsName] = useState();
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
-  const [profileImg, setProfileImg] = useState(); //프로필 사진
+  const [profileImg, setProfileImg] = useState(sampleImg1); //프로필 사진
   const [editorTextContent, setEditorTextContent] = useState(''); //메세지
   const [passValue, setPassValue] = useState(true); //값 확인
   const [name, setName] = useState(''); //이름
   const { userID } = useParams();
-  const [samplePicture, setSamplePicture] = useState([]); // 이미지 URL 배열 상태
+  const [samplePicture, setSamplePicture] = useState([
+    { src: sampleImg1 },
+    { src: sampleImg2 },
+    { src: sampleImg3 },
+    { src: sampleImg4 },
+    { src: sampleImg5 },
+    { src: sampleImg6 },
+    { src: sampleImg7 },
+    { src: sampleImg8 },
+    { src: sampleImg9 },
+    { src: sampleImg10 },
+  ]); // 이미지 URL 배열 상태
   const navigate = useNavigate();
+  const [isBlur, setIsBlur] = useState(true);
 
   const teamId = '4-11';
 
@@ -55,13 +76,10 @@ export const PostMessagePage = () => {
     { value: '나눔손글씨 손편지체', label: '나눔손글씨 손편지체' },
   ];
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
   const handleNameError = (e) => {
     const value = e.target.value;
     value.trim() === '' ? setIsName(true) : setIsName(false);
+    setName(value);
   };
 
   const handleSetProfileImg = (src) => {
@@ -135,6 +153,7 @@ export const PostMessagePage = () => {
         const imageUrls = response.data.imageUrls;
         setSamplePicture(imageUrls.map((url) => ({ src: url })));
         setProfileImg(imageUrls[0]);
+        setIsBlur(false);
       } catch (error) {
         return []; // 실패할 경우 빈 배열 반환
       }
@@ -162,13 +181,12 @@ export const PostMessagePage = () => {
             <S.InputContainer>
               <S.PostMessageInput
                 placeholder="이름을 입력해 주세요."
-                onBlur={handleNameError}
                 style={{
                   borderColor: isName
                     ? `${COLORS.ERROR}`
                     : `${COLORS.GRAY_300}`,
                 }}
-                onChange={handleNameChange}
+                onChange={handleNameError}
               ></S.PostMessageInput>
               {isName && (
                 <S.PostMessageInputError>
@@ -215,6 +233,9 @@ export const PostMessagePage = () => {
                       width={`56px`}
                       height={`56px`}
                       onClick={() => handleSetProfileImg(samplePicture.src)}
+                      style={{
+                        filter: !isBlur ? 'blur(0)' : 'blur(3px)',
+                      }}
                     ></S.SelectPictures>
                   ))}
                 </S.SelectPictureList>
