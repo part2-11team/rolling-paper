@@ -28,8 +28,12 @@ export const TextWrapper = styled.div`
   font-family: ${({ $font }) => $font};
   color: ${COLORS.GRAY_600};
   display: -webkit-box;
+  font-
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  * {
+  font-family: inherit;
+}
 `;
 
 export const CreatedDate = styled.div`
