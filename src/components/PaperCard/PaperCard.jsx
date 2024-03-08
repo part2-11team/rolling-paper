@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './PaperCard.style';
 import From from '../PaperListFromBadge';
-import Emoji from '../PaperListEmojiBadge';
+import Emoji from '../Common/PaperListEmojiBadge';
 import PatternPurple from '../../assets/icon/pattern_purple.svg';
 import PatternBeige from '../../assets/icon/pattern_beige.svg';
 import PatternBlue from '../../assets/icon/pattern_blue.svg';
