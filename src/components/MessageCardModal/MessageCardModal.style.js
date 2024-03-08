@@ -53,6 +53,9 @@ export const TextWrapper = styled.div`
   * {
     font-family: inherit;
   }
+  ul {
+    padding-left: revert !important;
+  }
 `;
 
 export const Text = styled.p`
