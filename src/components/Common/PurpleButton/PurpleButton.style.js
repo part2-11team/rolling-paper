@@ -12,7 +12,7 @@ export const Button = styled.button`
   width: ${({ $width }) => `${$width}px`};
   height: ${({ $height }) => `${$height}px`};
   ${({ $center }) => $center && `margin: 0 auto;`}
-  border-radius: ${({ $status }) => ($status === 'fix' ? '6px' : '12px')};
+  border-radius: ${({ $fix }) => ($fix ? '6px' : '12px')};
   ${({ $fix }) => ($fix ? FONT_STYLE.REGULAR_16 : FONT_STYLE.REGULAR_18)}
   @media (max-width: 1200px) {
     ${({ $fix }) => !$fix && `width: 100%`};
