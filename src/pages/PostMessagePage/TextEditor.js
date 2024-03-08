@@ -39,6 +39,21 @@ const TextEditor = ({ onChange, fontFamily }) => {
     }
 
     const range = selection.getRangeAt(0);
+    let targetDiv = range.commonAncestorContainer; // 특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
+
+    // 특정 부모 요소를 찾음
+    while (
+      targetDiv &&
+      (targetDiv.nodeType !== Node.ELEMENT_NODE ||
+        !targetDiv.classList.contains('target-div'))
+    ) {
+      targetDiv = targetDiv.parentNode;
+    }
+
+    if (!targetDiv) {
+      return; // 특정 부모 요소를 찾지 못한 경우
+    }
+
     const collapsedRange = range.cloneRange();
 
     if (!collapsedRange.collapsed) {
