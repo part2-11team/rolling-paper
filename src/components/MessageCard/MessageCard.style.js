@@ -30,6 +30,9 @@ export const TextWrapper = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  * {
+  font-family: inherit;
+}
 `;
 
 export const CreatedDate = styled.div`
