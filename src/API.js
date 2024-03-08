@@ -48,6 +48,8 @@ export const getRecipientData = async (userID) => {
       backgroundImageURL,
       messageCount,
       recentMessages,
+      reactionCount,
+      topReactions,
     } = response.data;
     return {
       name,
@@ -55,6 +57,8 @@ export const getRecipientData = async (userID) => {
       backgroundImageURL,
       messageCount,
       recentMessages,
+      reactionCount,
+      topReactions,
       error: null,
     };
   } catch (error) {
