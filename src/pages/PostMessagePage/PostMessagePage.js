@@ -138,14 +138,6 @@ export const PostMessagePage = () => {
     }
   };
 
-  // const handlePass = () =>{
-  //   if (isName === false && editorTextContent.trim() !== '') {
-  //     setPassValue(true);
-  //   } else {
-  //     setPassValue(false);
-  //   }
-  // }
-
   useEffect(() => {
     if (isName === false && editorTextContent.trim() !== '') {
       setPassValue(true);
