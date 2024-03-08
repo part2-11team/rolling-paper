@@ -19,6 +19,7 @@ export const PurpleButton = ({
       $fix={fix}
       onClick={onClick}
       $disable={disable}
+      disabled={disable}
       $center={center}
     >
       {children}
