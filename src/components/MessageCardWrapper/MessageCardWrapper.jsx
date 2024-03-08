@@ -22,6 +22,7 @@ export const MessageCardWrapper = ({
   updateCurrentCardData,
   setDataError,
   pageRef,
+  decreaseCardCount,
 }) => {
   const { userID } = useParams();
   const offset = useRef(0);
@@ -134,6 +135,7 @@ export const MessageCardWrapper = ({
       );
       messageCount.current -= 1;
     }
+    decreaseCardCount();
   }, []);
   //data load function, loaded loading Icon
   const dataLoad = () => {
