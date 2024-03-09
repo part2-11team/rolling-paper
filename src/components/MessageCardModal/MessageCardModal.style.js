@@ -34,6 +34,7 @@ export const TextWrapper = styled.div`
   color: #5a5a5a;
   padding-top: 16px;
   overflow: auto;
+  margin-bottom: 30px;
 
   &::-webkit-scrollbar {
     display: block;
@@ -53,39 +54,13 @@ export const TextWrapper = styled.div`
   * {
     font-family: inherit;
   }
+  ul {
+    padding-left: revert !important;
+  }
 `;
 
 export const Text = styled.p`
   display: block;
   width: 500px;
   font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
-`;
-
-export const ModalButton = styled.button`
-  box-sizing: border-box;
-  position: absolute;
-  top: 396px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 120px;
-  height: 40px;
-  border-radius: 6px;
-  padding: 7px 16px;
-  background-color: ${COLORS.PURPLE_600};
-  ${FONT_STYLE.REGULAR_16}
-  color: ${COLORS.WHITE};
-  text-align: center;
-
-  &:hover {
-    background-color: ${COLORS.PURPLE_700};
-  }
-
-  &:pressed {
-    background-color: ${COLORS.PURPLE_800};
-  }
-
-  &:focus {
-    border: 2px solid ${COLORS.PURPLE_900};
-    background-color: ${COLORS.PURPLE_800};
-  }
 `;

@@ -105,6 +105,13 @@ export default function PostIDPage() {
     }
   };
 
+  const decreaseCardCount = () => {
+    setUserData((prevUser) => ({
+      ...prevUser,
+      messageCount: prevUser.messageCount - 1,
+    }));
+  };
+
   const updateMessageCardData = (value) => {
     setMessageCardData(value);
   };
@@ -191,6 +198,7 @@ export default function PostIDPage() {
               updateCurrentCardData={updateCurrentCardData}
               setDataError={setDataError}
               pageRef={pageRef}
+              decreaseCardCount={decreaseCardCount}
             ></MessageCardWrapper>
           </S.MessageWrapper>
           <Scrollbar

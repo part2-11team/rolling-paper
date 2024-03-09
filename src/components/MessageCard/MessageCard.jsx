@@ -47,6 +47,7 @@ export const MessageCard = React.memo(
         <MessageCardHeader
           cardData={cardData}
           Component={DeleteButtonComponent}
+          type="card"
         ></MessageCardHeader>
         <S.TextWrapper
           $font={cardData.font}

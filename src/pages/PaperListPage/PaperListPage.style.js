@@ -1,6 +1,4 @@
 import styled, { css } from 'styled-components';
-import Button from '../../components/MainButton';
-
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_PC = 1200;
 
@@ -83,18 +81,6 @@ export const ButtonContainer = styled.div`
     transform: translateX(0);
     width: 28rem;
     margin: 6.4rem auto;
-  }
-`;
-
-export const StyledButton = styled(Button)`
-  width: 100%;
-
-  ${onTablet} {
-    width: 100%;
-  }
-
-  ${onPc} {
-    width: unset;
   }
 `;
 
