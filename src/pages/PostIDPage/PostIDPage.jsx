@@ -101,6 +101,13 @@ export default function PostIDPage() {
     }));
   };
 
+  const updateCardCount = (value) => {
+    setUserData((prevUser) => ({
+      ...prevUser,
+      messageCount: value,
+    }));
+  };
+
   const updateMessageCardData = (value) => {
     setMessageCardData(value);
   };
@@ -179,12 +186,14 @@ export default function PostIDPage() {
             $url={userData.backgroundImageURL}
           >
             <MessageCardWrapper
+              userData={userData}
               messageCardData={messageCardData}
               updateMessageCardData={updateMessageCardData}
               updateCurrentCardData={updateCurrentCardData}
               setDataError={setDataError}
               pageRef={pageRef}
               decreaseCardCount={decreaseCardCount}
+              updateCardCount={updateCardCount}
             ></MessageCardWrapper>
           </S.MessageWrapper>
           <Scrollbar
