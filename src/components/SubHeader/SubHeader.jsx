@@ -4,11 +4,11 @@ import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
 import Share from '../../assets/icon/share-24.svg';
 import { getEmojiData, postEmoji } from './api';
-import Emoji from '../Common/PaperListEmojiBadge/PaperListEmojiBadge';
+import Emoji from '../Common/Badge/EmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
 import KakaoModal from '../subHeaderModal/SubHeaderKaKao/KakaoModal';
-import PaperListFromBadge from '../PaperListFromBadge';
+import FromBadge from '../Common/Badge/FromBadge';
 
 const SubHeader = ({ value }) => {
   const [emojiData, setEmojiData] = useState([]);
@@ -74,7 +74,7 @@ const SubHeader = ({ value }) => {
         <S.UserInfo>
           <S.PaperCnt>
             <S.ProfileCnt>
-              <PaperListFromBadge
+              <FromBadge
                 imgUrls={value.profileData}
                 count={value.userData.messageCount}
               />
