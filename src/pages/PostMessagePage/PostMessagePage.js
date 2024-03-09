@@ -7,6 +7,7 @@ import { COLORS } from '../../style/colorPalette';
 import Header from '../../components/Common/Header/Header.jsx';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
 import sampleImg1 from '../../assets/images-message/1.png';
 import sampleImg2 from '../../assets/images-message/2.jpg';
 import sampleImg3 from '../../assets/images-message/3.jpg';
@@ -17,11 +18,12 @@ import sampleImg7 from '../../assets/images-message/7.jpg';
 import sampleImg8 from '../../assets/images-message/8.jpg';
 import sampleImg9 from '../../assets/images-message/9.jpg';
 import sampleImg10 from '../../assets/images-message/10.jpg';
+import { TextForm } from '../../components/Common/TextForm/TextForm.jsx';
 
 export const PostMessagePage = () => {
   const [isOpenRelation, setIsOpen] = useState(false);
   const [isOpenFont, setIsOpenFont] = useState(false);
-  const [isName, setIsName] = useState();
+  const [isName, setIsName] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
   const [profileImg, setProfileImg] = useState(sampleImg1); //프로필 사진
@@ -78,8 +80,12 @@ export const PostMessagePage = () => {
 
   const handleNameError = (e) => {
     const value = e.target.value;
-    value.trim() === '' ? setIsName(true) : setIsName(false);
     setName(value);
+  };
+
+  const handleBlur = (e) => {
+    const value = e.target.value;
+    value.trim() === '' ? setIsName(true) : setIsName(false);
   };
 
   const handleSetProfileImg = (src) => {
@@ -174,25 +180,13 @@ export const PostMessagePage = () => {
       </S.NavController>
       <S.PostWrapper>
         <S.PostMessageContainer>
-          <S.PostMessageContent>
-            <S.PostMessageContentHeader>From.</S.PostMessageContentHeader>
-            <S.InputContainer>
-              <S.PostMessageInput
-                placeholder="이름을 입력해 주세요."
-                style={{
-                  borderColor: isName
-                    ? `${COLORS.ERROR}`
-                    : `${COLORS.GRAY_300}`,
-                }}
-                onChange={handleNameError}
-              ></S.PostMessageInput>
-              {isName && (
-                <S.PostMessageInputError>
-                  값을 입력해주세요.
-                </S.PostMessageInputError>
-              )}
-            </S.InputContainer>
-          </S.PostMessageContent>
+          <TextForm
+            type="card"
+            onChange={handleNameError}
+            vailed={isName}
+            onBlur={handleBlur}
+            onFocus={() => setIsName(false)}
+          ></TextForm>
 
           <S.PostMessageContent>
             <S.PostMessageContentHeader>
@@ -299,13 +293,16 @@ export const PostMessagePage = () => {
             </S.PostMessageDropdownList>
           </S.PostMessageContent>
         </S.PostMessageContainer>
-
-        <S.SubmitButton
-          disabled={!passValue}
-          onClick={() => handleSendData(url, data)}
-        >
-          생성하기
-        </S.SubmitButton>
+        <S.SubmitButtonWrapper>
+          <PurpleButton
+            width={720}
+            height={56}
+            disable={!passValue}
+            onClick={() => handleSendData(url, data)}
+          >
+            생성하기
+          </PurpleButton>
+        </S.SubmitButtonWrapper>
       </S.PostWrapper>
     </>
   );

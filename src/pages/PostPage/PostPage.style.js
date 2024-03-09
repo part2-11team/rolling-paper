@@ -27,34 +27,9 @@ export const PostPageForm = styled.form`
     margin: 5rem 0 3rem;
 `;
 
-export const ToInputWrapper = styled.div`
-    width: 72rem;
-    @media (max-width: 767px) {
-      width: 100%;
-`;
-
 export const PostPageH1 = styled.h1`
   color: ${COLORS.GRAY_900};
   ${FONT_STYLE.BOLD_24};
-`;
-
-export const ToInput = styled.input`
-  margin-top: 1.2rem;
-  border: 0.1rem solid ${({ $hasError }) =>
-    $hasError ? COLORS.ERROR : COLORS.GRAY_300};
-  border-radius: 0.8rem;  
-  padding: 1.2rem 1.6rem;  
-  width: 72rem;
-  color: ${COLORS.GRAY_500};
-  ${FONT_STYLE.REGULAR_16};
-  @media (max-width: 767px) {
-    width: 100%;
-`;
-
-export const ErrorMessage = styled.div`
-  color: ${COLORS.ERROR};
-  ${FONT_STYLE.REGULAR_14};
-  display: ${({ $hasError }) => ($hasError ? 'block' : 'none')};
 `;
 
 export const BackgroundSelectWrapper = styled.div`

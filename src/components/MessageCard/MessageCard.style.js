@@ -11,6 +11,7 @@ export const Wrapper = styled.div`
   padding: 28px 24px;
   cursor: pointer;
   background-color: ${COLORS.WHITE};
+  overflow: hidden;
 
   @media (max-width: 1248px) {
     width: auto;
@@ -44,11 +45,13 @@ export const CreatedDate = styled.div`
   left: 24px;
   width: 60px;
   height: 18px;
-  font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
   ${FONT_STYLE.REGULAR_12}
   line-height: 18px;
   color: #999999;
   background-color: ${COLORS.WHITE};
+  &&& {
+    font-family: ${({ $font }) => $font && $font};
+  }
 `;
 
 export const DeleteButton = styled.button`
