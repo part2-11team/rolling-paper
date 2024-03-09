@@ -30,6 +30,7 @@ const SubHeader = ({ value }) => {
     const result = postEmojitoServer(value.userID, emoji);
     setResultPostEmoji(result);
     setPickerOpen(false);
+    getAllEmojiData(value.userID);
   };
 
   const postEmojitoServer = async (userID, emoji) => {
