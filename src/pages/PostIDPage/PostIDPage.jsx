@@ -18,7 +18,6 @@ export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
   const timerRef = useRef(null);
-  const deleteTimerRef = useRef(null);
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
@@ -184,7 +183,6 @@ export default function PostIDPage() {
             updateToastvisible={updateToastvisible}
             toastUpdate={toastUpdate}
             timerRef={timerRef}
-            deleteTimerRef={deleteTimerRef}
           ></Toast>
 
           <S.MessageWrapper

@@ -29,7 +29,6 @@ export const MessageCardWrapper = ({
   const offset = useRef(0);
   const gridWrapperRef = useRef(null);
   const timerRef = useRef(null);
-  const deleteTimerRef = useRef(null);
   const target = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
@@ -54,13 +53,6 @@ export const MessageCardWrapper = ({
     if (error) {
       setDataError(error);
       return;
-    }
-    //delete timer
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-    if (deleteTimerRef.current) {
-      clearInterval(deleteTimerRef.current);
     }
     alert('삭제되었습니다');
     navigate('/list');
@@ -170,9 +162,7 @@ export const MessageCardWrapper = ({
         </PurpleButton>
       </S.ButtonWrapper>
       <S.GridWrapper ref={gridWrapperRef}>
-        {!initialLoading && (
-          <AddMessageCard timerRef={timerRef} deleteTimerRef={deleteTimerRef} />
-        )}
+        {!initialLoading && <AddMessageCard />}
         {messageCardData.map((cardData, index) => (
           <MessageCard
             cardData={cardData}
@@ -198,7 +188,6 @@ export const MessageCardWrapper = ({
         updateToastvisible={updateToastvisible}
         toastUpdate={toastUpdate}
         timerRef={timerRef}
-        deleteTimerRef={deleteTimerRef}
       ></Toast>
     </S.Wrpaper>
   );

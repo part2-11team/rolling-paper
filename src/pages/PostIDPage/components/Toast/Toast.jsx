@@ -10,9 +10,9 @@ export const Toast = ({
   updateToastvisible,
   toastUpdate,
   timerRef,
-  deleteTimerRef,
 }) => {
   const wrapperRef = useRef(null);
+  const deleteTimerRef = useRef(null);
 
   const handleClickCloseButton = () => {
     clearInterval(timerRef.current);

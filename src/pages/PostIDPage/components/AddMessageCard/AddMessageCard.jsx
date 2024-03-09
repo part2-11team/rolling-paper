@@ -7,7 +7,7 @@ import {
   AddMessagePressed,
 } from './index';
 import { useNavigate } from 'react-router-dom';
-export const AddMessageCard = ({ timerRef, deleteTimerRef }) => {
+export const AddMessageCard = () => {
   const navigate = useNavigate();
   const [image, setImage] = useState(AddMessageEnabled);
   const handleMouseOver = () => {
@@ -23,12 +23,6 @@ export const AddMessageCard = ({ timerRef, deleteTimerRef }) => {
     setImage(AddMessagePressed);
   };
   const handleClick = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-    if (deleteTimerRef.current) {
-      clearInterval(deleteTimerRef.current);
-    }
     navigate('./message');
   };
   return (
