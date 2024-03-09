@@ -39,6 +39,21 @@ const TextEditor = ({ onChange, fontFamily }) => {
     }
 
     const range = selection.getRangeAt(0);
+    let targetDiv = range.commonAncestorContainer; // 특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
+
+    // 특정 부모 요소를 찾음
+    while (
+      targetDiv &&
+      (targetDiv.nodeType !== Node.ELEMENT_NODE ||
+        !targetDiv.classList.contains('target-div'))
+    ) {
+      targetDiv = targetDiv.parentNode;
+    }
+
+    if (!targetDiv) {
+      return; // 특정 부모 요소를 찾지 못한 경우
+    }
+
     const collapsedRange = range.cloneRange();
 
     if (!collapsedRange.collapsed) {
@@ -84,22 +99,7 @@ const TextEditor = ({ onChange, fontFamily }) => {
       }
       // 찾은 부모 요소의 특정 클래스 확인
       if (targetDiv && targetDiv.classList.contains('target-div')) {
-        const isTextOnly = Array.from(range.cloneContents().childNodes).every(
-          (node) => node.nodeType === Node.TEXT_NODE,
-        ); // 텍스트만 있는지 확인하기
-        if (isTextOnly) {
-          //확인 후 ul,li 생성 및  반복
-          const ulElement = document.createElement('ul');
-          const fragment = document.createDocumentFragment();
-          Array.from(range.cloneContents().childNodes).forEach((child) => {
-            const liElement = document.createElement('li');
-            liElement.appendChild(child.cloneNode(true));
-            fragment.appendChild(liElement);
-          });
-          range.deleteContents(); // 선택한 범위의 컨텐츠 삭제 => 이동을 위한 삭제
-          ulElement.appendChild(fragment); // ul에 li 추가
-          range.insertNode(ulElement); // 완성된 ul 삽입
-        }
+        document.execCommand('insertUnorderedList', false, null);
       }
     }
   };
@@ -118,33 +118,10 @@ const TextEditor = ({ onChange, fontFamily }) => {
       }
       // 찾은 부모 요소의 특정 클래스 확인
       if (targetDiv && targetDiv.classList.contains('target-div')) {
-        const isTextOnly = Array.from(range.cloneContents().childNodes).every(
-          (node) => node.nodeType === Node.TEXT_NODE,
-        ); // 텍스트만 있는지 확인하기
-        if (isTextOnly) {
-          //확인 후 ol,li 생성 및  반복
-          const ulElement = document.createElement('ol');
-          const fragment = document.createDocumentFragment();
-          Array.from(range.cloneContents().childNodes).forEach((child) => {
-            const liElement = document.createElement('li');
-            liElement.appendChild(child.cloneNode(true));
-            fragment.appendChild(liElement);
-          });
-          range.deleteContents(); // 선택한 범위의 컨텐츠 삭제 => 이동을 위한 삭제
-          ulElement.appendChild(fragment); // ol에 li 추가
-          range.insertNode(ulElement); // 완성된 ol 삽입
-        }
+        document.execCommand('insertOrderedList', false, null);
       }
     }
   };
-
-  //고민중인 부분
-  // const handleKeyPress = (e) => {
-  //   if (e.key === 'Enter') {
-  //     e.preventDefault(); // 기본 동작인 줄 바꿈을 막음
-  //     document.execCommand('insertHTML', false, '<br><br>'); // 줄 바꿈 처리
-  //   }
-  // };
 
   const handleInput = (e) => {
     const text = e.target.innerHTML;

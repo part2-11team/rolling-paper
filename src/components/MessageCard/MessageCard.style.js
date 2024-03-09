@@ -31,8 +31,11 @@ export const TextWrapper = styled.div`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   * {
-  font-family: inherit;
-}
+    font-family: inherit;
+  }
+  ul {
+    padding-left: revert !important;
+  }
 `;
 
 export const CreatedDate = styled.div`
