@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as S from './Scrollbar.style';
-import { setScrollBarHeightPosition } from '../../assets/utils/setScrollBarHeightPosition';
+import { setScrollBarHeightPosition } from '../../../../assets/utils/setScrollBarHeightPosition';
 
 export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
   const scrollThumbRef = useRef(null);

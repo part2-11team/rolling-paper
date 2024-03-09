@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import * as S from './Toast.style';
-import close from '../../assets/icon/close.svg';
-import completed from '../../assets/icon/completed.svg';
-import warning from '../../assets/icon/warning.svg';
+import close from '../../../../assets/icon/close.svg';
+import completed from '../../../../assets/icon/completed.svg';
+import warning from '../../../../assets/icon/warning.svg';
 
 export const Toast = ({
   type,
@@ -22,7 +22,11 @@ export const Toast = ({
       if (time === 0) {
         deleteTimerRef.current = toastTimer;
       }
-      if (time === 50 || !wrapperRef.current || wrapperRef.current.style.opacity === 0) {
+      if (
+        time === 50 ||
+        !wrapperRef.current ||
+        wrapperRef.current.style.opacity === 0
+      ) {
         clearInterval(toastTimer);
         deleteTimerRef.current = null;
         updateToastvisible(false);

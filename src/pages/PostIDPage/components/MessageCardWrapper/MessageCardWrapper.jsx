@@ -6,11 +6,11 @@ import {
   getMessageCardData,
   deleteMessageCardData,
   deleteRecipient,
-} from '../../API';
-import loadingIcon from '../../assets/icon/loading.svg';
+} from '../../../../API';
+import loadingIcon from '../../../../assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
 import { Toast } from '../Toast/Toast';
-import { PurpleButton } from '../Common/PurpleButton/PurpleButton';
+import { PurpleButton } from '../../../../components/Common/PurpleButton/PurpleButton';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 const options = {
@@ -135,8 +135,8 @@ export const MessageCardWrapper = ({
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
       messageCount.current -= 1;
+      decreaseCardCount();
     }
-    decreaseCardCount();
   }, []);
   //data load function, loaded loading Icon
   const dataLoad = () => {
