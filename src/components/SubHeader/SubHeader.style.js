@@ -121,10 +121,11 @@ export const ButtonBorder = styled.div`
 
 export const HeaderService = styled.div`
   display: flex;
-  align-items: flex-start;
   gap: 8px;
 
   @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-end;
     width: 100%;
   }
 `;
@@ -132,13 +133,11 @@ export const HeaderService = styled.div`
 export const EmojiCnt = styled.div`
   display: flex;
   position: relative;
-  align-items: flex-start;
   gap: 2px;
 `;
 
 export const Emoji = styled.div`
   display: flex;
-  align-items: flex-start;
   gap: 8px;
 `;
 
@@ -155,14 +154,9 @@ export const EmojiImage = styled.img``;
 
 export const Service = styled.div`
   display: flex;
-  position: relative;
   align-items: center;
+  position: relative;
   gap: 13px;
-
-  @media (max-width: 768px) {
-    justify-content: flex-start;
-    width: 100%;
-  }
 `;
 
 export const AddEmojiButton = styled.button`
@@ -177,11 +171,16 @@ export const AddEmojiButton = styled.button`
   color: ${COLORS.GRAY_900};
   ${FONT_STYLE.REGULAR_16}
 `;
+
 export const EmojiWapper = styled.div`
   width: 150%;
   position: absolute;
   top: 50px;
+  right: 50px;
   zindex: 999;
+  @media (max-width: 768px) {
+    width: 130%;
+  }
 `;
 export const ShareButton = styled.button`
   display: flex;
