@@ -9,9 +9,9 @@ export const Toast = ({
   toastVisible,
   updateToastvisible,
   toastUpdate,
-  timerRef,
 }) => {
   const wrapperRef = useRef(null);
+  const timerRef = useRef(null);
   const deleteTimerRef = useRef(null);
 
   const handleClickCloseButton = () => {

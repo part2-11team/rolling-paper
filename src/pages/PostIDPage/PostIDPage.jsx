@@ -17,7 +17,6 @@ import arrow_up from '../../assets/icon/arrow_up.svg';
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
-  const timerRef = useRef(null);
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
@@ -25,7 +24,6 @@ export default function PostIDPage() {
   const [toastVisible, setToastVisible] = useState(false);
   const [scrollVisible, setScrollVisible] = useState(false);
   const [messageCardData, setMessageCardData] = useState([]);
-  const [pageBackgroundLoad, setPageBackgroundLoad] = useState(true);
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
@@ -84,14 +82,6 @@ export default function PostIDPage() {
       reactionCount,
       topReactions,
     });
-    const img = new Image();
-    img.src = backgroundImageURL;
-    img.onload = () => {
-      setPageBackgroundLoad(false);
-    };
-    return () => {
-      img.onload = null;
-    };
   };
 
   //update scrollbar position when scroll page
@@ -182,13 +172,11 @@ export default function PostIDPage() {
             toastVisible={toastVisible}
             updateToastvisible={updateToastvisible}
             toastUpdate={toastUpdate}
-            timerRef={timerRef}
           ></Toast>
 
           <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
-            $load={pageBackgroundLoad}
           >
             <MessageCardWrapper
               messageCardData={messageCardData}

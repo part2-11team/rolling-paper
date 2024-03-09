@@ -28,14 +28,12 @@ export const MessageCardWrapper = ({
   const { userID } = useParams();
   const offset = useRef(0);
   const gridWrapperRef = useRef(null);
-  const timerRef = useRef(null);
   const target = useRef(null);
   const deleteCount = useRef(0);
   const messageCount = useRef(0);
   const toastUpdate = useRef(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState({ type: 'initial', status: true });
   const [toastVisible, setToastVisible] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
   const navigate = useNavigate();
 
   const updateToastvisible = useCallback((value) => {
@@ -43,8 +41,8 @@ export const MessageCardWrapper = ({
   }, []);
   //update loading state to load data when reach the end of page
   const handleIntersectionObserver = (entry) => {
-    if (entry[0].isIntersecting && !initialLoading) {
-      setLoading(true);
+    if (entry[0].isIntersecting && !loading.status) {
+      setLoading((prevLoad) => ({ ...prevLoad, status: true }));
       offset.current = messageCardData.length;
     }
   };
@@ -73,8 +71,7 @@ export const MessageCardWrapper = ({
         setDataError(error);
       }
     }
-    setLoading(false);
-    setInitialLoading(false);
+    setLoading({ type: 'default', status: false });
   };
   //load additional cardData when reach the end of page
   const getCardData = async (limit = null, offset = null) => {
@@ -133,7 +130,7 @@ export const MessageCardWrapper = ({
   //data load function, loaded loading Icon
   const dataLoad = () => {
     if (loading) {
-      if (initialLoading) {
+      if (loading.type === 'initial') {
         initialGetCardData(INITIAL_PAGE_LOADING, offset.current);
       } else {
         getCardData(PAGE_LOADING + deleteCount.current, offset.current);
@@ -162,7 +159,7 @@ export const MessageCardWrapper = ({
         </PurpleButton>
       </S.ButtonWrapper>
       <S.GridWrapper ref={gridWrapperRef}>
-        {!initialLoading && <AddMessageCard />}
+        <AddMessageCard />
         {messageCardData.map((cardData, index) => (
           <MessageCard
             cardData={cardData}
@@ -172,11 +169,11 @@ export const MessageCardWrapper = ({
           />
         ))}
       </S.GridWrapper>
-      {loading ? (
+      {loading.status ? (
         <S.LoadingIcon
           src={loadingIcon}
           alt="loading"
-          $initialLoading={initialLoading}
+          $loadingType={loading.type}
           onLoad={dataLoad}
         />
       ) : (
@@ -187,7 +184,6 @@ export const MessageCardWrapper = ({
         toastVisible={toastVisible}
         updateToastvisible={updateToastvisible}
         toastUpdate={toastUpdate}
-        timerRef={timerRef}
       ></Toast>
     </S.Wrpaper>
   );
