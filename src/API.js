@@ -76,7 +76,7 @@ export const deleteRecipient = async (userID) => {
   }
 };
 
-// --- Paper List ---
+// --- List Page ---
 
 function getRecipientsData() {
   const { data: getRecentPaperData, isLoading: isLoadingRecent } = useRequest({
