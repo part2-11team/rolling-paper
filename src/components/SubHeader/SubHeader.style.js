@@ -151,7 +151,11 @@ export const AllEmojiButton = styled.button`
 `;
 
 export const EmojiImage = styled.img``;
-
+export const AddEmojiText = styled.span`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 export const Service = styled.div`
   display: flex;
   align-items: center;
@@ -178,9 +182,6 @@ export const EmojiWapper = styled.div`
   top: 50px;
   right: 50px;
   zindex: 999;
-  @media (max-width: 768px) {
-    width: 130%;
-  }
 `;
 export const ShareButton = styled.button`
   display: flex;

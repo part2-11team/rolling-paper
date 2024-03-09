@@ -110,7 +110,7 @@ const SubHeader = ({ value }) => {
             <S.Service>
               <S.AddEmojiButton onClick={showEmojiPicker}>
                 <S.EmojiImage src={AddEmoji} />
-                추가
+                <S.AddEmojiText>추가</S.AddEmojiText>
               </S.AddEmojiButton>
               {pickerOpen && (
                 <S.EmojiWapper ref={pickerRef}>
