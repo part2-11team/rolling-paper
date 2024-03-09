@@ -39,12 +39,13 @@ export const MessageCardWrapper = ({
   const updateToastvisible = useCallback((value) => {
     setToastVisible(value);
   }, []);
-  //update loading state to load data when reach the end of page
+  //페이지 마지막 부분에 도착했을 때 처리할 콜백 함수 -> loading 값을 업데이트하여 데이터를 load.
   const handleIntersectionObserver = (entry) => {
     if (entry[0].isIntersecting && !loading.status) {
       setLoading((prevLoad) => ({ ...prevLoad, status: true }));
     }
   };
+  //현재 userID의 Recipient 데이터를 삭제하는 함수 -> 삭제 버튼을 눌렀을 때 동작.
   const deleteRecipientData = async () => {
     const { error } = await deleteRecipient(userID);
     if (error) {
@@ -55,7 +56,7 @@ export const MessageCardWrapper = ({
     navigate('/list');
   };
 
-  //load cardData at initial rendering
+  //처음 페이지가 렌더링될 때 메세지 카드 데이터를 불러오는 함수 -> 11개의 데이터만 가져옴
   const initialGetCardData = async (limit = null, offset = null) => {
     const { data, error } = await getMessageCardData(userID, limit, offset);
     if (!error) {
@@ -67,7 +68,7 @@ export const MessageCardWrapper = ({
     }
     setLoading({ type: 'default', status: false });
   };
-  //load additional cardData when reach the end of page
+  //첫 렌더링 이후 스크롤을 통해서 추가적으로 메세지 카드 데이터를 불러오는 함수 -> 메세지 카드가 추가적으로 생성된 경우, 성성된 데이터를 함께 가져오고, 메세지카드를 이전에 삭제했을 경우 삭제한 개수만큼 추가적으로 가져옴.
   const getCardData = async (limit = null, offset = null) => {
     const {
       data,
@@ -109,7 +110,7 @@ export const MessageCardWrapper = ({
     deleteCount.current = 0;
   };
 
-  //delete card data(for each message card component)
+  //메세지카드 삭제함수 -> messageCard 컴포넌트에 전달
   const deleteCardData = useCallback(async (cardID) => {
     const { error } = await deleteMessageCardData(cardID);
     if (error) {
@@ -122,7 +123,7 @@ export const MessageCardWrapper = ({
       decreaseCardCount();
     }
   }, []);
-  //data load function, loaded loading Icon
+  //로딩 아이콘이 다 load된 후 데이터를 불러오는 함수
   const dataLoad = () => {
     if (loading) {
       if (loading.type === 'initial') {
@@ -132,7 +133,7 @@ export const MessageCardWrapper = ({
       }
     }
   };
-  //regist intersectionObserver to check reaching theend of page
+  //intersectionObserver 등록 -> 페이지가 마지막 부분(target)에 닿았는지를 확인
   useEffect(() => {
     const observer = new IntersectionObserver(
       handleIntersectionObserver,
