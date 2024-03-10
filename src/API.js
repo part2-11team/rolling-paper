@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useRequest from './useRequest';
 
 const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
 
@@ -74,3 +75,35 @@ export const deleteRecipient = async (userID) => {
     return { error: error };
   }
 };
+
+// --- List Page ---
+
+function getRecipientsData() {
+  const { data: getRecentPaperData, isLoading: isLoadingRecent } = useRequest({
+    options: {
+      url: 'recipients/',
+      method: 'get',
+    },
+  });
+
+  const { data: getPopularPaperData, isLoading: isLoadingPopular } = useRequest(
+    {
+      options: {
+        url: 'recipients/',
+        method: 'get',
+        params: {
+          sort: 'like',
+        },
+      },
+    },
+  );
+  return {
+    getPopularPaperData,
+    isLoadingPopular,
+    getRecentPaperData,
+    isLoadingRecent,
+  };
+}
+export default getRecipientsData;
+
+// ---

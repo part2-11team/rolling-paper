@@ -1,6 +1,6 @@
 import React from 'react';
-import rightArrowIcon from '../../assets/icon/arrowright-icon.svg';
-import leftArrowIcon from '../../assets/icon/arrowleft-icon.svg';
+import rightArrowIcon from '../../../../assets/icon/arrowright-icon.svg';
+import leftArrowIcon from '../../../../assets/icon/arrowleft-icon.svg';
 import * as S from './ArrowButton.style.js';
 
 const ArrowButton = ({ right = false, left = false, onClick }) => {
