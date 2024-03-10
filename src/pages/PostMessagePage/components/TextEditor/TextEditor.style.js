@@ -44,6 +44,7 @@ export const ToolBarIcon = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 100px;
 
   &:active {
     background-color: ${COLORS.GRAY_300};

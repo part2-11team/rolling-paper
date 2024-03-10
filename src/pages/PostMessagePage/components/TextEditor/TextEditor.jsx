@@ -10,23 +10,34 @@ import italicIcon from '../../../../assets/textEditor/italic.png';
 import underLineIcon from '../../../../assets/textEditor/underline.png';
 import bulletDotIcon from '../../../../assets/textEditor/bulletDot.png';
 import bulletNumberIcon from '../../../../assets/textEditor/bulletNumber.png';
+import { COLORS } from '../../../../style/colorPalette';
 
 const TextEditor = ({ onChange, fontFamily }) => {
   const editorRef = useRef(null);
   const [content, setContent] = useState('');
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isUnder, setIsUnder] = useState(false);
+  const [currentColor, setCurrentColor] = useState(COLORS.BLACK);
 
   //진하게
-  const handleBoldClick = () => {
+  const handleBoldClick = (e) => {
+    e.preventDefault(); // 이벤트 기본 동작 방지
+    isBold ? setIsBold(false) : setIsBold(true);
     document.execCommand('bold', false, null);
   };
 
   //기울기
-  const handleItalicClick = () => {
+  const handleItalicClick = (e) => {
+    e.preventDefault();
+    isItalic ? setIsItalic(false) : setIsItalic(true);
     document.execCommand('italic', false, null);
   };
 
   //밑줄
-  const handleUnderlineClick = () => {
+  const handleUnderlineClick = (e) => {
+    e.preventDefault();
+    isUnder ? setIsUnder(false) : setIsUnder(true);
     document.execCommand('underline', false, null);
   };
 
@@ -137,15 +148,27 @@ const TextEditor = ({ onChange, fontFamily }) => {
           <S.ToolBarIcons>
             <S.ToolBarIcon
               src={boldIcon}
+              onTouchEnd={handleBoldClick}
               onClick={handleBoldClick}
+              style={{
+                backgroundColor: isBold ? `${COLORS.GRAY_300}` : ``,
+              }}
             ></S.ToolBarIcon>
             <S.ToolBarIcon
               src={italicIcon}
+              onTouchEnd={handleItalicClick}
               onClick={handleItalicClick}
+              style={{
+                backgroundColor: isItalic ? `${COLORS.GRAY_300}` : ``,
+              }}
             ></S.ToolBarIcon>
             <S.ToolBarIcon
               src={underLineIcon}
+              onTouchEnd={handleUnderlineClick}
               onClick={handleUnderlineClick}
+              style={{
+                backgroundColor: isUnder ? `${COLORS.GRAY_300}` : ``,
+              }}
             ></S.ToolBarIcon>
           </S.ToolBarIcons>
           <S.ToolBarIcons>
