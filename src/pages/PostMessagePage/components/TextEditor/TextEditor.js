@@ -1,15 +1,15 @@
 import React, { useRef, useState } from 'react';
 import './TextEditor.css';
 import * as S from './TextEditor.style';
-import colorIcon from './asset/textEditor/color.png';
-import centerIcon from './asset/textEditor/center.png';
-import leftIcon from './asset/textEditor/left.png';
-import rightIcon from './asset/textEditor/right.png';
-import boldIcon from './asset/textEditor/bold.png';
-import italicIcon from './asset/textEditor/italic.png';
-import underLineIcon from './asset/textEditor/underline.png';
-import bulletDotIcon from './asset/textEditor/bulletDot.png';
-import bulletNumberIcon from './asset/textEditor/bulletNumber.png';
+import colorIcon from '../../../../assets/textEditor/color.png';
+import centerIcon from '../../../../assets/textEditor/center.png';
+import leftIcon from '../../../../assets/textEditor/left.png';
+import rightIcon from '../../../../assets/textEditor/right.png';
+import boldIcon from '../../../../assets/textEditor/bold.png';
+import italicIcon from '../../../../assets/textEditor/italic.png';
+import underLineIcon from '../../../../assets/textEditor/underline.png';
+import bulletDotIcon from '../../../../assets/textEditor/bulletDot.png';
+import bulletNumberIcon from '../../../../assets/textEditor/bulletNumber.png';
 
 const TextEditor = ({ onChange, fontFamily }) => {
   const editorRef = useRef(null);
