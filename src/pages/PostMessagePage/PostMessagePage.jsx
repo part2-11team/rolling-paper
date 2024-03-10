@@ -124,12 +124,12 @@ export const PostMessagePage = () => {
   };
 
   useEffect(() => {
-    if (isName === false && editorTextContent.trim() !== '') {
+    if (name.trim() !== '' && editorTextContent.trim() !== '') {
       setPassValue(true);
     } else {
       setPassValue(false);
     }
-  }, [isName, editorTextContent]);
+  }, [name, editorTextContent]);
 
   useEffect(() => {
     const loadingImageUrls = async () => {
