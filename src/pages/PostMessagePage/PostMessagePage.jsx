@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './PostMessagePage.style.js';
-import arrowDownIcon from '../../assets/icon/arrow_down.png';
-import arrowUpIcon from '../../assets/icon/arrow_top.png';
 import TextEditor from './components/TextEditor/TextEditor.jsx';
 import { COLORS } from '../../style/colorPalette.js';
 import Header from '../../components/Common/Header/Header.jsx';
@@ -19,10 +17,9 @@ import sampleImg9 from '../../assets/images-message/9.jpg';
 import sampleImg10 from '../../assets/images-message/10.jpg';
 import { TextForm } from '../../components/Common/TextForm/TextForm.jsx';
 import { getImgUrl, getProfileImages, postMessage } from '../../API.js';
+import Dropdown from './components/Dropdown/Dropdown.jsx';
 
 export const PostMessagePage = () => {
-  const [isOpenRelation, setIsOpen] = useState(false);
-  const [isOpenFont, setIsOpenFont] = useState(false);
   const [isName, setIsName] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
@@ -87,22 +84,12 @@ export const PostMessagePage = () => {
     }
   };
 
-  const handleToggleDropdown = () => {
-    setIsOpen(!isOpenRelation); // 드롭다운 열고 닫기 토글
-  };
-
-  const handleFontToggleDropdown = () => {
-    setIsOpenFont(!isOpenFont); // 드롭다운 열고 닫기 토글
-  };
-
   const handleSelectRelation = (relation) => {
     setSelectedRelationOption(relation);
-    setIsOpen(false); // 드롭다운 닫기
   };
 
   const handleSelectFont = (font) => {
     setSelectedFontOption(font);
-    setIsOpenFont(false); // 드롭다운 닫기
   };
 
   const handleSendData = async () => {
@@ -217,25 +204,11 @@ export const PostMessagePage = () => {
             <S.PostMessageContentHeader>
               상대와의 관계
             </S.PostMessageContentHeader>
-            <S.PostMessageDropdownList onClick={handleToggleDropdown}>
-              <S.DropdownIcon
-                src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
-              />
-
-              <S.PostMessageDropdownListButton>
-                {selectedRelationOption}
-              </S.PostMessageDropdownListButton>
-              <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
-                {dropdownRelationOptions.map((DropOption) => (
-                  <S.DropdownListContentOption
-                    key={DropOption.value}
-                    onClick={() => handleSelectRelation(DropOption.value)}
-                  >
-                    {DropOption.label}
-                  </S.DropdownListContentOption>
-                ))}
-              </S.PostMessageDropdownListContent>
-            </S.PostMessageDropdownList>
+            <Dropdown
+              options={dropdownRelationOptions}
+              onSelect={handleSelectRelation}
+              defult="지인"
+            />
           </S.PostMessageContent>
 
           <S.PostMessageContent>
@@ -252,23 +225,11 @@ export const PostMessagePage = () => {
           <S.PostMessageContent>
             <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
 
-            <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
-              <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
-
-              <S.PostMessageDropdownListButton>
-                {selectedFontOption}
-              </S.PostMessageDropdownListButton>
-              <S.PostMessageDropdownListContent isOpen={isOpenFont}>
-                {dropdownFontOptions.map((DropOption) => (
-                  <S.DropdownListContentOption
-                    key={DropOption.value}
-                    onClick={() => handleSelectFont(DropOption.value)}
-                  >
-                    {DropOption.label}
-                  </S.DropdownListContentOption>
-                ))}
-              </S.PostMessageDropdownListContent>
-            </S.PostMessageDropdownList>
+            <Dropdown
+              options={dropdownFontOptions}
+              onSelect={handleSelectFont}
+              defult="Noto Sans"
+            />
           </S.PostMessageContent>
         </S.PostMessageContainer>
         <S.SubmitButtonWrapper>
