@@ -32,6 +32,9 @@ export const ToastIcon = styled.img`
   width: 24px;
   height: 24px;
   ${({ $close }) => $close && 'cursor: pointer'};
+  &:hover {
+    filter: brightness(130%);
+  }
 `;
 
 export const ToastText = styled.p`

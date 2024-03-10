@@ -24,7 +24,7 @@ export default function PostIDPage() {
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#ffffff',
     backgroundImageURL: null,
     recentMessages: [],
     messageCount: 0,
@@ -121,7 +121,7 @@ export default function PostIDPage() {
   const scrollToTop = () => {
     updateScrollTop();
   };
-  //get UserData initial loading
+  //get UserData 초기 로딩
   useEffect(() => {
     getUserData(userID);
   }, []);
