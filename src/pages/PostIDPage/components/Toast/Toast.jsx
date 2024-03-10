@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import * as S from './Toast.style';
-import close from '../../../../assets/icon/close.svg';
-import completed from '../../../../assets/icon/completed.svg';
-import warning from '../../../../assets/icon/warning.svg';
-import { setTimer } from '../../../../assets/utils/setTimer';
+import close from 'assets/icon/close.svg';
+import completed from 'assets/icon/completed.svg';
+import warning from 'assets/icon/warning.svg';
+import { setTimer } from 'assets/utils/setTimer';
 
 export const Toast = ({
   type,

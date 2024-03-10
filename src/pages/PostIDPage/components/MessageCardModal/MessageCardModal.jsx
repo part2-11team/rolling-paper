@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import * as S from './MessageCardModal.style';
-import { MessageCardHeader, PostIDContext, getFormattedDate } from './index';
-import { PurpleButton } from '../../../../components/Common/PurpleButton/PurpleButton';
+import { PurpleButton } from 'components/Common/PurpleButton/PurpleButton';
+import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
+import { PostIDContext } from 'context/PostIDContext';
+import { getFormattedDate } from 'assets/utils/getFormattedDate';
 
 export const MessageCardModal = () => {
   const { currentCardData: cardData, updateCurrentCardData } =

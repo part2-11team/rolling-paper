@@ -1,18 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
-import {
-  MessageCardModal,
-  MessageCardWrapper,
-  Scrollbar,
-  Toast,
-  Header,
-  SubHeader,
-} from './index';
-import { PostIDContext } from '../../context/PostIDContext';
-import { setScrollBarHeightPosition } from '../../assets/utils/setScrollBarHeightPosition';
-import { getRecipientData } from '../../API';
-import arrow_up from '../../assets/icon/arrow_up.svg';
+import { MessageCardWrapper } from './components/MessageCardWrapper/MessageCardWrapper';
+import { Scrollbar } from './components/Scrollbar/Scrollbar';
+import { MessageCardModal } from './components/MessageCardModal/MessageCardModal';
+import { Toast } from './components/Toast/Toast';
+import Header from 'components/Common/Header/Header';
+import SubHeader from 'components/SubHeader/SubHeader';
+import { PostIDContext } from 'context/PostIDContext';
+import { setScrollBarHeightPosition } from 'assets/utils/setScrollBarHeightPosition';
+import { getRecipientData } from 'API';
+import arrow_up from 'assets/icon/arrow_up.svg';
 
 export default function PostIDPage() {
   const { userID } = useParams();
