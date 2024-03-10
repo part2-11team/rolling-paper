@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { COLORS } from '../../../style/colorPalette';
+import { COLORS } from '../../../../../style/colorPalette';
 
 const BREAKPOINT_TABLET = 768;
 const BREAKPOINT_PC = 1200;

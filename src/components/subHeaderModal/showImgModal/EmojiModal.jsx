@@ -1,6 +1,6 @@
 ﻿import React, { useRef, useEffect } from 'react';
 import * as S from './EmojiModal.style';
-import Emoji from '../../Common/PaperListEmojiBadge';
+import Emoji from '../../Common/Badge/EmojiBadge';
 
 const EmojiModal = ({ setModalOpen, value }) => {
   const modalRef = useRef(null);
