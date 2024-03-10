@@ -3,7 +3,7 @@ import * as S from './SubHeader.style';
 import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
 import Share from '../../assets/icon/share-24.svg';
-import { getEmojiData, postEmoji } from './api';
+import { getEmojiData, postEmoji } from '../../API';
 import Emoji from '../Common/Badge/EmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
@@ -30,6 +30,7 @@ const SubHeader = ({ value }) => {
     const result = postEmojitoServer(value.userID, emoji);
     setResultPostEmoji(result);
     setPickerOpen(false);
+    getAllEmojiData(value.userID);
   };
 
   const postEmojitoServer = async (userID, emoji) => {
@@ -109,15 +110,15 @@ const SubHeader = ({ value }) => {
             <S.Service>
               <S.AddEmojiButton onClick={showEmojiPicker}>
                 <S.EmojiImage src={AddEmoji} />
-                추가
+                <S.AddEmojiText>추가</S.AddEmojiText>
               </S.AddEmojiButton>
               {pickerOpen && (
                 <S.EmojiWapper ref={pickerRef}>
                   <EmojiPicker
                     onEmojiClick={handleEmojiSelect}
                     style={{
-                      width: '100%',
                       zIndex: '999',
+                      width: window.innerWidth <= 786 ? '90%' : '100%',
                     }}
                   />
                 </S.EmojiWapper>
