@@ -131,7 +131,10 @@ const SubHeader = ({ value }) => {
                 <KakaoModal
                   setKakaoOpen={setKakaoOpen}
                   setToastOpen={value.updateToastvisible}
-                  value={value.userID}
+                  value={{
+                    userId: value.userID,
+                    userName: value.userData.name,
+                  }}
                   toastUpdate={value.toastUpdate}
                 />
               )}
