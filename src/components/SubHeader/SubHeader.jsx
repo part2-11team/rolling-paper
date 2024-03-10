@@ -118,7 +118,7 @@ const SubHeader = ({ value }) => {
                     onEmojiClick={handleEmojiSelect}
                     style={{
                       zIndex: '999',
-                      width: window.innerWidth <= 786 ? '90%' : '100%',
+                      width: window.innerWidth <= 890 ? '250px' : '30vw',
                     }}
                   />
                 </S.EmojiWapper>
