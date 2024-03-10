@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import PaperCard from './components/PaperCard';
 import ArrowButton from './components/ArrowButton/ArrowButton';
 import PaperListSkeleton from './components/Skeleton/PaperListSkeleton';
-import Header from '../../components/Common/Header/Header';
-import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton';
-import getRecipientData from '../../API';
+import Header from 'components/Common/Header/Header';
+import { PurpleButton } from 'components/Common/PurpleButton/PurpleButton';
+import getRecipientData from 'API';
 
 const PaperListPage = () => {
   const {
