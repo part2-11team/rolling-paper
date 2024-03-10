@@ -132,7 +132,8 @@ const SubHeader = ({ value }) => {
                   setKakaoOpen={setKakaoOpen}
                   setToastOpen={value.updateToastvisible}
                   value={value.userID}
-                  toastUpdate={value.toastUpdate}
+                  updateToastvisible={value.updateToastvisible}
+                  handleToastUpdate={value.handleToastUpdate}
                 />
               )}
             </S.Service>

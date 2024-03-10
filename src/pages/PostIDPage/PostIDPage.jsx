@@ -17,7 +17,7 @@ import arrow_up from '../../assets/icon/arrow_up.svg';
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
-  const toastUpdate = useRef(false);
+  const [toastUpdate, setToastUpdate] = useState(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
@@ -33,6 +33,9 @@ export default function PostIDPage() {
     reactionCount: 0,
     topReactions: [],
   });
+  const handleToastUpdate = (value) => {
+    setToastUpdate(value);
+  };
   //currentCardData 변경 함수 -> MessageCardModal 컴포넌트에 어떤 내용을 담을 지 결정하는 함수
   const updateCurrentCardData = useCallback((cardData) => {
     setCurrentCardData(cardData);
@@ -161,14 +164,15 @@ export default function PostIDPage() {
               profileData,
               userID,
               updateToastvisible,
-              toastUpdate,
+              handleToastUpdate,
             }}
           />
           <Toast
             type="url"
+            toastUpdate={toastUpdate}
             toastVisible={toastVisible}
             updateToastvisible={updateToastvisible}
-            toastUpdate={toastUpdate}
+            handleToastUpdate={handleToastUpdate}
           ></Toast>
 
           <S.MessageWrapper

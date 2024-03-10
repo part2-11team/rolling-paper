@@ -3,7 +3,13 @@ import * as S from './KakaoModal.style';
 
 const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
 
-const KakaoModal = ({ setKakaoOpen, setToastOpen, value, toastUpdate }) => {
+const KakaoModal = ({
+  setKakaoOpen,
+  setToastOpen,
+  value,
+  updateToastvisible,
+  handleToastUpdate,
+}) => {
   const modalRef = useRef(null);
 
   const handleClickOutside = (event) => {
@@ -17,7 +23,8 @@ const KakaoModal = ({ setKakaoOpen, setToastOpen, value, toastUpdate }) => {
     navigator.clipboard.writeText(url);
     setKakaoOpen(false);
     setToastOpen(true);
-    toastUpdate.current = true;
+    updateToastvisible(true);
+    handleToastUpdate(true);
   };
 
   useEffect(() => {
