@@ -6,11 +6,11 @@ import {
   getMessageCardData,
   deleteMessageCardData,
   deleteRecipient,
-} from '../../API';
-import loadingIcon from '../../assets/icon/loading.svg';
+} from '../../../../API';
+import loadingIcon from '../../../../assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
 import { Toast } from '../Toast/Toast';
-import { PurpleButton } from '../Common/PurpleButton/PurpleButton';
+import { PurpleButton } from '../../../../components/Common/PurpleButton/PurpleButton';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 const options = {
@@ -18,73 +18,57 @@ const options = {
 };
 
 export const MessageCardWrapper = ({
+  userData,
   messageCardData,
   updateMessageCardData,
   updateCurrentCardData,
   setDataError,
   pageRef,
   decreaseCardCount,
+  updateCardCount,
 }) => {
   const { userID } = useParams();
-  const offset = useRef(0);
   const gridWrapperRef = useRef(null);
-  const timerRef = useRef(null);
-  const deleteTimerRef = useRef(null);
   const target = useRef(null);
   const deleteCount = useRef(0);
-  const messageCount = useRef(0);
   const toastUpdate = useRef(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState({ type: 'initial', status: true });
   const [toastVisible, setToastVisible] = useState(false);
-  const [initialLoading, setInitialLoading] = useState(true);
   const navigate = useNavigate();
 
   const updateToastvisible = useCallback((value) => {
     setToastVisible(value);
   }, []);
-  //update loading state to load data when reach the end of page
+  //페이지 마지막 부분에 도착했을 때 처리할 콜백 함수 -> loading 값을 업데이트하여 데이터를 load.
   const handleIntersectionObserver = (entry) => {
-    if (entry[0].isIntersecting && !initialLoading) {
-      setLoading(true);
-      offset.current = messageCardData.length;
+    if (entry[0].isIntersecting && !loading.status) {
+      setLoading((prevLoad) => ({ ...prevLoad, status: true }));
     }
   };
+  //현재 userID의 Recipient 데이터를 삭제하는 함수 -> 삭제 버튼을 눌렀을 때 동작.
   const deleteRecipientData = async () => {
     const { error } = await deleteRecipient(userID);
     if (error) {
       setDataError(error);
       return;
     }
-    //delete timer
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
-    if (deleteTimerRef.current) {
-      clearInterval(deleteTimerRef.current);
-    }
     alert('삭제되었습니다');
     navigate('/list');
   };
 
-  //load cardData at initial rendering
+  //처음 페이지가 렌더링될 때 메세지 카드 데이터를 불러오는 함수 -> 11개의 데이터만 가져옴
   const initialGetCardData = async (limit = null, offset = null) => {
-    const { data, count, error } = await getMessageCardData(
-      userID,
-      limit,
-      offset,
-    );
+    const { data, error } = await getMessageCardData(userID, limit, offset);
     if (!error) {
       updateMessageCardData([...data]);
-      messageCount.current = count;
     } else {
       if (error) {
         setDataError(error);
       }
     }
-    setLoading(false);
-    setInitialLoading(false);
+    setLoading({ type: 'default', status: false });
   };
-  //load additional cardData when reach the end of page
+  //첫 렌더링 이후 스크롤을 통해서 추가적으로 메세지 카드 데이터를 불러오는 함수 -> 메세지 카드가 추가적으로 생성된 경우, 성성된 데이터를 함께 가져오고, 메세지카드를 이전에 삭제했을 경우 삭제한 개수만큼 추가적으로 가져옴.
   const getCardData = async (limit = null, offset = null) => {
     const {
       data,
@@ -95,8 +79,8 @@ export const MessageCardWrapper = ({
       setDataError(error);
       return;
     }
-    if (newMessageCount > messageCount.current) {
-      const updateCount = newMessageCount - messageCount.current;
+    if (newMessageCount > userData.messageCount) {
+      const updateCount = newMessageCount - userData.messageCount;
       const { data: updateData, error: updateError } = await getMessageCardData(
         userID,
         updateCount,
@@ -106,10 +90,13 @@ export const MessageCardWrapper = ({
         setDataError(updateError);
         return;
       }
-      updateMessageCardData((prevCardData) => [...updateData, ...prevCardData]);
-      messageCount.current = newMessageCount;
+      updateCardCount(newMessageCount);
       const restData = data.slice(updateCount);
-      updateMessageCardData((prevCardData) => [...prevCardData, ...restData]);
+      updateMessageCardData((prevCardData) => [
+        ...updateData,
+        ...prevCardData,
+        ...restData,
+      ]);
     } else {
       updateMessageCardData((prevCardData) => [...prevCardData, ...data]);
     }
@@ -123,32 +110,30 @@ export const MessageCardWrapper = ({
     deleteCount.current = 0;
   };
 
-  //delete card data(for each message card component)
+  //메세지카드 삭제함수 -> messageCard 컴포넌트에 전달
   const deleteCardData = useCallback(async (cardID) => {
     const { error } = await deleteMessageCardData(cardID);
     if (error) {
       setDataError(error);
     } else {
-      offset.current -= 1;
       deleteCount.current = (deleteCount.current + 1) % 3;
       updateMessageCardData((prevCardData) =>
         prevCardData.filter((cardData) => cardData.id !== cardID),
       );
-      messageCount.current -= 1;
+      decreaseCardCount();
     }
-    decreaseCardCount();
   }, []);
-  //data load function, loaded loading Icon
+  //로딩 아이콘이 다 load된 후 데이터를 불러오는 함수
   const dataLoad = () => {
     if (loading) {
-      if (initialLoading) {
-        initialGetCardData(INITIAL_PAGE_LOADING, offset.current);
+      if (loading.type === 'initial') {
+        initialGetCardData(INITIAL_PAGE_LOADING, messageCardData.length);
       } else {
-        getCardData(PAGE_LOADING + deleteCount.current, offset.current);
+        getCardData(PAGE_LOADING + deleteCount.current, messageCardData.length);
       }
     }
   };
-  //regist intersectionObserver to check reaching theend of page
+  //intersectionObserver 등록 -> 페이지가 마지막 부분(target)에 닿았는지를 확인
   useEffect(() => {
     const observer = new IntersectionObserver(
       handleIntersectionObserver,
@@ -170,9 +155,7 @@ export const MessageCardWrapper = ({
         </PurpleButton>
       </S.ButtonWrapper>
       <S.GridWrapper ref={gridWrapperRef}>
-        {!initialLoading && (
-          <AddMessageCard timerRef={timerRef} deleteTimerRef={deleteTimerRef} />
-        )}
+        <AddMessageCard />
         {messageCardData.map((cardData, index) => (
           <MessageCard
             cardData={cardData}
@@ -182,11 +165,11 @@ export const MessageCardWrapper = ({
           />
         ))}
       </S.GridWrapper>
-      {loading ? (
+      {loading.status ? (
         <S.LoadingIcon
           src={loadingIcon}
           alt="loading"
-          $initialLoading={initialLoading}
+          $loadingType={loading.type}
           onLoad={dataLoad}
         />
       ) : (
@@ -197,8 +180,6 @@ export const MessageCardWrapper = ({
         toastVisible={toastVisible}
         updateToastvisible={updateToastvisible}
         toastUpdate={toastUpdate}
-        timerRef={timerRef}
-        deleteTimerRef={deleteTimerRef}
       ></Toast>
     </S.Wrpaper>
   );

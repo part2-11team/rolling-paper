@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getQueryURL } from './assets/utils/getQueryURL';
 import useRequest from './useRequest';
 
 const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
@@ -8,18 +9,7 @@ export const getMessageCardData = async (
   limit = null,
   offset = null,
 ) => {
-  let queryURL = '';
-  if (limit || offset) {
-    queryURL += '?';
-    if (limit) {
-      queryURL += `limit=${limit}`;
-      if (offset) {
-        queryURL += `&offset=${offset}`;
-      }
-    } else {
-      queryURL += `offset=${offset}`;
-    }
-  }
+  const queryURL = getQueryURL(limit, offset);
   try {
     const response = await axios.get(
       `${BASE_URL}recipients/${userID}/messages/${queryURL}`,

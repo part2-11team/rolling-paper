@@ -1,19 +1,19 @@
 import React, { useRef } from 'react';
 import * as S from './Toast.style';
-import close from '../../assets/icon/close.svg';
-import completed from '../../assets/icon/completed.svg';
-import warning from '../../assets/icon/warning.svg';
+import close from '../../../../assets/icon/close.svg';
+import completed from '../../../../assets/icon/completed.svg';
+import warning from '../../../../assets/icon/warning.svg';
 
 export const Toast = ({
   type,
   toastVisible,
   updateToastvisible,
   toastUpdate,
-  timerRef,
-  deleteTimerRef,
 }) => {
   const wrapperRef = useRef(null);
-
+  const timerRef = useRef(null);
+  const deleteTimerRef = useRef(null);
+  //toast x버튼을 눌렀을 때 실행하는 함수 -> 0ms부터 50ms까지 투명도 감소 및 종류에 따른 위치 업데이트 후 타이머 제거
   const handleClickCloseButton = () => {
     clearInterval(timerRef.current);
     timerRef.current = null;
@@ -22,7 +22,11 @@ export const Toast = ({
       if (time === 0) {
         deleteTimerRef.current = toastTimer;
       }
-      if (time === 50 || !wrapperRef.current || wrapperRef.current.style.opacity === 0) {
+      if (
+        time === 50 ||
+        !wrapperRef.current ||
+        wrapperRef.current.style.opacity === 0
+      ) {
         clearInterval(toastTimer);
         deleteTimerRef.current = null;
         updateToastvisible(false);
@@ -42,7 +46,7 @@ export const Toast = ({
       time += 1;
     }, 10);
   };
-
+  //toast가 생성(애니메이션)되는 부분 -> 0ms 부터 500ms까지 투명도가 증가하고 종류에 따라서 위치를 이동시킨 후, 4500ms부터 5000ms까지 투명도가 감소하고 위치를 이동시킨 후 타이머를 삭제하는 코드
   if (toastVisible && toastUpdate.current) {
     let time = 0;
     if (timerRef.current) {

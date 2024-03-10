@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import * as S from './Scrollbar.style';
-import { setScrollBarHeightPosition } from '../../assets/utils/setScrollBarHeightPosition';
 
 export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
   const scrollThumbRef = useRef(null);
@@ -8,13 +7,14 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
   const startScrollHeight = useRef(0);
   const drag = useRef(false);
 
-  //drag scrollbar
+  //스크롤바 드래그 함수 -> drag상태 업데이트 및 색상 변경
   const handleMouseDownScroll = (e) => {
     scrollbarStartY.current = e.clientY;
     startScrollHeight.current = pageRef.current.scrollTop;
     drag.current = true;
     scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
   };
+  //드래그상태에서 마우스를 움직이고 놓았을 때 처리할 함수 등록 -> 움직인 위치를 계산하여 스크롤바 위치 업데이트(드래그 위치가 화면 전체에 적용하기 위한 함수)
   useEffect(() => {
     const handleMouseMoveScroll = (e) => {
       if (drag.current) {
@@ -37,22 +37,6 @@ export const Scrollbar = ({ pageRef, scrollWrapperRef }) => {
       document.removeEventListener('mouseup', handleMouseUpScroll);
     };
   }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScrollBarHeightPosition(pageRef, scrollWrapperRef);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    drag.current = false;
-    if (scrollWrapperRef.current) {
-      scrollThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
-    }
-  }, [scrollWrapperRef.current && scrollWrapperRef.current.style.height]);
 
   return (
     <S.ScrollbarTrack>

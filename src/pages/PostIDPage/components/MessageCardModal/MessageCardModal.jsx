@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import * as S from './MessageCardModal.style';
 import { MessageCardHeader, PostIDContext, getFormattedDate } from './index';
-import { PurpleButton } from '../Common/PurpleButton/PurpleButton';
+import { PurpleButton } from '../../../../components/Common/PurpleButton/PurpleButton';
 
 export const MessageCardModal = () => {
   const { currentCardData: cardData, updateCurrentCardData } =
     useContext(PostIDContext);
+  // currentCardData를 빈 값으로 교체하는 함수-> 확인 버튼을 눌렀을 때 모달 컴포넌트가 사라지도록 하기 위한 함수
   const handleModalButton = () => {
     updateCurrentCardData({ id: null });
   };

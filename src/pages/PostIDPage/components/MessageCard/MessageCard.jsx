@@ -8,9 +8,11 @@ export const MessageCard = React.memo(
     const cardRef = useRef(null);
     const [isHover, setIsHover] = useState(false);
     const formattedDate = getFormattedDate(cardData.createdAt);
+    //currentCardData 변경 함수 -> 카드를 클릭했을 때 현재 클릭한 카드데이터를 넣기 위해 사용
     const ChangeCurrentCardData = () => {
       updateCurrentCardData(cardData);
     };
+    //메세지 카드 삭제 함수 -> 삭제 버튼을 눌렀을 때 클릭한 카드데이터를 삭제하기 위해 사용
     const deleteMessageCard = (e) => {
       e.stopPropagation();
       deleteCardData(cardData.id);
@@ -29,11 +31,11 @@ export const MessageCard = React.memo(
         </S.DeleteButton>
       );
     };
-
+    //삭제 아이콘이 사라지기 위한 함수 -> 마우스가 해당 카드 밖으로 나갔을 때 사용
     const handleMouseOutCard = () => {
       setIsHover(false);
     };
-
+    //삭제 아이콘이 보이도록 하는 함수 -> 마우스가 해당 카드 안으로 들어왔을 때 사용
     const handleMouseEnterCard = () => {
       setIsHover(true);
     };
