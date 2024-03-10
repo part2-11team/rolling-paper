@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { getQueryURL } from './assets/utils/getQueryURL';
+import useRequest from './useRequest';
 
 const BASE_URL = `https://rolling-api.vercel.app`;
 
@@ -13,18 +15,7 @@ export const getMessageCardData = async (
   limit = null,
   offset = null,
 ) => {
-  let queryURL = '';
-  if (limit || offset) {
-    queryURL += '?';
-    if (limit) {
-      queryURL += `limit=${limit}`;
-      if (offset) {
-        queryURL += `&offset=${offset}`;
-      }
-    } else {
-      queryURL += `offset=${offset}`;
-    }
-  }
+  const queryURL = getQueryURL(limit, offset);
   try {
     const response = await axios.get(
       `${BASE_URL}/${BASE_ID}/recipients/${userID}/messages/${queryURL}`,
@@ -83,6 +74,83 @@ export const deleteRecipient = async (userID) => {
   }
 };
 
+// --- List Page ---
+
+function getRecipientsData() {
+  const { data: getRecentPaperData, isLoading: isLoadingRecent } = useRequest({
+    options: {
+      url: 'recipients/',
+      method: 'get',
+    },
+  });
+
+  const { data: getPopularPaperData, isLoading: isLoadingPopular } = useRequest(
+    {
+      options: {
+        url: 'recipients/',
+        method: 'get',
+        params: {
+          sort: 'like',
+        },
+      },
+    },
+  );
+  return {
+    getPopularPaperData,
+    isLoadingPopular,
+    getRecentPaperData,
+    isLoadingRecent,
+  };
+}
+export default getRecipientsData;
+
+// --- subheader
+export const getEmojiData = async (userID) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}recipients/${userID}/reactions/`,
+    );
+    const { results } = response.data;
+
+    return {
+      results,
+      error: null,
+    };
+  } catch (error) {
+    return { error: error };
+  }
+};
+
+export const postEmoji = async (userID, emoji) => {
+  try {
+    const data = {
+      emoji: emoji,
+      type: 'increase',
+    };
+    const response = await axios.post(
+      `${BASE_URL}recipients/${userID}/reactions/`,
+      data,
+    );
+    return response;
+  } catch (error) {
+    return { error: error };
+  }
+};
+
+// --- postMessage
+export const getImgUrl = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    const response = await axios.post(IMGGUT_URL, formData, {
+      headers: {
+        Authorization: `Client-ID ${CLIENT_ID}`,
+      },
+    });
+    return response.data.data.link;
+  } catch (error) {
+    return;
+
 export const getProfileImages = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/profile-images/`);
@@ -97,22 +165,7 @@ export const postMessage = async (data) => {
   try {
     const response = await axios.post(url, data);
     return { success: true, data: response.data };
-  } catch (error) {
+      } catch (error) {
     return { error: error };
-  }
-};
-
-export const getImgUrl = async (file) => {
-  try {
-    const formData = new FormData();
-    formData.append('image', file);
-    const response = await axios.post(IMGGUT_URL, formData, {
-      headers: {
-        Authorization: `Client-ID ${CLIENT_ID}`,
-      },
-    });
-    return response.data.data.link;
-  } catch (error) {
-    return;
   }
 };

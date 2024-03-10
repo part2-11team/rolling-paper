@@ -17,16 +17,12 @@ import arrow_up from '../../assets/icon/arrow_up.svg';
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
-  const timerRef = useRef(null);
-  const deleteTimerRef = useRef(null);
   const toastUpdate = useRef(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
   const [toastVisible, setToastVisible] = useState(false);
-  const [scrollVisible, setScrollVisible] = useState(false);
   const [messageCardData, setMessageCardData] = useState([]);
-  const [pageBackgroundLoad, setPageBackgroundLoad] = useState(true);
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
@@ -37,23 +33,23 @@ export default function PostIDPage() {
     reactionCount: 0,
     topReactions: [],
   });
-  //update currentData when click message card or delete button to determine viewing modal component.
+  //currentCardData 변경 함수 -> MessageCardModal 컴포넌트에 어떤 내용을 담을 지 결정하는 함수
   const updateCurrentCardData = useCallback((cardData) => {
     setCurrentCardData(cardData);
   }, []);
 
-  //update toastVisible state for invisible.
+  //toastVisible 변경 함수 -> Toast 컴포넌트 렌더링 결정하는 함수
   const updateToastvisible = useCallback((value) => {
     setToastVisible(value);
   }, []);
 
-  // update currentData when click other part, viewing modal.
+  // currentCardData의 값을 null로 변경하는 함수 -> Modal 컴포넌트를 사라지게 하는 함수
   const focusOutModal = (e) => {
     e.stopPropagation();
     setCurrentCardData({ id: null });
   };
 
-  //update userdata for header, background image
+  //api 함수를 통해서 userData(Recipient)를 얻는 함수
   const getUserData = async (userID) => {
     const {
       name,
@@ -85,38 +81,32 @@ export default function PostIDPage() {
       reactionCount,
       topReactions,
     });
-    const img = new Image();
-    img.src = backgroundImageURL;
-    img.onload = () => {
-      setPageBackgroundLoad(false);
-    };
-    return () => {
-      img.onload = null;
-    };
   };
 
-  //update scrollbar position when scroll page
+  //스크롤이벤트 발생했을 때 스크롤바 상태(스크롤바 크기 및 위치)를 업데이트 하는 함수
   const updateScrollbarPosition = () => {
     setScrollBarHeightPosition(pageRef, scrollWrapperRef);
-    if (pageRef.current.scrollTop > 0 && !scrollVisible) {
-      setScrollVisible(true);
-    } else if (pageRef.current.scrollTop === 0) {
-      setScrollVisible(false);
-    }
   };
-
+  //사용자의 전체 메세지 카드 개수를 감소시키는 함수 -> 삭제버튼을 통해서 메세지가 삭제되었을 때 사용
   const decreaseCardCount = () => {
     setUserData((prevUser) => ({
       ...prevUser,
       messageCount: prevUser.messageCount - 1,
     }));
   };
-
+  //사용자의 전체 메세지 카드 개수를 변화시키는 함수 -> 메세지가 새로 추가되었을 경우(메세지를 스크롤을 통해 로드될 때) 사용
+  const updateCardCount = (value) => {
+    setUserData((prevUser) => ({
+      ...prevUser,
+      messageCount: value,
+    }));
+  };
+  //메세지카드 업데이트 함수 -> 메세지 스크롤 로딩되었을 때 사용
   const updateMessageCardData = (value) => {
     setMessageCardData(value);
   };
 
-  //scroll up button event
+  //페이지를 최상단으로 이동시키기 위한 애니메이션 함수
   const updateScrollTop = () => {
     const position = pageRef.current.scrollTop;
     if (position) {
@@ -126,7 +116,7 @@ export default function PostIDPage() {
       });
     }
   };
-
+  //스크롤을 최상단으로 이동시키는 함수 -> 스크롤 최상단 이동 버튼을 눌렀을 때 사용
   const scrollToTop = () => {
     updateScrollTop();
   };
@@ -135,16 +125,12 @@ export default function PostIDPage() {
     getUserData(userID);
   }, []);
 
-  //set scrollbar position, height when load new message data
+  //메세지 카드 데이터가 변경되었을 때, 전체 페이지 크기가 변경되므로, 스크롤바 업데이트 필요
   useEffect(() => {
-    const pageFullHeight = pageRef.current.scrollHeight;
-    const pageviewHeight = pageRef.current.clientHeight;
-    if (pageFullHeight - pageviewHeight > 0) {
-      setScrollBarHeightPosition(pageRef, scrollWrapperRef);
-    }
+    setScrollBarHeightPosition(pageRef, scrollWrapperRef);
   }, [messageCardData]);
 
-  //update scrollbar position, height when page resize
+  //페이지 크기를 변경시켰을 때마다 스크롤바 업데이트 필요
   useEffect(() => {
     const handleResize = () => {
       setScrollBarHeightPosition(pageRef, scrollWrapperRef);
@@ -183,22 +169,21 @@ export default function PostIDPage() {
             toastVisible={toastVisible}
             updateToastvisible={updateToastvisible}
             toastUpdate={toastUpdate}
-            timerRef={timerRef}
-            deleteTimerRef={deleteTimerRef}
           ></Toast>
 
           <S.MessageWrapper
             $color={userData.backgroundColor}
             $url={userData.backgroundImageURL}
-            $load={pageBackgroundLoad}
           >
             <MessageCardWrapper
+              userData={userData}
               messageCardData={messageCardData}
               updateMessageCardData={updateMessageCardData}
               updateCurrentCardData={updateCurrentCardData}
               setDataError={setDataError}
               pageRef={pageRef}
               decreaseCardCount={decreaseCardCount}
+              updateCardCount={updateCardCount}
             ></MessageCardWrapper>
           </S.MessageWrapper>
           <Scrollbar
@@ -211,15 +196,13 @@ export default function PostIDPage() {
           >
             <MessageCardModal />
           </S.ModalBackground>
-          {scrollVisible && (
-            <S.UpperImageIcon
-              src={arrow_up}
-              alt="arrow"
-              width={35}
-              height={35}
-              onClick={scrollToTop}
-            ></S.UpperImageIcon>
-          )}
+          <S.UpperImageIcon
+            src={arrow_up}
+            alt="arrow"
+            width={35}
+            height={35}
+            onClick={scrollToTop}
+          ></S.UpperImageIcon>
         </S.PageWrapper>
       )}
     </PostIDContext.Provider>
