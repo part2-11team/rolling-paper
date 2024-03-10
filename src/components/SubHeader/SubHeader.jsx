@@ -3,7 +3,7 @@ import * as S from './SubHeader.style';
 import AllEmoji from '../../assets/icon/arrow_down.svg';
 import AddEmoji from '../../assets/icon/add-24.svg';
 import Share from '../../assets/icon/share-24.svg';
-import { getEmojiData, postEmoji } from './api';
+import { getEmojiData, postEmoji } from '../../API';
 import Emoji from '../Common/Badge/EmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
