@@ -10,7 +10,7 @@ import {
 import loadingIcon from 'assets/icon/loading.svg';
 import { MessageCard } from '../MessageCard/MessageCard';
 import { Toast } from '../Toast/Toast';
-import { PurpleButton } from 'components/Common/PurpleButton/PurpleButton';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton';
 const PAGE_LOADING = 12;
 const INITIAL_PAGE_LOADING = 11;
 const options = {

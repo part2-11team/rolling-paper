@@ -1,6 +1,6 @@
 ﻿import styled from 'styled-components';
-import { COLORS } from '../../../../style/colorPalette';
-import { FONT_STYLE } from '../../../../style/fontStyle';
+import { COLORS } from 'style/colorPalette';
+import { FONT_STYLE } from 'style/fontStyle';
 
 export const HeaderButton = styled.button`
   display: flex;

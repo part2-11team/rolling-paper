@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import * as S from './PaperListPage.style';
 import { Link } from 'react-router-dom';
-import PaperCard from './components/PaperCard';
+import PaperCard from './components/PaperCard/PaperCard';
 import ArrowButton from './components/ArrowButton/ArrowButton';
 import PaperListSkeleton from './components/Skeleton/PaperListSkeleton';
-import Header from 'components/Common/Header/Header';
-import { PurpleButton } from 'components/Common/PurpleButton/PurpleButton';
+import Header from 'components/Header/Header';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton';
 import getRecipientData from 'API';
 
 const PaperListPage = () => {

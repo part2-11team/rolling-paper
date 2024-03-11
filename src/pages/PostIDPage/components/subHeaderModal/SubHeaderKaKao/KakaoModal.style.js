@@ -1,5 +1,5 @@
 ﻿import styled from 'styled-components';
-import { COLORS } from '../../../style/colorPalette';
+import { COLORS } from 'style/colorPalette';
 
 export const ModalWrap = styled.div`
   display: flex;
@@ -9,20 +9,20 @@ export const ModalWrap = styled.div`
   top: 50px;
   z-index: 999;
   padding: 24px;
-  width: 140%;
+  width: 100%;
   gap: 10px;
   background: ${COLORS.WHITE};
   border-radius: 8px;
   border: 1px solid #b6b6b6;
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
 `;
-
-export const closeButton = styled.button``;
-
-export const emojiWrap = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
+export const ShareButton = styled.button`
+  display: flex;
+  width: 138px;
+  padding: 12px 16px;
+  align-items: center;
   gap: 10px;
+  &:hover {
+    background-color: ${COLORS.GRAY_200}; /* 호버 시 배경색을 gray로 변경 */
+  }
 `;

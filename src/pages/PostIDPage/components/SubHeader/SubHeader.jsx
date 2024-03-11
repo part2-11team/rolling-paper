@@ -1,14 +1,14 @@
 ﻿import React, { useEffect, useState, useRef } from 'react';
 import * as S from './SubHeader.style';
-import AllEmoji from '../../assets/icon/arrow_down.svg';
-import AddEmoji from '../../assets/icon/add-24.svg';
-import Share from '../../assets/icon/share-24.svg';
-import { getEmojiData, postEmoji } from '../../API';
-import Emoji from '../Common/Badge/EmojiBadge';
+import AllEmoji from 'assets/icon/arrow_down.svg';
+import AddEmoji from 'assets/icon/add-24.svg';
+import Share from 'assets/icon/share-24.svg';
+import { getEmojiData, postEmoji } from 'API';
+import PaperListEmojiBadge from 'components/Badge/EmojiBadge/PaperListEmojiBadge';
 import EmojiModal from '../subHeaderModal/showImgModal/EmojiModal';
 import EmojiPicker from 'emoji-picker-react';
 import KakaoModal from '../subHeaderModal/SubHeaderKaKao/KakaoModal';
-import FromBadge from '../Common/Badge/FromBadge';
+import PaperListFromBadge from 'components/Badge/FromBadge/PaperListFromBadge';
 
 const SubHeader = ({ value }) => {
   const [emojiData, setEmojiData] = useState([]);
@@ -75,7 +75,7 @@ const SubHeader = ({ value }) => {
         <S.UserInfo>
           <S.PaperCnt>
             <S.ProfileCnt>
-              <FromBadge
+              <PaperListFromBadge
                 imgUrls={value.profileData}
                 count={value.userData.messageCount}
               />
@@ -93,7 +93,7 @@ const SubHeader = ({ value }) => {
                   emojiData
                     .slice(0, 3)
                     .map((reaction) => (
-                      <Emoji
+                      <PaperListEmojiBadge
                         key={reaction.id}
                         emoji={reaction.emoji}
                         count={reaction.count}

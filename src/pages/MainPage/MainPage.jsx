@@ -5,8 +5,8 @@ import Card1 from 'assets/icon/card-img1.png';
 import Card2 from 'assets/icon/card-img2.png';
 import Card3 from 'assets/icon/card-img3.png';
 import Emoji from 'assets/icon/Emoji.png';
-import Header from 'components/Common/Header/Header.jsx';
-import { PurpleButton } from 'components/Common/PurpleButton/PurpleButton.jsx';
+import Header from 'components/Header/Header.jsx';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
 
 const MainPage = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../../../assets/icon/logo.svg';
+import logo from 'assets/icon/logo.svg';
 import * as Style from './LogoButton.style.js';
 
 const HeaderButton = ({ to }) => {

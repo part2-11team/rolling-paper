@@ -5,8 +5,8 @@ import { MessageCardWrapper } from './components/MessageCardWrapper/MessageCardW
 import { Scrollbar } from './components/Scrollbar/Scrollbar';
 import { MessageCardModal } from './components/MessageCardModal/MessageCardModal';
 import { Toast } from './components/Toast/Toast';
-import Header from 'components/Common/Header/Header';
-import SubHeader from 'components/SubHeader/SubHeader';
+import Header from 'components/Header/Header';
+import SubHeader from './components/SubHeader/SubHeader';
 import { PostIDContext } from 'context/PostIDContext';
 import { setScrollBarHeightPosition } from 'assets/utils/setScrollBarHeightPosition';
 import { getRecipientData } from 'API';

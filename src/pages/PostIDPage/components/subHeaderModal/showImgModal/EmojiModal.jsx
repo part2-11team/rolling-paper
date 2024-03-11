@@ -1,6 +1,6 @@
 ﻿import React, { useRef, useEffect } from 'react';
 import * as S from './EmojiModal.style';
-import Emoji from '../../Common/Badge/EmojiBadge';
+import PaperListEmojiBadge from 'components/Badge/EmojiBadge/PaperListEmojiBadge';
 
 const EmojiModal = ({ setModalOpen, value }) => {
   const modalRef = useRef(null);
@@ -30,7 +30,7 @@ const EmojiModal = ({ setModalOpen, value }) => {
           value
             .slice(0, 8)
             .map((reaction) => (
-              <Emoji
+              <PaperListEmojiBadge
                 key={reaction.id}
                 emoji={reaction.emoji}
                 count={reaction.count}

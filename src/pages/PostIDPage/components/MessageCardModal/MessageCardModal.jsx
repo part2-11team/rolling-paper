@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import * as S from './MessageCardModal.style';
-import { PurpleButton } from 'components/Common/PurpleButton/PurpleButton';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton';
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
 import { PostIDContext } from 'context/PostIDContext';
 import { getFormattedDate } from 'assets/utils/getFormattedDate';
