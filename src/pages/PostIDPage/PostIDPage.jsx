@@ -15,11 +15,12 @@ import arrow_up from 'assets/icon/arrow_up.svg';
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
-  const [toastUpdate, setToastUpdate] = useState(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
-  const [profileData, setProfileData] = useState([]);
-  const [toastVisible, setToastVisible] = useState(false);
+  const [toastStatus, setToastStatus] = useState({
+    visible: false,
+    update: false,
+  });
   const [messageCardData, setMessageCardData] = useState([]);
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
@@ -32,7 +33,7 @@ export default function PostIDPage() {
     topReactions: [],
   });
   const handleToastUpdate = (value) => {
-    setToastUpdate(value);
+    setToastStatus((prev) => ({ ...prev, update: value }));
   };
   //currentCardData 변경 함수 -> MessageCardModal 컴포넌트에 어떤 내용을 담을 지 결정하는 함수
   const updateCurrentCardData = useCallback((cardData) => {
@@ -41,7 +42,7 @@ export default function PostIDPage() {
 
   //toastVisible 변경 함수 -> Toast 컴포넌트 렌더링 결정하는 함수
   const updateToastvisible = useCallback((value) => {
-    setToastVisible(value);
+    value;
   }, []);
 
   // currentCardData의 값을 null로 변경하는 함수 -> Modal 컴포넌트를 사라지게 하는 함수
@@ -72,7 +73,6 @@ export default function PostIDPage() {
       recentMessages?.[1]?.profileImageURL,
       recentMessages?.[2]?.profileImageURL,
     ];
-    setProfileData(url);
 
     setUserData({
       name,
@@ -81,6 +81,7 @@ export default function PostIDPage() {
       messageCount,
       reactionCount,
       topReactions,
+      url,
     });
   };
 
@@ -159,16 +160,13 @@ export default function PostIDPage() {
           <SubHeader
             value={{
               userData,
-              profileData,
               userID,
-              updateToastvisible,
-              handleToastUpdate,
+              setToastStatus,
             }}
           />
           <Toast
             type="url"
-            toastUpdate={toastUpdate}
-            toastVisible={toastVisible}
+            toastStatus={toastStatus}
             updateToastvisible={updateToastvisible}
             handleToastUpdate={handleToastUpdate}
           ></Toast>

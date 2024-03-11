@@ -31,16 +31,18 @@ export const MessageCardWrapper = ({
   const gridWrapperRef = useRef(null);
   const target = useRef(null);
   const deleteCount = useRef(0);
-  const [toastUpdate, setToastUpdate] = useState(false);
+  const [toastStatus, setToastStatus] = useState({
+    visible: false,
+    update: false,
+  });
   const [loading, setLoading] = useState({ type: 'initial', status: true });
-  const [toastVisible, setToastVisible] = useState(false);
   const navigate = useNavigate();
 
   const updateToastvisible = useCallback((value) => {
-    setToastVisible(value);
+    setToastStatus((prev) => ({ ...prev, visible: value }));
   }, []);
   const handleToastUpdate = (value) => {
-    setToastUpdate(value);
+    setToastStatus((prev) => ({ ...prev, update: value }));
   };
   //페이지 마지막 부분에 도착했을 때 처리할 콜백 함수 -> loading 값을 업데이트하여 데이터를 load.
   const handleIntersectionObserver = (entry) => {
@@ -106,8 +108,7 @@ export const MessageCardWrapper = ({
 
     if (data.length === 0) {
       pageRef.current.scrollTop -= 90;
-      setToastVisible(true);
-      setToastUpdate(true);
+      setToastStatus({ visible: true, update: true });
     }
     setLoading(false);
     deleteCount.current = 0;
@@ -180,9 +181,8 @@ export const MessageCardWrapper = ({
       )}
       <Toast
         type="load"
-        toastVisible={toastVisible}
+        toastStatus={toastStatus}
         updateToastvisible={updateToastvisible}
-        toastUpdate={toastUpdate}
         handleToastUpdate={handleToastUpdate}
       ></Toast>
     </S.Wrpaper>

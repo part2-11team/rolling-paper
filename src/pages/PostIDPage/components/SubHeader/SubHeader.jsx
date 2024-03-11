@@ -78,7 +78,7 @@ const SubHeader = ({ value }) => {
           <S.PaperCnt>
             <S.ProfileCnt>
               <PaperListFromBadge
-                imgUrls={value.profileData}
+                imgUrls={value.userData.url}
                 count={value.userData.messageCount}
               />
             </S.ProfileCnt>
@@ -136,9 +136,7 @@ const SubHeader = ({ value }) => {
               {kakaoOpen && (
                 <KakaoModal
                   setKakaoOpen={setKakaoOpen}
-                  setToastOpen={value.updateToastvisible}
-                  updateToastvisible={value.updateToastvisible}
-                  handleToastUpdate={value.handleToastUpdate}
+                  setToastStatus={value.setToastStatus}
                   value={{
                     userId: value.userID,
                     userName: value.userData.name,
