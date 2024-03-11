@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import * as S from './PostIDPage.style';
-import {
-  MessageCardModal,
-  MessageCardWrapper,
-  Scrollbar,
-  Toast,
-  Header,
-  SubHeader,
-} from './index';
-import { PostIDContext } from '../../context/PostIDContext';
-import { setScrollBarHeightPosition } from '../../assets/utils/setScrollBarHeightPosition';
-import { getRecipientData } from '../../API';
-import arrow_up from '../../assets/icon/arrow_up.svg';
+import { MessageCardWrapper } from './components/MessageCardWrapper/MessageCardWrapper';
+import { Scrollbar } from './components/Scrollbar/Scrollbar';
+import { MessageCardModal } from './components/MessageCardModal/MessageCardModal';
+import { Toast } from './components/Toast/Toast';
+import Header from 'components/Header/Header';
+import SubHeader from './components/SubHeader/SubHeader';
+import { PostIDContext } from 'context/PostIDContext';
+import { setScrollBarHeightPosition } from 'assets/utils/setScrollBarHeightPosition';
+import { getRecipientData } from 'API';
+import arrow_up from 'assets/icon/arrow_up.svg';
 
 export default function PostIDPage() {
   const { userID } = useParams();
   const pageRef = useRef(null);
-  const toastUpdate = useRef(false);
+  const [toastUpdate, setToastUpdate] = useState(false);
   const scrollWrapperRef = useRef(null);
   const [dataError, setDataError] = useState(null);
   const [profileData, setProfileData] = useState([]);
@@ -26,13 +24,16 @@ export default function PostIDPage() {
   const [currentCardData, setCurrentCardData] = useState({ id: null });
   const [userData, setUserData] = useState({
     name: null,
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#ffffff',
     backgroundImageURL: null,
     recentMessages: [],
     messageCount: 0,
     reactionCount: 0,
     topReactions: [],
   });
+  const handleToastUpdate = (value) => {
+    setToastUpdate(value);
+  };
   //currentCardData 변경 함수 -> MessageCardModal 컴포넌트에 어떤 내용을 담을 지 결정하는 함수
   const updateCurrentCardData = useCallback((cardData) => {
     setCurrentCardData(cardData);
@@ -120,7 +121,7 @@ export default function PostIDPage() {
   const scrollToTop = () => {
     updateScrollTop();
   };
-  //get UserData initial loading
+  //get UserData 초기 로딩
   useEffect(() => {
     getUserData(userID);
   }, []);
@@ -161,14 +162,15 @@ export default function PostIDPage() {
               profileData,
               userID,
               updateToastvisible,
-              toastUpdate,
+              handleToastUpdate,
             }}
           />
           <Toast
             type="url"
+            toastUpdate={toastUpdate}
             toastVisible={toastVisible}
             updateToastvisible={updateToastvisible}
-            toastUpdate={toastUpdate}
+            handleToastUpdate={handleToastUpdate}
           ></Toast>
 
           <S.MessageWrapper

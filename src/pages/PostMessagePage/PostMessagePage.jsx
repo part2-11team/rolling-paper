@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './PostMessagePage.style.js';
+import arrowDownIcon from 'assets/icon/arrow_down.png';
+import arrowUpIcon from 'assets/icon/arrow_top.png';
 import TextEditor from './components/TextEditor/TextEditor.jsx';
-import { COLORS } from '../../style/colorPalette.js';
-import Header from '../../components/Common/Header/Header.jsx';
+import { COLORS } from 'style/colorPalette';
+import Header from 'components/Header/Header.jsx';
+import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
-import sampleImg1 from '../../assets/images-message/1.png';
-import sampleImg2 from '../../assets/images-message/2.jpg';
-import sampleImg3 from '../../assets/images-message/3.jpg';
-import sampleImg4 from '../../assets/images-message/4.jpg';
-import sampleImg5 from '../../assets/images-message/5.jpg';
-import sampleImg6 from '../../assets/images-message/6.jpg';
-import sampleImg7 from '../../assets/images-message/7.jpg';
-import sampleImg8 from '../../assets/images-message/8.jpg';
-import sampleImg9 from '../../assets/images-message/9.jpg';
-import sampleImg10 from '../../assets/images-message/10.jpg';
-import { TextForm } from '../../components/Common/TextForm/TextForm.jsx';
-import { getImgUrl, getProfileImages, postMessage } from '../../API.js';
-import Dropdown from './components/Dropdown/Dropdown.jsx';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
+import sampleImg1 from 'assets/images-message/1.png';
+import sampleImg2 from 'assets/images-message/2.jpg';
+import sampleImg3 from 'assets/images-message/3.jpg';
+import sampleImg4 from 'assets/images-message/4.jpg';
+import sampleImg5 from 'assets/images-message/5.jpg';
+import sampleImg6 from 'assets/images-message/6.jpg';
+import sampleImg7 from 'assets/images-message/7.jpg';
+import sampleImg8 from 'assets/images-message/8.jpg';
+import sampleImg9 from 'assets/images-message/9.jpg';
+import sampleImg10 from 'assets/images-message/10.jpg';
+import { TextForm } from 'components/TextForm/TextForm.jsx';
 
 export const PostMessagePage = () => {
+  const [isOpenRelation, setIsOpen] = useState(false);
+  const [isOpenFont, setIsOpenFont] = useState(false);
   const [isName, setIsName] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
@@ -44,6 +47,22 @@ export const PostMessagePage = () => {
   const [isBlur, setIsBlur] = useState(true);
 
   const teamId = '4-11';
+
+  const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
+
+  const CLIENT_ID = '4c8db1c88e920c2';
+
+  const url = `https://rolling-api.vercel.app/${teamId}/recipients/${userID}/messages/`;
+
+  let data = {
+    team: teamId,
+    recipientId: userID,
+    sender: name,
+    profileImageURL: profileImg,
+    relationship: selectedRelationOption,
+    content: editorTextContent,
+    font: selectedFontOption,
+  };
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -77,54 +96,70 @@ export const PostMessagePage = () => {
   const handleImportProfileImg = async (src) => {
     try {
       const file = src.target.files[0]; //파일 선택 처음 꺼
-      const imageUrl = await getImgUrl(file);
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await axios.post(
+        'https://api.imgur.com/3/image',
+        formData,
+        {
+          headers: {
+            Authorization: `Client-ID ${CLIENT_ID}`,
+          },
+        },
+      );
+
+      const imageUrl = response.data.data.link;
       setProfileImg(imageUrl);
     } catch (error) {
       return;
     }
   };
 
+  const handleToggleDropdown = () => {
+    setIsOpen(!isOpenRelation); // 드롭다운 열고 닫기 토글
+  };
+
+  const handleFontToggleDropdown = () => {
+    setIsOpenFont(!isOpenFont); // 드롭다운 열고 닫기 토글
+  };
+
   const handleSelectRelation = (relation) => {
     setSelectedRelationOption(relation);
+    setIsOpen(false); // 드롭다운 닫기
   };
 
   const handleSelectFont = (font) => {
     setSelectedFontOption(font);
+    setIsOpenFont(false); // 드롭다운 닫기
   };
 
   const handleSendData = async () => {
     try {
-      const data = {
-        team: teamId,
-        recipientId: userID,
-        sender: name,
-        profileImageURL: profileImg,
-        relationship: selectedRelationOption,
-        content: editorTextContent,
-        font: selectedFontOption,
-      };
-      await postMessage(data);
-      navigate(`/post/${userID}`);
+      const response = await axios.post(url, data);
+      navigate(`/post/${userID}`); //페이지 이동
+      return { success: true, data: response.data }; //성공시 데이터 출력
     } catch (error) {
       return { success: false, error: error }; //실패시 에러 데이터 출력
     }
   };
 
   useEffect(() => {
-    if (name.trim() !== '' && editorTextContent.trim() !== '') {
+    if (isName === false && editorTextContent.trim() !== '') {
       setPassValue(true);
     } else {
       setPassValue(false);
     }
-  }, [name, editorTextContent]);
+  }, [isName, editorTextContent]);
 
   useEffect(() => {
     const loadingImageUrls = async () => {
       try {
-        const imageUrls = await getProfileImages();
+        const response = await axios.get(IMAGEURL);
+        const imageUrls = response.data.imageUrls;
         setSamplePicture(imageUrls.map((url) => ({ src: url })));
-        setProfileImg(imageUrls[0]); // 첫 번째 이미지를 초기값으로 설정
-        setIsBlur(false); // 이미지 로딩 완료
+        setProfileImg(imageUrls[0]);
+        setIsBlur(false);
       } catch (error) {
         return []; // 실패할 경우 빈 배열 반환
       }
@@ -204,11 +239,25 @@ export const PostMessagePage = () => {
             <S.PostMessageContentHeader>
               상대와의 관계
             </S.PostMessageContentHeader>
-            <Dropdown
-              options={dropdownRelationOptions}
-              onSelect={handleSelectRelation}
-              defult="지인"
-            />
+            <S.PostMessageDropdownList onClick={handleToggleDropdown}>
+              <S.DropdownIcon
+                src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
+              />
+
+              <S.PostMessageDropdownListButton>
+                {selectedRelationOption}
+              </S.PostMessageDropdownListButton>
+              <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
+                {dropdownRelationOptions.map((DropOption) => (
+                  <S.DropdownListContentOption
+                    key={DropOption.value}
+                    onClick={() => handleSelectRelation(DropOption.value)}
+                  >
+                    {DropOption.label}
+                  </S.DropdownListContentOption>
+                ))}
+              </S.PostMessageDropdownListContent>
+            </S.PostMessageDropdownList>
           </S.PostMessageContent>
 
           <S.PostMessageContent>
@@ -225,11 +274,23 @@ export const PostMessagePage = () => {
           <S.PostMessageContent>
             <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
 
-            <Dropdown
-              options={dropdownFontOptions}
-              onSelect={handleSelectFont}
-              defult="Noto Sans"
-            />
+            <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
+              <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
+
+              <S.PostMessageDropdownListButton>
+                {selectedFontOption}
+              </S.PostMessageDropdownListButton>
+              <S.PostMessageDropdownListContent isOpen={isOpenFont}>
+                {dropdownFontOptions.map((DropOption) => (
+                  <S.DropdownListContentOption
+                    key={DropOption.value}
+                    onClick={() => handleSelectFont(DropOption.value)}
+                  >
+                    {DropOption.label}
+                  </S.DropdownListContentOption>
+                ))}
+              </S.PostMessageDropdownListContent>
+            </S.PostMessageDropdownList>
           </S.PostMessageContent>
         </S.PostMessageContainer>
         <S.SubmitButtonWrapper>
@@ -237,7 +298,7 @@ export const PostMessagePage = () => {
             width={720}
             height={56}
             disable={!passValue}
-            onClick={() => handleSendData()}
+            onClick={() => handleSendData(url, data)}
           >
             생성하기
           </PurpleButton>

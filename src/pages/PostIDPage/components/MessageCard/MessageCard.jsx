@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import * as S from './MessageCard.style';
-import { getFormattedDate, Deleted } from './index';
 import { MessageCardHeader } from '../MessageCardHeader/MessageCardHeader';
+import { getFormattedDate } from 'assets/utils/getFormattedDate';
+import Deleted from 'assets/icon/Deleted.png';
 
 export const MessageCard = React.memo(
   ({ cardData, updateCurrentCardData, deleteCardData }) => {

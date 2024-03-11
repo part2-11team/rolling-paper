@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './PostPage.style.js';
-import SelectImg from '../../assets/icon/background-selected.png';
-import Header from '../../components/Common/Header/Header';
-import { PostSelectImageButton } from '../../components/PostImageButton/PostImageButton.js';
+import SelectImg from 'assets/icon/background-selected.png';
+import Header from 'components/Header/Header';
+import { PostSelectImageButton } from './components/PostImageButton/PostImageButton.js';
 import axios from 'axios';
-import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
-import { TextForm } from '../../components/Common/TextForm/TextForm.jsx';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
+import { TextForm } from 'components/TextForm/TextForm.jsx';
 
 const PostPage = () => {
   const navigate = useNavigate();

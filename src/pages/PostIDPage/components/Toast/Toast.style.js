@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { FONT_STYLE } from '../../../../style/fontStyle';
-import { COLORS } from '../../../../style/colorPalette';
+import { FONT_STYLE } from 'style/fontStyle';
+import { COLORS } from 'style/colorPalette';
 
 export const ToastWrapper = styled.div`
   position: fixed;
@@ -32,6 +32,9 @@ export const ToastIcon = styled.img`
   width: 24px;
   height: 24px;
   ${({ $close }) => $close && 'cursor: pointer'};
+  &:hover {
+    filter: brightness(130%);
+  }
 `;
 
 export const ToastText = styled.p`
