@@ -3,6 +3,7 @@ import * as S from './Toast.style';
 import close from 'assets/icon/close.svg';
 import completed from 'assets/icon/completed.svg';
 import warning from 'assets/icon/warning.svg';
+import { setTimer } from 'assets/utils/setTimer';
 // import { setTimer } from 'assets/utils/setTimer';
 
 export const Toast = ({
@@ -13,6 +14,7 @@ export const Toast = ({
 }) => {
   const wrapperRef = useRef(null);
   const timerID = useRef(0);
+
   //toast 생성 애니메이션 함수
   const appearToast = () => {
     if (!wrapperRef.current) {
@@ -66,10 +68,6 @@ export const Toast = ({
   };
   //toast 상태:appear 함수
   const appear = () => {
-    const currentID = timerID.current;
-    if (!wrapperRef.current) {
-      return true;
-    }
     if (type === 'load') {
       wrapperRef.current.style.top = '60px';
     }
@@ -77,59 +75,16 @@ export const Toast = ({
       wrapperRef.current.style.bottom = '60px';
     }
     wrapperRef.current.style.opacity = '0';
-    const animationInterval = setInterval(() => {
-      const stop = appearToast();
-      if (currentID !== timerID.current || stop) {
-        clearInterval(animationInterval);
-      }
-    }, 10);
-
-    setTimeout(() => {
-      clearInterval(animationInterval);
-      if (currentID === timerID.current) {
-        wait();
-      }
-    }, 500);
+    setTimer(appearToast, wait, 500, timerID);
   };
   //toast 상태:wait 함수
   const wait = () => {
-    const currentID = timerID.current;
-    if (!wrapperRef.current) {
-      return true;
-    }
-    const animationInterval = setInterval(() => {
-      const stop = waitToast();
-      if (currentID !== timerID.current || stop) {
-        clearInterval(animationInterval);
-      }
-    }, 10);
-
-    setTimeout(() => {
-      clearInterval(animationInterval);
-      if (currentID === timerID.current) {
-        disappear();
-      }
-    }, 4000);
+    setTimer(waitToast, disappear, 4000, timerID);
   };
 
   //toast 상태:disappear 함수
   const disappear = () => {
-    const currentID = timerID.current;
-    if (!wrapperRef.current) {
-      return true;
-    }
-    const animationInterval = setInterval(() => {
-      const stop = disappearToast();
-      if (currentID !== timerID.current || stop) {
-        clearInterval(animationInterval);
-      }
-    }, 10);
-    setTimeout(() => {
-      clearInterval(animationInterval);
-      if (currentID === timerID.current) {
-        updateToastvisible(false);
-      }
-    }, 500);
+    setTimer(disappearToast, () => updateToastvisible(false), 500, timerID);
   };
 
   useEffect(() => {
