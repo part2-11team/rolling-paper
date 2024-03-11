@@ -1,29 +1,16 @@
-export const setTimer = (timeCallback, timerID, updateToastvisible) => {
+export const setTimer = (currentCallback, nextCallback, time, timerID) => {
   const currentID = timerID.current;
-  let index = 0;
-  const toastAnimation = () => {
-    if (index < timeCallback.length) {
-      const [time, callback] = timeCallback[index];
-      const animationInterval = setInterval(() => {
-        if (currentID !== timerID.current) {
-          clearInterval(animationInterval);
-        }
-        const stop = callback();
-        if (stop) {
-          clearInterval(animationInterval);
-        }
-      }, 10);
-      const Timer = setTimeout(() => {
-        clearTimeout(Timer);
-        clearInterval(animationInterval);
-        if (currentID === timerID.current) {
-          index += 1;
-          toastAnimation();
-        }
-      }, time);
-    } else {
-      updateToastvisible(false);
+  const animationInterval = setInterval(() => {
+    const stop = currentCallback();
+    if (stop || currentID !== timerID.current) {
+      clearInterval(animationInterval);
     }
-  };
-  toastAnimation();
+  }, 10);
+  const timer = setTimeout(() => {
+    clearTimeout(timer);
+    clearInterval(animationInterval);
+    if (currentID === timerID.current) {
+      nextCallback();
+    }
+  }, time);
 };

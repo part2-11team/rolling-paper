@@ -11,6 +11,7 @@ import { PostIDContext } from 'context/PostIDContext';
 import { setScrollBarHeightPosition } from 'assets/utils/setScrollBarHeightPosition';
 import { getRecipientData } from 'API';
 import arrow_up from 'assets/icon/arrow_up.svg';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
 
 export default function PostIDPage() {
   const { userID } = useParams();
@@ -150,10 +151,7 @@ export default function PostIDPage() {
       }}
     >
       {dataError ? (
-        <S.ErrorWrapper>
-          <S.ErrorTitle>잘못된 접근입니다.</S.ErrorTitle>
-          <S.ErrorContent>{dataError.message}</S.ErrorContent>
-        </S.ErrorWrapper>
+        <ErrorPage error={dataError.response.status}></ErrorPage>
       ) : (
         <S.PageWrapper ref={pageRef} onScroll={updateScrollbarPosition}>
           <Header page="postID" />

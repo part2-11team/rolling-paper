@@ -15,4 +15,9 @@ export const ModalWrap = styled.div`
   border-radius: 8px;
   border: 1px solid #b6b6b6;
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 768px) {
+    grid-template-columns: ${({ $number }) =>
+      $number >= 3 ? 'repeat(3, 1fr)' : `repeat(${$number}, 1fr)`};
+  }
 `;
