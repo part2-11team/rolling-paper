@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './PostMessagePage.style.js';
-import arrowDownIcon from './asset/arrow_down.png';
-import arrowUpIcon from './asset/arrow_top.png';
-import TextEditor from './TextEditor';
+import arrowDownIcon from 'assets/icon/arrow_down.png';
+import arrowUpIcon from 'assets/icon/arrow_top.png';
+import TextEditor from './components/TextEditor/TextEditor.jsx';
 import { COLORS } from 'style/colorPalette';
 import Header from 'components/Header/Header.jsx';
 import axios from 'axios';

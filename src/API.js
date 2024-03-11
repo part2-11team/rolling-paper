@@ -108,7 +108,7 @@ export default getRecipientsData;
 export const getEmojiData = async (userID) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}recipients/${userID}/reactions/`,
+      `${BASE_URL}/${BASE_ID}/recipients/${userID}/reactions/`,
     );
     const { results } = response.data;
 
@@ -128,7 +128,7 @@ export const postEmoji = async (userID, emoji) => {
       type: 'increase',
     };
     const response = await axios.post(
-      `${BASE_URL}recipients/${userID}/reactions/`,
+      `${BASE_URL}/${BASE_ID}/recipients/${userID}/reactions/`,
       data,
     );
     return response;
@@ -150,7 +150,8 @@ export const getImgUrl = async (file) => {
     return response.data.data.link;
   } catch (error) {
     return;
-
+  }
+};
 export const getProfileImages = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/profile-images/`);
@@ -165,7 +166,7 @@ export const postMessage = async (data) => {
   try {
     const response = await axios.post(url, data);
     return { success: true, data: response.data };
-      } catch (error) {
+  } catch (error) {
     return { error: error };
   }
 };

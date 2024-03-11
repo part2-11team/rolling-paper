@@ -1,6 +1,7 @@
 ﻿import React, { useEffect, useState, useRef } from 'react';
 import * as S from './SubHeader.style';
 import AllEmoji from 'assets/icon/arrow_down.svg';
+import ALLEmojiUp from 'assets/icon/arrow_top.png';
 import AddEmoji from 'assets/icon/add-24.svg';
 import Share from 'assets/icon/share-24.svg';
 import { getEmojiData, postEmoji } from 'API';
@@ -17,6 +18,7 @@ const SubHeader = ({ value }) => {
   const [kakaoOpen, setKakaoOpen] = useState(false);
   const [resultPostEmoji, setResultPostEmoji] = useState(null);
   const pickerRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const getAllEmojiData = async (userID) => {
     const { results, error } = await getEmojiData(userID);
@@ -41,16 +43,16 @@ const SubHeader = ({ value }) => {
     return result;
   };
 
-  const showModal = () => {
-    setModalOpen(true);
-  };
-
   const showEmojiPicker = () => {
     setPickerOpen(!pickerOpen);
   };
 
   const showKakao = () => {
     setKakaoOpen(!kakaoOpen);
+  };
+
+  const clickShowModalButton = () => {
+    setModalOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -100,11 +102,15 @@ const SubHeader = ({ value }) => {
                       />
                     ))}
               </S.Emoji>
-              <S.AllEmojiButton onClick={showModal}>
-                <S.EmojiImage src={AllEmoji} />
+              <S.AllEmojiButton ref={buttonRef} onClick={clickShowModalButton}>
+                <S.EmojiImage src={modalOpen ? ALLEmojiUp : AllEmoji} />
               </S.AllEmojiButton>
               {modalOpen && (
-                <EmojiModal setModalOpen={setModalOpen} value={emojiData} />
+                <EmojiModal
+                  setModalOpen={setModalOpen}
+                  value={emojiData}
+                  buttonRef={buttonRef}
+                />
               )}
             </S.EmojiCnt>
             <S.Service>

@@ -2,27 +2,17 @@
 import { COLORS } from 'style/colorPalette';
 
 export const ModalWrap = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   position: absolute;
-  align-items: flex-start;
+  grid-template-columns: ${({ $number }) =>
+    $number >= 4 ? 'repeat(4, 1fr)' : `repeat(${$number}, 1fr)`};
   top: 50px;
+  right: 0px;
   z-index: 999;
   padding: 24px;
-  width: 140%;
   gap: 10px;
   background: ${COLORS.WHITE};
   border-radius: 8px;
   border: 1px solid #b6b6b6;
   box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.08);
-`;
-
-export const closeButton = styled.button``;
-
-export const emojiWrap = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 10px;
 `;
