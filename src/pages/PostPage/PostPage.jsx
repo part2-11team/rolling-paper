@@ -4,9 +4,9 @@ import * as S from './PostPage.style.js';
 import SelectImg from 'assets/icon/background-selected.png';
 import Header from 'components/Header/Header';
 import { PostSelectImageButton } from './components/PostImageButton/PostImageButton.js';
-import axios from 'axios';
 import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
 import { TextForm } from 'components/TextForm/TextForm.jsx';
+import { getBackgroundImages, postDataToRecipient } from 'API';
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -22,20 +22,18 @@ const PostPage = () => {
 
   //배경화면 이미지 데이터 받아오기
   useEffect(() => {
-    const fetchBackgroundImages = async () => {
-      try {
-        const response = await axios.get(
-          'https://rolling-api.vercel.app/background-images/',
-        );
-        // 이미지 배열을 객체 배열로 변환
-        const url = response.data.imageUrls;
-        setImageUrls(url);
-      } catch (error) {
-        navigate(`/error`);
+    const getData = async () => {
+      const url = await getBackgroundImages();
+      if (url === null) {
+        navigate('/error', {
+          error: '이미지 데이터를 받아 올 수 없습니다. 다시 시도해주세요.',
+        });
+        return;
       }
+      setImageUrls(url);
     };
 
-    fetchBackgroundImages();
+    getData();
   }, []);
 
   //클릭한 인덱스 몇번째인지 저장
@@ -63,7 +61,6 @@ const PostPage = () => {
   //완성된 폼 데이터 전송
   const handleMovetoListClick = async (e) => {
     e.preventDefault();
-    const url = 'https://rolling-api.vercel.app/4-11/recipients/';
     const data = {
       name: value.trim(),
       backgroundColor:
@@ -73,10 +70,12 @@ const PostPage = () => {
     };
 
     try {
-      const response = await axios.post(url, data);
-      navigate(`/post/${response.data.id}`);
+      const recipientId = await postDataToRecipient(data);
+      navigate(`/post/${recipientId}`);
     } catch (error) {
-      navigate(`/error`);
+      navigate('/error', {
+        error: '롤링페이퍼를 생성할 수 없습니다. 다시 시도해주세요.',
+      });
     }
   };
 

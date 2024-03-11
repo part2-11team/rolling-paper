@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { FONT_STYLE } from '../../style/fontStyle';
-import { COLORS } from '../../style/colorPalette';
+import { FONT_STYLE } from 'style/fontStyle';
+import { COLORS } from 'style/colorPalette';
 
 export const HeaderWrapper = styled.div`
   @media (max-width: 767px) {

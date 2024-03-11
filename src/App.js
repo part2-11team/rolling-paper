@@ -6,6 +6,7 @@ import GlobalStyle from './style/GlobalStyle';
 import PostPage from './pages/PostPage/PostPage';
 import PostIDPage from './pages/PostIDPage/PostIDPage';
 import PaperListPage from './pages/PaperListPage/PaperListPage';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 import '../src/style/font.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/list" element={<PaperListPage />}></Route>
+          <Route path="/error" element={<ErrorPage />}></Route>
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
