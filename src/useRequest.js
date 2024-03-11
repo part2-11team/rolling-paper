@@ -5,6 +5,7 @@ function useRequest({ deps = [], skip = false, options }) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [statusCode, setStatusCode] = useState(null);
 
   const refetch = useCallback(
     async (...args) => {
@@ -12,9 +13,13 @@ function useRequest({ deps = [], skip = false, options }) {
       setError(null);
 
       try {
-        const { data: fetchedData } = await fetch({ ...options, ...args });
+        const { data: fetchedData, status } = await fetch({
+          ...options,
+          ...args,
+        });
         setData(() => fetchedData);
-        return { data: fetchedData };
+        setStatusCode(status);
+        return { data: fetchedData, status };
       } catch (err) {
         setError(() => err);
         return { error: err };
@@ -30,7 +35,7 @@ function useRequest({ deps = [], skip = false, options }) {
     refetch();
   }, deps);
 
-  return { data, isLoading, error, fetch: refetch };
+  return { data, isLoading, error, statusCode, fetch: refetch };
 }
 
 export default useRequest;
