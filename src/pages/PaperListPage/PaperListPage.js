@@ -16,11 +16,10 @@ const PaperListPage = () => {
     isLoadingPopular,
     getRecentPaperData,
     isLoadingRecent,
-    status,
     error,
   } = getRecipientData();
 
-  if (error) return <ErrorPage error={status} />;
+  if (error) return <ErrorPage />;
 
   return (
     <>

@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/list" element={<PaperListPage />}></Route>
-          <Route path="/error" element={<ErrorPage />}></Route>
+          <Route path="/*" element={<ErrorPage />}></Route>
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
