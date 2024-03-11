@@ -7,6 +7,7 @@ import { PostSelectImageButton } from './components/PostImageButton/PostImageBut
 import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
 import { TextForm } from 'components/TextForm/TextForm.jsx';
 import { getBackgroundImages, postDataToRecipient } from 'API';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const PostPage = () => {
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
+  const [dataError, setDataError] = useState('');
 
   const COLOR_VALUE = ['beige', 'purple', 'blue', 'green'];
 
@@ -70,19 +72,19 @@ const PostPage = () => {
 
     try {
       const recipientId = await postDataToRecipient(data);
-      console.log(recipientId.error.response.status);
       if (recipientId.error !== null) {
-        navigate('/error', {
-          error: 400,
-        });
+        setDataError(recipientId.error.response.status);
+        return;
       }
-      // navigate(`/post/${recipientId.idData}`);
+      navigate(`/post/${recipientId.idData}`);
     } catch (error) {
-      navigate('/error', {
-        error: 400,
-      });
+      setDataError(error.response.status);
     }
   };
+
+  if (dataError) {
+    return <ErrorPage error={dataError} />;
+  }
 
   return (
     <>
@@ -146,7 +148,7 @@ const PostPage = () => {
           <PurpleButton
             width={720}
             height={56}
-            // disable={!value}
+            disable={!value}
             onClick={(e) => handleMovetoListClick(e)}
           >
             생성하기

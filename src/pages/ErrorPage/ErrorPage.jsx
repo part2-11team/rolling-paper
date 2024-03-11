@@ -6,7 +6,6 @@ const ErrorPage = ({ error }) => {
   const goBack = () => {
     window.history.back();
   };
-  console.log(error);
 
   let errorMessage = '';
   switch (error) {
