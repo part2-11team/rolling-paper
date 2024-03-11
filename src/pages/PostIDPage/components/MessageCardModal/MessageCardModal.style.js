@@ -68,12 +68,10 @@ export const TextWrapper = styled.div`
   }
 `;
 
-export const Text = styled.p`
-  display: block;
-  width: 500px;
+export const Text = styled.div`
+  overflow: hidden;
+  display: -webkit-box;
+  width: 100%;
+  max-width: 500px;
   font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
-  word-break: break-all;
-  media(max-width: 500px) {
-    width: 100%;
-  }
 `;
