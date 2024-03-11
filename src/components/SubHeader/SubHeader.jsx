@@ -118,7 +118,7 @@ const SubHeader = ({ value }) => {
                     onEmojiClick={handleEmojiSelect}
                     style={{
                       zIndex: '999',
-                      width: window.innerWidth <= 786 ? '90%' : '100%',
+                      width: window.innerWidth <= 890 ? '250px' : '30vw',
                     }}
                   />
                 </S.EmojiWapper>
@@ -131,9 +131,13 @@ const SubHeader = ({ value }) => {
                 <KakaoModal
                   setKakaoOpen={setKakaoOpen}
                   setToastOpen={value.updateToastvisible}
-                  value={value.userID}
                   updateToastvisible={value.updateToastvisible}
                   handleToastUpdate={value.handleToastUpdate}
+                  value={{
+                    userId: value.userID,
+                    userName: value.userData.name,
+                  }}
+                  toastUpdate={value.toastUpdate}
                 />
               )}
             </S.Service>
