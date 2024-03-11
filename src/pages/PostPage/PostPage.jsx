@@ -31,7 +31,7 @@ const PostPage = () => {
         const url = response.data.imageUrls;
         setImageUrls(url);
       } catch (error) {
-        navigate(`/error`);
+        navigate('/error', { error: '네트워크 연결이 끊겼습니다. 다시 시도해주세요.' });
       }
     };
 
@@ -76,7 +76,7 @@ const PostPage = () => {
       const response = await axios.post(url, data);
       navigate(`/post/${response.data.id}`);
     } catch (error) {
-      navigate(`/error`);
+      navigate('/error', { error: '네트워크 연결이 끊겼습니다. 다시 시도해주세요.' });
     }
   };
 
