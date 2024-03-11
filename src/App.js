@@ -18,12 +18,12 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/list" element={<PaperListPage />}></Route>
-          <Route path="/*" element={<ErrorPage />}></Route>
           <Route path="/post">
             <Route index element={<PostPage />}></Route>
             <Route path=":userID" element={<PostIDPage />}></Route>
             <Route path=":userID/message" element={<PostMessagePage />} />
           </Route>
+          <Route path="/*" element={<ErrorPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>
