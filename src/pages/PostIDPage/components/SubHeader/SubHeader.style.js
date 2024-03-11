@@ -8,7 +8,6 @@ export const SubHeader = styled.div`
   padding: 0 24px;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
   background-color: ${COLORS.WHITE};
   @media (max-width: 768px) {
     padding: 0;
@@ -46,14 +45,13 @@ export const UserInfo = styled.div`
   justify-content: center;
   @media (max-width: 768px) {
     width: 100%;
-    padding: 8px 0;
+    padding: 8px 20px;
     border-top: 1px solid #ededed;
   }
 `;
 
 export const PaperCnt = styled.div`
   display: flex;
-  align-items: flex-end;
   gap: 11px;
 
   @media (max-width: 1200px) {
@@ -135,7 +133,6 @@ export const HeaderService = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     justify-content: flex-end;
-    width: 100%;
   }
 `;
 
