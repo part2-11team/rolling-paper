@@ -1,79 +1,67 @@
 import React, { useRef, useState } from 'react';
 import './TextEditor.css';
 import * as S from './TextEditor.style';
-import colorIcon from './asset/textEditor/color.png';
-import centerIcon from './asset/textEditor/center.png';
-import leftIcon from './asset/textEditor/left.png';
-import rightIcon from './asset/textEditor/right.png';
-import boldIcon from './asset/textEditor/bold.png';
-import italicIcon from './asset/textEditor/italic.png';
-import underLineIcon from './asset/textEditor/underline.png';
-import bulletDotIcon from './asset/textEditor/bulletDot.png';
-import bulletNumberIcon from './asset/textEditor/bulletNumber.png';
+import colorIcon from '../../../../assets/textEditor/color.png';
+import centerIcon from '../../../../assets/textEditor/center.png';
+import leftIcon from '../../../../assets/textEditor/left.png';
+import rightIcon from '../../../../assets/textEditor/right.png';
+import boldIcon from '../../../../assets/textEditor/bold.png';
+import italicIcon from '../../../../assets/textEditor/italic.png';
+import underLineIcon from '../../../../assets/textEditor/underline.png';
+import bulletDotIcon from '../../../../assets/textEditor/bulletDot.png';
+import bulletNumberIcon from '../../../../assets/textEditor/bulletNumber.png';
+import { COLORS } from '../../../../style/colorPalette';
 
 const TextEditor = ({ onChange, fontFamily }) => {
   const editorRef = useRef(null);
   const [content, setContent] = useState('');
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isUnder, setIsUnder] = useState(false);
 
   //진하게
-  const handleBoldClick = () => {
+  const handleBoldClick = (e) => {
+    e.preventDefault(); // 이벤트 기본 동작 방지
+    isBold ? setIsBold(false) : setIsBold(true);
     document.execCommand('bold', false, null);
   };
 
   //기울기
-  const handleItalicClick = () => {
+  const handleItalicClick = (e) => {
+    e.preventDefault();
+    isItalic ? setIsItalic(false) : setIsItalic(true);
     document.execCommand('italic', false, null);
   };
 
   //밑줄
-  const handleUnderlineClick = () => {
+  const handleUnderlineClick = (e) => {
+    e.preventDefault();
+    isUnder ? setIsUnder(false) : setIsUnder(true);
     document.execCommand('underline', false, null);
   };
 
   //색깔 설정
   const handleTextColorChange = (color) => {
     const selection = window.getSelection();
-
-    if (!selection) {
-      return; // 선택된 텍스트가 없을 때
-    }
-
     const range = selection.getRangeAt(0);
-    let targetDiv = range.commonAncestorContainer; // 특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
+    const targetDiv = document.querySelector('.target-div');
 
-    // 특정 부모 요소를 찾음
-    while (
-      targetDiv &&
-      (targetDiv.nodeType !== Node.ELEMENT_NODE ||
-        !targetDiv.classList.contains('target-div'))
-    ) {
-      targetDiv = targetDiv.parentNode;
+    if (!targetDiv || !targetDiv.contains(range.commonAncestorContainer)) {
+      return; // 특정 부모 요소를 찾지 못하거나 일치하는 요소가 없는 경우
     }
 
-    if (!targetDiv) {
-      return; // 특정 부모 요소를 찾지 못한 경우
-    }
-
-    const collapsedRange = range.cloneRange();
-
-    if (!collapsedRange.collapsed) {
+    if (!selection.isCollapsed) {
       // 선택된 텍스트가 있는 경우
-      collapsedRange.setStart(range.endContainer, range.endOffset);
-      selection.removeAllRanges();
-      selection.addRange(collapsedRange);
+      document.execCommand('foreColor', false, color);
     } else {
-      // 커서 위치에 텍스트가 없는 경우
-      const newNode = document.createElement('span');
-      newNode.style.color = color;
-      newNode.appendChild(document.createTextNode('\uFEFF')); // Zero-width space character
-      range.insertNode(newNode);
-      range.setStartAfter(newNode);
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
+      // 선택된 텍스트가 없는 경우
+      const newColorNode = document.createElement('span');
+      newColorNode.style.color = color;
+      newColorNode.textContent = '\uFEFF'; // 텍스트 추가
 
-    document.execCommand('foreColor', false, color); // 텍스트 색상 변경
+      // 수정된 부분: 새로운 텍스트 노드를 현재 포커스된 위치에 삽입
+      range.insertNode(newColorNode);
+    }
   };
 
   //글 정렬
@@ -87,39 +75,25 @@ const TextEditor = ({ onChange, fontFamily }) => {
 
   const handleBulletList = () => {
     const selection = window.getSelection(); //범위 선택
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0); //범위 영역 선택 시작
-      let targetDiv = range.commonAncestorContainer; //특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
-      while (
-        targetDiv &&
-        (targetDiv.nodeType !== Node.ELEMENT_NODE ||
-          !targetDiv.classList.contains('target-div'))
-      ) {
-        targetDiv = targetDiv.parentNode;
-      }
-      // 찾은 부모 요소의 특정 클래스 확인
-      if (targetDiv && targetDiv.classList.contains('target-div')) {
-        document.execCommand('insertUnorderedList', false, null);
-      }
+    const range = selection.getRangeAt(0);
+    const targetDiv = document.querySelector('.target-div');
+
+    if (!targetDiv || !targetDiv.contains(range.commonAncestorContainer)) {
+      return; // 특정 부모 요소를 찾지 못하거나 일치하는 요소가 없는 경우
+    } else {
+      document.execCommand('insertUnorderedList', false, null);
     }
   };
 
   const handleBulletOlList = () => {
     const selection = window.getSelection(); //범위 선택
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0); //범위 영역 선택 시작
-      let targetDiv = range.commonAncestorContainer; //특정 부모 요소 찾기, 일정 영역에만 적용하기 위함.
-      while (
-        targetDiv &&
-        (targetDiv.nodeType !== Node.ELEMENT_NODE ||
-          !targetDiv.classList.contains('target-div'))
-      ) {
-        targetDiv = targetDiv.parentNode;
-      }
-      // 찾은 부모 요소의 특정 클래스 확인
-      if (targetDiv && targetDiv.classList.contains('target-div')) {
-        document.execCommand('insertOrderedList', false, null);
-      }
+    const range = selection.getRangeAt(0);
+    const targetDiv = document.querySelector('.target-div');
+
+    if (!targetDiv || !targetDiv.contains(range.commonAncestorContainer)) {
+      return; // 특정 부모 요소를 찾지 못하거나 일치하는 요소가 없는 경우
+    } else {
+      document.execCommand('insertOrderedList', false, null);
     }
   };
 
@@ -137,15 +111,27 @@ const TextEditor = ({ onChange, fontFamily }) => {
           <S.ToolBarIcons>
             <S.ToolBarIcon
               src={boldIcon}
+              onTouchEnd={handleBoldClick}
               onClick={handleBoldClick}
+              style={{
+                backgroundColor: isBold ? `${COLORS.GRAY_300}` : ``,
+              }}
             ></S.ToolBarIcon>
             <S.ToolBarIcon
               src={italicIcon}
+              onTouchEnd={handleItalicClick}
               onClick={handleItalicClick}
+              style={{
+                backgroundColor: isItalic ? `${COLORS.GRAY_300}` : ``,
+              }}
             ></S.ToolBarIcon>
             <S.ToolBarIcon
               src={underLineIcon}
+              onTouchEnd={handleUnderlineClick}
               onClick={handleUnderlineClick}
+              style={{
+                backgroundColor: isUnder ? `${COLORS.GRAY_300}` : ``,
+              }}
             ></S.ToolBarIcon>
           </S.ToolBarIcons>
           <S.ToolBarIcons>

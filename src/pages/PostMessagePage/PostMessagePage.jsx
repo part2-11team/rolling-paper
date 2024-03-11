@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './PostMessagePage.style.js';
-import arrowDownIcon from './asset/arrow_down.png';
-import arrowUpIcon from './asset/arrow_top.png';
-import TextEditor from './TextEditor';
-import { COLORS } from '../../style/colorPalette';
+import TextEditor from './components/TextEditor/TextEditor.jsx';
+import { COLORS } from '../../style/colorPalette.js';
 import Header from '../../components/Common/Header/Header.jsx';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PurpleButton } from '../../components/Common/PurpleButton/PurpleButton.jsx';
 import sampleImg1 from '../../assets/images-message/1.png';
@@ -19,10 +16,10 @@ import sampleImg8 from '../../assets/images-message/8.jpg';
 import sampleImg9 from '../../assets/images-message/9.jpg';
 import sampleImg10 from '../../assets/images-message/10.jpg';
 import { TextForm } from '../../components/Common/TextForm/TextForm.jsx';
+import { getImgUrl, getProfileImages, postMessage } from '../../API.js';
+import Dropdown from './components/Dropdown/Dropdown.jsx';
 
 export const PostMessagePage = () => {
-  const [isOpenRelation, setIsOpen] = useState(false);
-  const [isOpenFont, setIsOpenFont] = useState(false);
   const [isName, setIsName] = useState(false);
   const [selectedRelationOption, setSelectedRelationOption] = useState('지인'); //관계
   const [selectedFontOption, setSelectedFontOption] = useState('Noto Sans'); // 폰트
@@ -47,22 +44,6 @@ export const PostMessagePage = () => {
   const [isBlur, setIsBlur] = useState(true);
 
   const teamId = '4-11';
-
-  const IMAGEURL = 'https://rolling-api.vercel.app/profile-images/';
-
-  const CLIENT_ID = '4c8db1c88e920c2';
-
-  const url = `https://rolling-api.vercel.app/${teamId}/recipients/${userID}/messages/`;
-
-  let data = {
-    team: teamId,
-    recipientId: userID,
-    sender: name,
-    profileImageURL: profileImg,
-    relationship: selectedRelationOption,
-    content: editorTextContent,
-    font: selectedFontOption,
-  };
 
   const dropdownRelationOptions = [
     { value: '가족', label: '가족' },
@@ -96,70 +77,54 @@ export const PostMessagePage = () => {
   const handleImportProfileImg = async (src) => {
     try {
       const file = src.target.files[0]; //파일 선택 처음 꺼
-      const formData = new FormData();
-      formData.append('image', file);
-
-      const response = await axios.post(
-        'https://api.imgur.com/3/image',
-        formData,
-        {
-          headers: {
-            Authorization: `Client-ID ${CLIENT_ID}`,
-          },
-        },
-      );
-
-      const imageUrl = response.data.data.link;
+      const imageUrl = await getImgUrl(file);
       setProfileImg(imageUrl);
     } catch (error) {
       return;
     }
   };
 
-  const handleToggleDropdown = () => {
-    setIsOpen(!isOpenRelation); // 드롭다운 열고 닫기 토글
-  };
-
-  const handleFontToggleDropdown = () => {
-    setIsOpenFont(!isOpenFont); // 드롭다운 열고 닫기 토글
-  };
-
   const handleSelectRelation = (relation) => {
     setSelectedRelationOption(relation);
-    setIsOpen(false); // 드롭다운 닫기
   };
 
   const handleSelectFont = (font) => {
     setSelectedFontOption(font);
-    setIsOpenFont(false); // 드롭다운 닫기
   };
 
   const handleSendData = async () => {
     try {
-      const response = await axios.post(url, data);
-      navigate(`/post/${userID}`); //페이지 이동
-      return { success: true, data: response.data }; //성공시 데이터 출력
+      const data = {
+        team: teamId,
+        recipientId: userID,
+        sender: name,
+        profileImageURL: profileImg,
+        relationship: selectedRelationOption,
+        content: editorTextContent,
+        font: selectedFontOption,
+      };
+      await postMessage(data);
+      navigate(`/post/${userID}`);
     } catch (error) {
       return { success: false, error: error }; //실패시 에러 데이터 출력
     }
   };
 
   useEffect(() => {
-    if (isName === false && editorTextContent.trim() !== '') {
+    if (name.trim() !== '' && editorTextContent.trim() !== '') {
       setPassValue(true);
     } else {
       setPassValue(false);
     }
-  }, [isName, editorTextContent]);
+  }, [name, editorTextContent]);
 
   useEffect(() => {
     const loadingImageUrls = async () => {
       try {
-        const response = await axios.get(IMAGEURL);
-        const imageUrls = response.data.imageUrls;
+        const imageUrls = await getProfileImages();
         setSamplePicture(imageUrls.map((url) => ({ src: url })));
-        setProfileImg(imageUrls[0]);
-        setIsBlur(false);
+        setProfileImg(imageUrls[0]); // 첫 번째 이미지를 초기값으로 설정
+        setIsBlur(false); // 이미지 로딩 완료
       } catch (error) {
         return []; // 실패할 경우 빈 배열 반환
       }
@@ -239,25 +204,11 @@ export const PostMessagePage = () => {
             <S.PostMessageContentHeader>
               상대와의 관계
             </S.PostMessageContentHeader>
-            <S.PostMessageDropdownList onClick={handleToggleDropdown}>
-              <S.DropdownIcon
-                src={isOpenRelation ? arrowUpIcon : arrowDownIcon}
-              />
-
-              <S.PostMessageDropdownListButton>
-                {selectedRelationOption}
-              </S.PostMessageDropdownListButton>
-              <S.PostMessageDropdownListContent isOpen={isOpenRelation}>
-                {dropdownRelationOptions.map((DropOption) => (
-                  <S.DropdownListContentOption
-                    key={DropOption.value}
-                    onClick={() => handleSelectRelation(DropOption.value)}
-                  >
-                    {DropOption.label}
-                  </S.DropdownListContentOption>
-                ))}
-              </S.PostMessageDropdownListContent>
-            </S.PostMessageDropdownList>
+            <Dropdown
+              options={dropdownRelationOptions}
+              onSelect={handleSelectRelation}
+              defult="지인"
+            />
           </S.PostMessageContent>
 
           <S.PostMessageContent>
@@ -274,23 +225,11 @@ export const PostMessagePage = () => {
           <S.PostMessageContent>
             <S.PostMessageContentHeader>폰트 선택</S.PostMessageContentHeader>
 
-            <S.PostMessageDropdownList onClick={handleFontToggleDropdown}>
-              <S.DropdownIcon src={isOpenFont ? arrowUpIcon : arrowDownIcon} />
-
-              <S.PostMessageDropdownListButton>
-                {selectedFontOption}
-              </S.PostMessageDropdownListButton>
-              <S.PostMessageDropdownListContent isOpen={isOpenFont}>
-                {dropdownFontOptions.map((DropOption) => (
-                  <S.DropdownListContentOption
-                    key={DropOption.value}
-                    onClick={() => handleSelectFont(DropOption.value)}
-                  >
-                    {DropOption.label}
-                  </S.DropdownListContentOption>
-                ))}
-              </S.PostMessageDropdownListContent>
-            </S.PostMessageDropdownList>
+            <Dropdown
+              options={dropdownFontOptions}
+              onSelect={handleSelectFont}
+              defult="Noto Sans"
+            />
           </S.PostMessageContent>
         </S.PostMessageContainer>
         <S.SubmitButtonWrapper>
@@ -298,7 +237,7 @@ export const PostMessagePage = () => {
             width={720}
             height={56}
             disable={!passValue}
-            onClick={() => handleSendData(url, data)}
+            onClick={() => handleSendData()}
           >
             생성하기
           </PurpleButton>
