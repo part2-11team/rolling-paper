@@ -122,6 +122,7 @@ export const MainPageDiv = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2.4rem;
 
   ${onTablet} {
     padding: 0 auto;
