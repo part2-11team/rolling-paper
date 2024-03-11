@@ -1,11 +1,18 @@
 import React from 'react';
 import * as S from './ErrorPage.style.js';
 import ErrorIcon from 'assets/icon/error-icon.png';
+import { useLocation } from 'react-router';
 
 const ErrorPage = ({ error }) => {
+  const { state } = useLocation();
+
   const goBack = () => {
     window.history.back();
   };
+
+  if (state !== null) {
+    error = state;
+  }
 
   let errorMessage = '';
   switch (error) {
