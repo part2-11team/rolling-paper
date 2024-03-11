@@ -1,30 +1,21 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import * as S from './PaperListPage.style';
-import useRequest from './useRequest';
 import { Link } from 'react-router-dom';
-import PaperCard from '../../components/PaperCard';
-import ArrowButton from '../../components/ArrowButton';
-import PaperListSkeleton from '../../components/Skeleton/PaperListSkeleton';
-import Header from '../../components/Common/Header/Header';
+import PaperCard from './components/PaperCard/PaperCard';
+import ArrowButton from './components/ArrowButton/ArrowButton';
+import PaperListSkeleton from './components/Skeleton/PaperListSkeleton';
+import Header from 'components/Header/Header';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton';
+import getRecipientData from 'API';
 
 const PaperListPage = () => {
-  const { data: recentPaper, isLoading: isLoadingRecent } = useRequest({
-    options: {
-      url: 'recipients/',
-      method: 'get',
-    },
-  });
-
-  const { data: popularPaper, isLoading: isLoadingPopular } = useRequest({
-    options: {
-      url: 'recipients/',
-      method: 'get',
-      params: {
-        sort: 'like',
-      },
-    },
-  });
+  const {
+    getPopularPaperData,
+    isLoadingPopular,
+    getRecentPaperData,
+    isLoadingRecent,
+  } = getRecipientData();
 
   return (
     <>
@@ -32,18 +23,20 @@ const PaperListPage = () => {
       <S.Container>
         <PaperSection
           title="인기 롤링 페이퍼 🔥"
-          papers={popularPaper}
+          papers={getPopularPaperData}
           isLoading={isLoadingPopular}
         />
         <PaperSection
           title="최근에 만든 롤링 페이퍼 ⭐️"
-          papers={recentPaper}
+          papers={getRecentPaperData}
           isLoading={isLoadingRecent}
         />
       </S.Container>
       <S.ButtonContainer>
         <Link to="/post">
-          <S.StyledButton size="lg">나도 만들어보기</S.StyledButton>
+          <PurpleButton width={280} height={50}>
+            나도 만들어보기
+          </PurpleButton>
         </Link>
       </S.ButtonContainer>
     </>

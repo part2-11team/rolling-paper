@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import { COLORS } from '../../style/colorPalette';
-import { FONT_STYLE } from '../../style/fontStyle';
+import { COLORS } from 'style/colorPalette';
+import { FONT_STYLE } from 'style/fontStyle';
 
 const BACKGROUND_COLOR = {
   beige: COLORS.ORANGE_200,
@@ -34,10 +34,8 @@ export const MessageWrapper = styled.div`
 
   width: 100%;
   height: fit-content;
-  ${({ $url, $color, $load }) =>
-    $load && $url
-      ? `background-color: ${COLORS.GRAY_300}`
-      : $url
+  ${({ $url, $color }) =>
+    $url
       ? `background: url(${$url}) no-repeat center rgba(0, 0, 0, 0.5);`
       : `background-color: ${BACKGROUND_COLOR[$color]}`};
   background-size: cover;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as S from './PostPage.style.js';
-import Button from '../../components/MainButton';
-import SelectImg from '../../assets/icon/background-selected.png';
-import Header from '../../components/Common/Header/Header';
-import { PostSelectImageButton } from '../../components/PostImageButton/PostImageButton.js';
+import SelectImg from 'assets/icon/background-selected.png';
+import Header from 'components/Header/Header';
+import { PostSelectImageButton } from './components/PostImageButton/PostImageButton.js';
 import axios from 'axios';
+import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
+import { TextForm } from 'components/TextForm/TextForm.jsx';
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -55,6 +56,10 @@ const PostPage = () => {
     return setError(false);
   };
 
+  const handleChangeName = (e) => {
+    setValue(e.target.value);
+  };
+
   //완성된 폼 데이터 전송
   const handleMovetoListClick = async (e) => {
     e.preventDefault();
@@ -82,21 +87,13 @@ const PostPage = () => {
       </S.HeaderWrapper>
       <S.PostPage>
         <S.PostPageForm>
-          <S.ToInputWrapper>
-            <S.PostPageH1>To.</S.PostPageH1>
-            <S.ToInput
-              id="recipientName"
-              type="text"
-              placeholder="받는 사람 이름을 입력해 주세요"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              onBlur={handleBlur}
-              $hasError={error}
-            />
-            <S.ErrorMessage $hasError={error}>
-              값을 입력해 주세요.
-            </S.ErrorMessage>
-          </S.ToInputWrapper>
+          <TextForm
+            type="user"
+            onChange={handleChangeName}
+            onBlur={handleBlur}
+            vailed={error}
+            onFocus={() => setError(false)}
+          ></TextForm>
           <S.BackgroundSelectWrapper>
             <S.PostPageH1>배경화면을 선택해 주세요.</S.PostPageH1>
             <S.PostPageH2>
@@ -142,13 +139,14 @@ const PostPage = () => {
                   ))}
             </S.ColorSelectorDiv>
           </S.BackgroundSelectWrapper>
-          <Button
-            disabled={!value}
-            size="full"
+          <PurpleButton
+            width={720}
+            height={56}
+            disable={!value}
             onClick={(e) => handleMovetoListClick(e)}
           >
             생성하기
-          </Button>
+          </PurpleButton>
         </S.PostPageForm>
       </S.PostPage>
     </>
