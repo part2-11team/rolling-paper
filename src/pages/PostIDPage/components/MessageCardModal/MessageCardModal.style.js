@@ -36,20 +36,29 @@ export const TextWrapper = styled.div`
   overflow: auto;
   margin-bottom: 30px;
 
+  @media (max-width: 520px) {
+    width: 100%;
+  }
+
   &::-webkit-scrollbar {
     display: block;
     width: 4px;
+    height: 4px;
   }
 
   &::-webkit-scrollbar-track {
     margin-top: 16px;
     background: ${COLORS.WHITE};
+    width: 4px;
+    height: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: ${COLORS.GRAY_300};
     border-radius: 8px;
     height: 100px;
+    width: 4px;
+    height: 4px;
   }
   * {
     font-family: inherit;
@@ -63,4 +72,8 @@ export const Text = styled.p`
   display: block;
   width: 500px;
   font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};
+  word-break: break-all;
+  media(max-width: 500px) {
+    width: 100%;
+  }
 `;

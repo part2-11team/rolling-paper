@@ -52,21 +52,6 @@ export const ModalBackground = styled.div`
   z-index: 1000;
 `;
 
-export const ErrorWrapper = styled.div`
-  padding: 15% 0;
-  width: 100vw;
-  height: 100vh;
-  text-align: center;
-`;
-
-export const ErrorTitle = styled.p`
-  ${FONT_STYLE.BOLD_28};
-`;
-export const ErrorContent = styled.p`
-  margin-top: 15px;
-  ${FONT_STYLE.REGULAR_15};
-`;
-
 export const ScrollbarTrack = styled.div`
   position: fixed;
   top: 0px;
