@@ -38,6 +38,10 @@ export const MessageCardWrapper = ({
   const [loading, setLoading] = useState({ type: 'initial', status: true });
   const navigate = useNavigate();
 
+  const debounce = (func, time) => {
+    setTimeout(func, time);
+  };
+
   const updateToastvisible = useCallback((value) => {
     setToastStatus((prev) => ({ ...prev, visible: value }));
   }, []);
@@ -133,7 +137,14 @@ export const MessageCardWrapper = ({
       if (loading.type === 'initial') {
         initialGetCardData(INITIAL_PAGE_LOADING, messageCardData.length);
       } else {
-        getCardData(PAGE_LOADING + deleteCount.current, messageCardData.length);
+        debounce(
+          () =>
+            getCardData(
+              PAGE_LOADING + deleteCount.current,
+              messageCardData.length,
+            ),
+          150,
+        );
       }
     }
   };

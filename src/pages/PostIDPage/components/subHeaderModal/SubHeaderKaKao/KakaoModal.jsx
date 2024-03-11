@@ -50,16 +50,16 @@ const KakaoModal = ({ setKakaoOpen, value, setToastStatus }) => {
         description: ``,
         imageUrl: '이미지 URL',
         link: {
-          mobileWebUrl: `${BASE_URL}recipients/${value}/`,
-          webUrl: `${BASE_URL}recipients/${value}/`,
+          mobileWebUrl: `${BASE_URL}recipients/${value.userId}/`,
+          webUrl: `${BASE_URL}recipients/${value.userId}/`,
         },
       },
       buttons: [
         {
           title: '웹으로 보기',
           link: {
-            mobileWebUrl: `${BASE_URL}recipients/${value}/`,
-            webUrl: `${BASE_URL}recipients/${value}/`,
+            mobileWebUrl: `${BASE_URL}recipients/${value.userId}/`,
+            webUrl: `${BASE_URL}recipients/${value.userId}/`,
           },
         },
       ],
@@ -68,7 +68,7 @@ const KakaoModal = ({ setKakaoOpen, value, setToastStatus }) => {
   };
 
   const copyToClipboard = () => {
-    const url = `${BASE_URL}recipients/${value}/`;
+    const url = `${BASE_URL}recipients/${value.userId}/`;
     navigator.clipboard.writeText(url);
     setKakaoOpen(false);
     setToastStatus({ visible: true, update: true });
