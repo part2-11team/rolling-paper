@@ -4,6 +4,7 @@ export const Wrpaper = styled.div`
   position: relative;
   padding: 113px 0;
   width: 1200px;
+  min-height: 100vh;
 
   @media (max-width: 1248px) {
     width: 100%;
@@ -22,7 +23,6 @@ export const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
-  min-height: calc(100vh - 284px);
   margin: 0 auto;
   @media (max-width: 1248px) {
     width: auto;
@@ -62,7 +62,7 @@ export const LoadingIcon = styled.img`
 
 export const intersectionBar = styled.div`
   position: absolute;
-  width: 100%;
+  width: 5px;
   height: 30px;
   bottom: 30px;
 `;
