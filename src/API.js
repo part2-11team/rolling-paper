@@ -77,7 +77,12 @@ export const deleteRecipient = async (userID) => {
 // --- List Page ---
 
 function getRecipientsData() {
-  const { data: getRecentPaperData, isLoading: isLoadingRecent } = useRequest({
+  const {
+    data: getRecentPaperData,
+    isLoading: isLoadingRecent,
+    statusCode: status,
+    error,
+  } = useRequest({
     options: {
       url: 'recipients/',
       method: 'get',
@@ -100,6 +105,8 @@ function getRecipientsData() {
     isLoadingPopular,
     getRecentPaperData,
     isLoadingRecent,
+    status,
+    error,
   };
 }
 export default getRecipientsData;

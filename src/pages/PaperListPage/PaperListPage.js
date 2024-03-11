@@ -8,6 +8,7 @@ import PaperListSkeleton from './components/Skeleton/PaperListSkeleton';
 import Header from 'components/Header/Header';
 import { PurpleButton } from 'components/PurpleButton/PurpleButton';
 import getRecipientData from 'API';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
 
 const PaperListPage = () => {
   const {
@@ -15,7 +16,11 @@ const PaperListPage = () => {
     isLoadingPopular,
     getRecentPaperData,
     isLoadingRecent,
+    status,
+    error,
   } = getRecipientData();
+
+  if (error) return <ErrorPage error={status} />;
 
   return (
     <>
