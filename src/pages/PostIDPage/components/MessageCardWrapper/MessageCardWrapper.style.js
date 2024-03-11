@@ -62,7 +62,7 @@ export const LoadingIcon = styled.img`
 
 export const intersectionBar = styled.div`
   position: absolute;
-  width: 100%;
+  width: 5px;
   height: 30px;
   bottom: 30px;
 `;
