@@ -170,3 +170,29 @@ export const postMessage = async (data) => {
     return { error: error };
   }
 };
+
+// --- Post Page
+
+export const getBackgroundImages = async () => {
+  try {
+    const response = await axios.get(
+      'https://rolling-api.vercel.app/background-images/',
+    );
+    const url = response.data.imageUrls;
+    return url;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const postDataToRecipient = async (postData) => {
+  const BASE_URL = 'https://rolling-api.vercel.app';
+  const BASE_ID = '4-11';
+  const url = `${BASE_URL}/${BASE_ID}/recipients/`;
+  try {
+    const response = await axios.post(url, postData);
+    return response.data.id;
+  } catch (error) {
+    throw new Error('네트워크 연결이 끊겼습니다. 다시 시도해주세요.');
+  }
+};
