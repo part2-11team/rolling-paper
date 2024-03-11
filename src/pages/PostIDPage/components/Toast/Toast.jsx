@@ -7,9 +7,8 @@ import { setTimer } from 'assets/utils/setTimer';
 
 export const Toast = ({
   type,
-  toastVisible,
+  toastStatus,
   updateToastvisible,
-  toastUpdate,
   handleToastUpdate,
 }) => {
   const wrapperRef = useRef(null);
@@ -67,7 +66,7 @@ export const Toast = ({
   };
   //toast가 생성(애니메이션)되는 부분 -> 0ms 부터 500ms까지 투명도가 증가하고 종류에 따라서 위치를 이동시킨 후, 4500ms부터 5000ms까지 투명도가 감소하고 위치를 이동시킨 후 타이머를 삭제하는 코드
   useEffect(() => {
-    if (toastVisible && toastUpdate) {
+    if (toastStatus.visible && toastStatus.update) {
       handleToastUpdate(false);
       timerID.current += 1;
       if (type === 'load') {
@@ -84,7 +83,7 @@ export const Toast = ({
       ];
       setTimer(timeCallback, timerID, updateToastvisible);
     }
-  }, [toastUpdate]);
+  }, [toastStatus]);
   const content = {
     load: { src: warning, text: '더 이상 불러올 데이터가 없습니다.' },
     url: { src: completed, text: 'URL이 복사 되었습니다.' },
@@ -92,7 +91,7 @@ export const Toast = ({
 
   return (
     <>
-      {toastVisible && (
+      {toastStatus.visible && (
         <S.ToastWrapper $type={type} ref={wrapperRef}>
           <S.FlexWrapper>
             <S.ToastIcon
