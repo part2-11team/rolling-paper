@@ -5,11 +5,14 @@ import { FONT_STYLE } from 'style/fontStyle';
 export const SubHeader = styled.div`
   display: flex;
   width: 100%;
-  padding: 2.4rem;
+  padding: 0 24px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
   background-color: ${COLORS.WHITE};
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 export const HeaderContent = styled.div`
@@ -22,23 +25,29 @@ export const HeaderContent = styled.div`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: 10px;
     align-items: flex-start;
+    padding: 0;
   }
 `;
 
 export const UserName = styled.div`
   color: ${COLORS.GRAY_800};
   ${FONT_STYLE.BOLD_28};
+  @media (max-width: 768px) {
+    padding: 12px 20px;
+  }
 `;
 
 export const UserInfo = styled.div`
   display: flex;
+  padding: 13px;
   align-items: center;
   gap: 28px;
-
+  justify-content: center;
   @media (max-width: 768px) {
     width: 100%;
+    padding: 8px 0;
+    border-top: 1px solid #ededed;
   }
 `;
 
