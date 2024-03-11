@@ -46,7 +46,7 @@ export const UserInfo = styled.div`
   justify-content: center;
   @media (max-width: 768px) {
     width: 100%;
-    padding: 8px 0;
+    padding: 8px 20px;
     border-top: 1px solid #ededed;
   }
 `;
