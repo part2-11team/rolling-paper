@@ -1,7 +1,8 @@
 ﻿import React, { useEffect, useRef } from 'react';
 import * as S from './KakaoModal.style';
 
-const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
+// const BASE_URL = 'https://rolling-api.vercel.app/4-11/';
+const Link_DOMAIN = 'https://develop--rolling-paper-4-11.netlify.app/';
 
 const KakaoModal = ({ setKakaoOpen, value, setToastStatus }) => {
   const modalRef = useRef(null);
@@ -50,16 +51,16 @@ const KakaoModal = ({ setKakaoOpen, value, setToastStatus }) => {
         description: ``,
         imageUrl: '이미지 URL',
         link: {
-          mobileWebUrl: `${BASE_URL}recipients/${value}/`,
-          webUrl: `${BASE_URL}recipients/${value}/`,
+          mobileWebUrl: `${Link_DOMAIN}post/${value.userId}/`,
+          webUrl: `${Link_DOMAIN}post/${value.userId}/`,
         },
       },
       buttons: [
         {
           title: '웹으로 보기',
           link: {
-            mobileWebUrl: `${BASE_URL}recipients/${value}/`,
-            webUrl: `${BASE_URL}recipients/${value}/`,
+            mobileWebUrl: `${Link_DOMAIN}post/${value}/`,
+            webUrl: `${Link_DOMAIN}post/${value}/`,
           },
         },
       ],
@@ -68,7 +69,7 @@ const KakaoModal = ({ setKakaoOpen, value, setToastStatus }) => {
   };
 
   const copyToClipboard = () => {
-    const url = `${BASE_URL}recipients/${value}/`;
+    const url = `${Link_DOMAIN}post/${value.userId}/`;
     navigator.clipboard.writeText(url);
     setKakaoOpen(false);
     setToastStatus({ visible: true, update: true });
