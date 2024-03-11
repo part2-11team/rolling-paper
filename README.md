@@ -103,7 +103,7 @@
     <tr>
         <td><img src="https://github.com/part2-11team/rolling-paper/assets/114905530/da3b218f-6dec-4f4a-bad2-339ce3a0b15a" width="350px"></td>
         <td><img src="https://github.com/part2-11team/rolling-paper/assets/114905530/2acabe8e-e5a3-4e29-a55d-829db4772061" width="400px"></td>
-        <td><img src="https://github.com/part2-11team/rolling-paper/assets/114905530/299cbd52-64a9-4714-ae5b-5895e7f5e636" width="250px"></td>
+        <td><img src="https://github.com/part2-11team/rolling-paper/assets/114905530/299cbd52-64a9-4714-ae5b-5895e7f5e636" width="200px"></td>
         <td><img src="https://github.com/part2-11team/rolling-paper/assets/114905530/2e057e30-c5ba-4bd5-bd9b-298a33777f89" width="200px"></td>
         <td><img src="https://github.com/part2-11team/rolling-paper/assets/114905530/ccaeed98-5b47-46b7-ab62-aa5ccc165f91" width="300px"></td>
     </tr>
