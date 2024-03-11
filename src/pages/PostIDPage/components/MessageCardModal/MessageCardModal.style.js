@@ -71,6 +71,7 @@ export const TextWrapper = styled.div`
 export const Text = styled.div`
   overflow: hidden;
   display: -webkit-box;
+  word-break: break-all;
   width: 100%;
   max-width: 500px;
   font-family: ${({ $font }) => ($font ? $font : 'Pretendard')};

@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './TextEditor.css';
 import * as S from './TextEditor.style';
-import colorIcon from '../../../../assets/textEditor/color.png';
-import centerIcon from '../../../../assets/textEditor/center.png';
-import leftIcon from '../../../../assets/textEditor/left.png';
-import rightIcon from '../../../../assets/textEditor/right.png';
-import boldIcon from '../../../../assets/textEditor/bold.png';
-import italicIcon from '../../../../assets/textEditor/italic.png';
-import underLineIcon from '../../../../assets/textEditor/underline.png';
-import bulletDotIcon from '../../../../assets/textEditor/bulletDot.png';
-import bulletNumberIcon from '../../../../assets/textEditor/bulletNumber.png';
-import { COLORS } from '../../../../style/colorPalette';
+import colorIcon from 'assets/textEditor/color.png';
+import centerIcon from 'assets/textEditor/center.png';
+import leftIcon from 'assets/textEditor/left.png';
+import rightIcon from 'assets/textEditor/right.png';
+import boldIcon from 'assets/textEditor/bold.png';
+import italicIcon from 'assets/textEditor/italic.png';
+import underLineIcon from 'assets/textEditor/underline.png';
+import bulletDotIcon from 'assets/textEditor/bulletDot.png';
+import bulletNumberIcon from 'assets/textEditor/bulletNumber.png';
+import { COLORS } from 'style/colorPalette';
 
 const TextEditor = ({ onChange, fontFamily }) => {
   const editorRef = useRef(null);
@@ -103,6 +103,25 @@ const TextEditor = ({ onChange, fontFamily }) => {
     setContent(text);
     onChange(content);
   };
+
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      if (!selection.isCollapsed) {
+        const bold = document.queryCommandState('bold');
+        const italic = document.queryCommandState('italic');
+        const underline = document.queryCommandState('underline');
+        setIsBold(bold);
+        setIsItalic(italic);
+        setIsUnder(underline);
+      }
+    };
+    document.addEventListener('selectionchange', handleSelectionChange);
+
+    return () => {
+      document.removeEventListener('selectionchange', handleSelectionChange);
+    };
+  }, []);
 
   return (
     <S.TextEditorWrapper>
