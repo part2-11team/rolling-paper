@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as S from '../../PostMessagePage.style.js';
-import arrowDownIcon from '../../../../assets/icon/arrow_down.png';
-import arrowUpIcon from '../../../../assets/icon/arrow_top.png';
+import arrowDownIcon from 'assets/icon/arrow_down.png';
+import arrowUpIcon from 'assets/icon/arrow_top.png';
 
 const Dropdown = ({ options, onSelect, defult }) => {
   const dropDownClickRef = useRef(null);

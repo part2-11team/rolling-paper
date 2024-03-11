@@ -172,7 +172,7 @@ export const postMessage = async (data) => {
   const url = `${BASE_URL}/${BASE_ID}/recipients/${data.recipientId}/messages/`;
   try {
     const response = await axios.post(url, data);
-    return { success: true, data: response.data };
+    return response.ok ? true : 'Error: Message not sent';
   } catch (error) {
     return { error: error };
   }
