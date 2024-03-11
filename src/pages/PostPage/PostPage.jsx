@@ -7,6 +7,7 @@ import { PostSelectImageButton } from './components/PostImageButton/PostImageBut
 import { PurpleButton } from 'components/PurpleButton/PurpleButton.jsx';
 import { TextForm } from 'components/TextForm/TextForm.jsx';
 import { getBackgroundImages, postDataToRecipient } from 'API';
+import ErrorPage from 'pages/ErrorPage/ErrorPage';
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const PostPage = () => {
   const [error, setError] = useState(false);
   const [value, setValue] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
+  const [dataError, setDataError] = useState('');
 
   const COLOR_VALUE = ['beige', 'purple', 'blue', 'green'];
 
@@ -24,13 +26,12 @@ const PostPage = () => {
   useEffect(() => {
     const getData = async () => {
       const url = await getBackgroundImages();
-      if (url === null) {
+      if (url.error) {
         navigate('/error', {
-          error: '이미지 데이터를 받아 올 수 없습니다. 다시 시도해주세요.',
+          error: url.error.response.status,
         });
-        return;
       }
-      setImageUrls(url);
+      setImageUrls(url.src);
     };
 
     getData();
@@ -71,13 +72,19 @@ const PostPage = () => {
 
     try {
       const recipientId = await postDataToRecipient(data);
-      navigate(`/post/${recipientId}`);
+      if (recipientId.error !== null) {
+        setDataError(recipientId.error.response.status);
+        return;
+      }
+      navigate(`/post/${recipientId.idData}`);
     } catch (error) {
-      navigate('/error', {
-        error: '롤링페이퍼를 생성할 수 없습니다. 다시 시도해주세요.',
-      });
+      setDataError(error.response.status);
     }
   };
+
+  if (dataError) {
+    return <ErrorPage error={dataError} />;
+  }
 
   return (
     <>

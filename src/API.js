@@ -185,10 +185,10 @@ export const getBackgroundImages = async () => {
     const response = await axios.get(
       'https://rolling-api.vercel.app/background-images/',
     );
-    const url = response.data.imageUrls;
-    return url;
+    const src = response.data.imageUrls;
+    return { src, error: null };
   } catch (error) {
-    return null;
+    return { src: null, error: error };
   }
 };
 
@@ -198,8 +198,9 @@ export const postDataToRecipient = async (postData) => {
   const url = `${BASE_URL}/${BASE_ID}/recipients/`;
   try {
     const response = await axios.post(url, postData);
-    return response.data.id;
+    const idData = response.data.id;
+    return { idData, error: null };
   } catch (error) {
-    throw new Error('네트워크 연결이 끊겼습니다. 다시 시도해주세요.');
+    return { idData: null, error: error };
   }
 };
