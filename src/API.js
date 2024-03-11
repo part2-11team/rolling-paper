@@ -156,7 +156,7 @@ export const getImgUrl = async (file) => {
     });
     return response.data.data.link;
   } catch (error) {
-    return;
+    return { error: error };
   }
 };
 export const getProfileImages = async () => {

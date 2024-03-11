@@ -78,9 +78,15 @@ export const PostMessagePage = () => {
     try {
       const file = src.target.files[0]; //파일 선택 처음 꺼
       const imageUrl = await getImgUrl(file);
-      setProfileImg(imageUrl);
+      if (imageUrl.error) {
+        navigate('/error', {
+          state: imageUrl.error.response.status,
+        });
+      } else {
+        setProfileImg(imageUrl);
+      }
     } catch (error) {
-      return;
+      return navigate('/error');
     }
   };
 
@@ -104,9 +110,15 @@ export const PostMessagePage = () => {
         font: selectedFontOption,
       };
       const isOk = await postMessage(data);
-      isOk && navigate(`/post/${userID}`);
+      if (isOk.error) {
+        navigate('/error', {
+          state: isOk.error.response.status,
+        });
+      } else {
+        isOk && navigate(`/post/${userID}`);
+      }
     } catch (error) {
-      return { success: false, error: error }; //실패시 에러 데이터 출력
+      return navigate('/error');
     }
   };
 
@@ -122,11 +134,17 @@ export const PostMessagePage = () => {
     const loadingImageUrls = async () => {
       try {
         const imageUrls = await getProfileImages();
-        setSamplePicture(imageUrls.map((url) => ({ src: url })));
-        setProfileImg(imageUrls[0]); // 첫 번째 이미지를 초기값으로 설정
-        setIsBlur(false); // 이미지 로딩 완료
+        if (imageUrls.error) {
+          navigate('/error', {
+            state: imageUrls.error.response.status,
+          });
+        } else {
+          setSamplePicture(imageUrls.map((url) => ({ src: url })));
+          setProfileImg(imageUrls[0]); // 첫 번째 이미지를 초기값으로 설정
+          setIsBlur(false); // 이미지 로딩 완료
+        }
       } catch (error) {
-        return []; // 실패할 경우 빈 배열 반환
+        return navigate('/error');
       }
     };
 
