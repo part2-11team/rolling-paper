@@ -28,6 +28,7 @@ export const TextWrapper = styled.div`
   ${FONT_STYLE.REGULAR_18};
   font-family: ${({ $font }) => $font};
   color: ${COLORS.GRAY_600};
+  word-break: break-all;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

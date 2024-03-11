@@ -14,6 +14,7 @@ export const HeaderWrapper = styled.header`
   @media (max-width: 767px) {
     ${({ $page }) => $page === 'postID' && `display: none;`}
   }
+  border-bottom: 1px solid #ededed;
 `;
 
 export const HeaderContent = styled.div`
