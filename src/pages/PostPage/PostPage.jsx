@@ -71,7 +71,7 @@ const PostPage = () => {
       const recipientId = await postDataToRecipient(data);
       navigate(`/post/${recipientId}`);
     } catch (error) {
-      navigate('/error', { error: error.message });
+      navigate('/error', { error: '롤링페이퍼를 생성할 수 없습니다. 다시 시도해주세요.' });
     }
   };
 
