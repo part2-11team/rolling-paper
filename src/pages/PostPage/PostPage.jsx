@@ -24,13 +24,12 @@ const PostPage = () => {
   useEffect(() => {
     const getData = async () => {
       const url = await getBackgroundImages();
-      if (url === null) {
+      if (url.error) {
         navigate('/error', {
-          error: '이미지 데이터를 받아 올 수 없습니다. 다시 시도해주세요.',
+          error: url.error.response.status,
         });
-        return;
       }
-      setImageUrls(url);
+      setImageUrls(url.src);
     };
 
     getData();
@@ -71,10 +70,16 @@ const PostPage = () => {
 
     try {
       const recipientId = await postDataToRecipient(data);
-      navigate(`/post/${recipientId}`);
+      console.log(recipientId.error.response.status);
+      if (recipientId.error !== null) {
+        navigate('/error', {
+          error: 400,
+        });
+      }
+      // navigate(`/post/${recipientId.idData}`);
     } catch (error) {
       navigate('/error', {
-        error: '롤링페이퍼를 생성할 수 없습니다. 다시 시도해주세요.',
+        error: 400,
       });
     }
   };
@@ -141,7 +146,7 @@ const PostPage = () => {
           <PurpleButton
             width={720}
             height={56}
-            disable={!value}
+            // disable={!value}
             onClick={(e) => handleMovetoListClick(e)}
           >
             생성하기

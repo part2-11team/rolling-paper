@@ -11,7 +11,7 @@ export const ErrorContainer = styled.div`
 `;
 
 export const ErrorMessage = styled.h1`
-color: ${COLORS.GRAY_400};
+  color: ${COLORS.GRAY_400};
   ${FONT_STYLE.BOLD_24}
   margin: 5rem 2rem;
   text-align: center;
@@ -26,5 +26,4 @@ export const BackButton = styled.div`
 export const ErrorIcon = styled.img`
   width: 10rem;
   height: 10rem;
-`
-
+`;
